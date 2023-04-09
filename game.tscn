@@ -8,4 +8,4 @@
 [node name="Map" parent="." instance=ExtResource("1_8mokw")]
 
 [node name="Character" parent="." instance=ExtResource("2_56fre")]
-position = Vector2(86, -38)
+position = Vector2(419, 198)

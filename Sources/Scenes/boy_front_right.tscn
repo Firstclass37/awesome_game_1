@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://xy3cwekliret"]
+
+[ext_resource type="Texture2D" uid="uid://bdjqtulk8wrsj" path="res://Sources/boy-front-right.png" id="1_qnqpf"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="arm_left" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 5
+position = Vector2(45, 33)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(438.609, 281.427, 454.986, 309.332, 461.482, 311.894, 467.704, 312.077, 471.821, 304.758, 471.363, 297.347, 448.124, 268.984, 437.969, 277.402)
+uv = PackedVector2Array(438.609, 281.427, 454.986, 309.332, 461.482, 311.894, 467.704, 312.077, 471.821, 304.758, 471.363, 297.347, 448.124, 268.984, 437.969, 277.402)
+
+[node name="arm_right" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 7
+position = Vector2(54, 38)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(424.337, 266.148, 410.339, 280.146, 409.881, 303.934, 412.077, 315.279, 417.749, 318.481, 426.35, 318.573, 430.741, 313.358, 431.473, 288.289, 434.218, 283.349, 433.852, 265.874)
+uv = PackedVector2Array(424.337, 266.148, 410.339, 280.146, 409.881, 303.934, 412.077, 315.279, 417.749, 318.481, 426.35, 318.573, 430.741, 313.358, 431.473, 288.289, 434.218, 283.349, 433.852, 265.874)
+
+[node name="leg_left" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(32, 5)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(453.614, 328.454, 449.68, 346.661, 451.052, 356.267, 465.233, 365.965, 471.912, 365.782, 475.114, 359.286, 464.959, 350.137, 464.776, 342.818, 467.338, 329.46, 467.521, 326.258, 453.705, 326.441)
+uv = PackedVector2Array(453.614, 328.454, 449.68, 346.661, 451.052, 356.267, 465.233, 365.965, 471.912, 365.782, 475.114, 359.286, 464.959, 350.137, 464.776, 342.818, 467.338, 329.46, 467.521, 326.258, 453.705, 326.441)
+
+[node name="leg_right" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(58, 9)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(417.932, 324.062, 415.554, 354.986, 419.122, 365.325, 422.049, 368.07, 434.401, 367.795, 435.041, 363.404, 431.29, 350.32, 433.669, 324.794, 433.943, 321.135, 417.841, 320.494, 417.841, 322.964)
+uv = PackedVector2Array(417.932, 324.062, 415.554, 354.986, 419.122, 365.325, 422.049, 368.07, 434.401, 367.795, 435.041, 363.404, 431.29, 350.32, 433.669, 324.794, 433.943, 321.135, 417.841, 320.494, 417.841, 322.964)
+
+[node name="chest" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 5
+position = Vector2(-18, -26)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(494.236, 330.284, 494.602, 364.776, 517.841, 364.776, 517.932, 328.637, 493.962, 329.003)
+uv = PackedVector2Array(494.236, 330.284, 494.602, 364.776, 517.841, 364.776, 517.932, 328.637, 493.962, 329.003)
+
+[node name="head" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(-19, -9)
+texture = ExtResource("1_qnqpf")
+polygon = PackedVector2Array(474.474, 273.559, 475.938, 302.196, 499.177, 319.03, 519.213, 324.52, 529.826, 321.866, 538.792, 278.5, 518.298, 250.961, 492.864, 250.595)
+uv = PackedVector2Array(474.474, 273.559, 475.938, 302.196, 499.177, 319.03, 519.213, 324.52, 529.826, 321.866, 538.792, 278.5, 518.298, 250.961, 492.864, 250.595)

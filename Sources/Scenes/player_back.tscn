@@ -1,3 +1,49 @@
-[gd_scene format=3 uid="uid://clgecmgb1yj0"]
+[gd_scene load_steps=2 format=3 uid="uid://clgecmgb1yj0"]
+
+[ext_resource type="Texture2D" uid="uid://cevrhii0fvdvb" path="res://Sources/boy-back.png" id="1_my47k"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="arm_left" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(39, 0)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(426.441, 307.96, 423.056, 310.796, 420.769, 321.5, 419.854, 332.754, 414.273, 336.963, 408.143, 336.963, 402.196, 332.113, 401.83, 324.337, 406.679, 309.241, 408.509, 293.962, 429.277, 282.617, 429.186, 307.319)
+uv = PackedVector2Array(426.441, 307.96, 423.056, 310.796, 420.769, 321.5, 419.854, 332.754, 414.273, 336.963, 408.143, 336.963, 402.196, 332.113, 401.83, 324.337, 406.679, 309.241, 408.509, 293.962, 429.277, 282.617, 429.186, 307.319)
+
+[node name="arm_right" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 7
+position = Vector2(49, 2)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(443.184, 333.486, 454.712, 333.577, 457.182, 325.435, 455.718, 315.096, 449.405, 302.745, 448.765, 294.053, 432.296, 282.525, 431.199, 282.342, 431.107, 306.77, 436.139, 310.156)
+uv = PackedVector2Array(443.184, 333.486, 454.712, 333.577, 457.182, 325.435, 455.718, 315.096, 449.405, 302.745, 448.765, 294.053, 432.296, 282.525, 431.199, 282.342, 431.107, 306.77, 436.139, 310.156)
+
+[node name="leg_left" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(51, -28)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(405.215, 355.718, 408.966, 374.657, 408.6, 379.414, 405.032, 379.78, 405.672, 394.053, 421.318, 395.151, 423.33, 395.242, 424.062, 352.333, 403.019, 351.876)
+uv = PackedVector2Array(405.215, 355.718, 408.966, 374.657, 408.6, 379.414, 405.032, 379.78, 405.672, 394.053, 421.318, 395.151, 423.33, 395.242, 424.062, 352.333, 403.019, 351.876)
+
+[node name="leg_right" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(38, -29)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(438.884, 396.615, 450.961, 396.432, 451.052, 387.008, 447.667, 380.238, 447.21, 373.01, 454.071, 355.352, 434.767, 354.986, 435.956, 396.432)
+uv = PackedVector2Array(438.884, 396.615, 450.961, 396.432, 451.052, 387.008, 447.667, 380.238, 447.21, 373.01, 454.071, 355.352, 434.767, 354.986, 435.956, 396.432)
+
+[node name="chest" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 5
+position = Vector2(-21, -66)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(475.755, 393.962, 483.806, 369.167, 483.806, 361.94, 479.323, 352.333, 479.14, 345.38, 511.345, 345.471, 511.528, 352.608, 507.045, 361.208, 506.953, 369.167, 514.364, 391.674, 514.364, 400.915, 475.663, 400.915)
+uv = PackedVector2Array(475.755, 393.962, 483.806, 369.167, 483.806, 361.94, 479.323, 352.333, 479.14, 345.38, 511.345, 345.471, 511.528, 352.608, 507.045, 361.208, 506.953, 369.167, 514.364, 391.674, 514.364, 400.915, 475.663, 400.915)
+
+[node name="head" type="Polygon2D" parent="CharacterBody2D"]
+z_index = 6
+position = Vector2(-18, -45)
+texture = ExtResource("1_my47k")
+polygon = PackedVector2Array(461.116, 301.738, 461.208, 324.794, 473.376, 335.224, 478.5, 338.884, 508.966, 338.609, 526.258, 322.415, 525.709, 296.157, 502.836, 275.938, 477.127, 276.029)
+uv = PackedVector2Array(461.116, 301.738, 461.208, 324.794, 473.376, 335.224, 478.5, 338.884, 508.966, 338.609, 526.258, 322.415, 525.709, 296.157, 502.836, 275.938, 477.127, 276.029)

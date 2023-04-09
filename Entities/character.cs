@@ -1,12 +1,7 @@
 using Godot;
-using My_awesome_character.Core;
-using My_awesome_character.Core.Constatns;
-using System;
 
 public partial class character : Node2D
 {
-	private Node2D CharacterNode => GetNode<Node2D>("Character_v"); 
-
 	public override void _Ready()
 	{
 	}
@@ -17,27 +12,31 @@ public partial class character : Node2D
 
 	public override void _UnhandledKeyInput(InputEvent @event)
 	{
-		var key = @event.AsText();
+		var keyEvent = @event as InputEventKey;
+		if (keyEvent != null)
+			return;
+
+		var key = keyEvent.Keycode;
 		GD.Print(key);
+		if (key == Key.Left)
+			ActivateDirection("left");
 
-		var position = CharacterNode.Position;
-		var globalPosition = CharacterNode.GlobalPosition;
+		if (key == Key.Right)
+			ActivateDirection("right");
 
-		if (key == KeyNames.Left)
-		{
-			RemoveChild(CharacterNode);
-			var newCharacter = SceneFactory.Create<Node2D>("Character_v", ScenePaths.Player_Left);
-			newCharacter.Position= position;
-			AddChild(newCharacter);
-		}
-		if (key == KeyNames.Right)
-		{
-			RemoveChild(CharacterNode);
-			var newCharacter = SceneFactory.Create<Node2D>("Character_v", ScenePaths.Player_Right);
-			newCharacter.Position = position;
-			AddChild(newCharacter, true);
-		}
+		if (key == Key.Up)
+			ActivateDirection("back");
 
+		if (key == Key.Down)
+			ActivateDirection("front");
 
+		
+
+    }
+
+	private void ActivateDirection(string name)
+	{
+		foreach(Node2D child in GetChildren())
+            child.Visible = child.Name == name;
 	}
 }
