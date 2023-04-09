@@ -1,7 +1,23 @@
 using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class character : Node2D
 {
+	private readonly System.Collections.Generic.Dictionary<string, Key[]> _keyToDirectionMap = new System.Collections.Generic.Dictionary<string, Key[]> 
+	{
+		{ "back-left", new Key[] { Key.Left, Key.Up } },
+		{ "back-right", new Key[] { Key.Right, Key.Up } },
+		{ "front-left", new Key[] { Key.Left, Key.Down } },
+		{ "front-right", new Key[] { Key.Right, Key.Down } },
+        { "left", new Key[] { Key.Left } },
+        { "right", new Key[] { Key.Right } },
+        { "back", new Key[] { Key.Up } },
+        { "front", new Key[] { Key.Down } },
+    };
+
+
 	public override void _Ready()
 	{
 	}
@@ -13,30 +29,24 @@ public partial class character : Node2D
 	public override void _UnhandledKeyInput(InputEvent @event)
 	{
 		var keyEvent = @event as InputEventKey;
-		if (keyEvent != null)
+		if (keyEvent == null)
 			return;
 
 		var key = keyEvent.Keycode;
-		GD.Print(key);
-		if (key == Key.Left)
-			ActivateDirection("left");
+		GD.Print(keyEvent.Keycode + " " + Input.IsActionPressed("ui_" + key.ToString().ToLower()));
 
-		if (key == Key.Right)
-			ActivateDirection("right");
+		var newDirection = _keyToDirectionMap
+			.Where(kv => kv.Value.All(k => Input.IsActionPressed("ui_" + k.ToString().ToLower())))
+			.Select(k => k.Key)
+			.FirstOrDefault();
 
-		if (key == Key.Up)
-			ActivateDirection("back");
-
-		if (key == Key.Down)
-			ActivateDirection("front");
-
-		
-
+		if (newDirection != null)
+			ActivateDirection(newDirection);
     }
 
 	private void ActivateDirection(string name)
 	{
-		foreach(Node2D child in GetChildren())
+		foreach(Node2D child in GetChildren().Where(c => c is Node2D))
             child.Visible = child.Name == name;
 	}
 }
