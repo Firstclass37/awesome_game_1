@@ -32,9 +32,6 @@ public partial class character : Node2D
 		if (keyEvent == null)
 			return;
 
-		var key = keyEvent.Keycode;
-		GD.Print(keyEvent.Keycode + " " + Input.IsActionPressed("ui_" + key.ToString().ToLower()));
-
 		var newDirection = _keyToDirectionMap
 			.Where(kv => kv.Value.All(k => Input.IsActionPressed("ui_" + k.ToString().ToLower())))
 			.Select(k => k.Key)
