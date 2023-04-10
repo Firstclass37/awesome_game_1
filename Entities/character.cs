@@ -17,6 +17,8 @@ public partial class character : Node2D
         { "front", new Key[] { Key.Down } },
     };
 
+	private AnimationPlayer _currentAnimation;
+
 
 	public override void _Ready()
 	{
@@ -38,12 +40,24 @@ public partial class character : Node2D
 			.FirstOrDefault();
 
 		if (newDirection != null)
-			ActivateDirection(newDirection);
+            ActivateDirection(newDirection);
+
+		if (_currentAnimation != null)
+		{
+            _currentAnimation.Play("move");
+        }
     }
 
-	private void ActivateDirection(string name)
+    private void ActivateDirection(string name)
 	{
 		foreach(Node2D child in GetChildren().Where(c => c is Node2D))
+		{
             child.Visible = child.Name == name;
-	}
+			if (child.Visible)
+			{
+				_currentAnimation?.Stop();
+                _currentAnimation = child.FindChild("newDirectionNode") as AnimationPlayer;
+            }
+        }
+    }
 }
