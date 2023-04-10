@@ -18,6 +18,7 @@ public partial class character : Node2D
     };
 
 	private AnimationPlayer _currentAnimation;
+	private string _currentDirection;
 
 
 	public override void _Ready()
@@ -26,6 +27,7 @@ public partial class character : Node2D
 
 	public override void _Process(double delta)
 	{
+		Move();
 	}
 
 	public override void _UnhandledKeyInput(InputEvent @event)
@@ -35,17 +37,14 @@ public partial class character : Node2D
 			return;
 
 		var newDirection = _keyToDirectionMap
-			.Where(kv => kv.Value.All(k => Input.IsActionPressed("ui_" + k.ToString().ToLower())))
+			.Where(kv => kv.Value.All(IsKeyPressed))
 			.Select(k => k.Key)
 			.FirstOrDefault();
 
-		if (newDirection != null)
-            ActivateDirection(newDirection);
 
-		if (_currentAnimation != null)
-		{
-            _currentAnimation.Play("move");
-        }
+
+		if (newDirection != null && newDirection != _currentDirection)
+            ActivateDirection(newDirection);
     }
 
     private void ActivateDirection(string name)
@@ -55,9 +54,25 @@ public partial class character : Node2D
             child.Visible = child.Name == name;
 			if (child.Visible)
 			{
-				_currentAnimation?.Stop();
-                _currentAnimation = child.FindChild("newDirectionNode") as AnimationPlayer;
+                _currentAnimation?.Stop();
+                _currentAnimation = child.FindChild("animation_player") as AnimationPlayer;
+				_currentDirection = name;
             }
         }
     }
+
+	private void Move()
+	{
+		if (_currentAnimation == null)
+			return;
+
+		var allKeyPressed = _keyToDirectionMap[_currentDirection].All(IsKeyPressed);
+
+		if (!allKeyPressed && _currentAnimation.IsPlaying())
+			_currentAnimation?.Stop();
+		if (allKeyPressed && !_currentAnimation.IsPlaying())
+            _currentAnimation?.Play("move");
+	}
+
+	private bool IsKeyPressed(Key key) => Input.IsActionPressed("ui_" + key.ToString().ToLower());
 }
