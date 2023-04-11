@@ -370,7 +370,6 @@ rotation = -0.000113956
 
 [node name="hip" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(499, 398)
-scale = Vector2(1, 1)
 skew = -0.0767945
 rest = Transform2D(1, 0, 0.076719, 0.997053, 499, 398)
 auto_calculate_length_and_angle = false
@@ -384,7 +383,6 @@ rest = Transform2D(1, 0, 0, 1, 0.538635, -7.02066)
 [node name="head" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(1.46225, -32.0946)
 rotation = -0.0336423
-scale = Vector2(1, 1)
 rest = Transform2D(0.999434, -0.0336359, 0.0336359, 0.999434, 1.46225, -32.0946)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -392,7 +390,7 @@ bone_angle = -173.832
 
 [node name="arm_L" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(0.84668, -24.071)
-rotation = 0.0566743
+rotation = 0.533945
 scale = Vector2(0.999999, 0.999999)
 rest = Transform2D(0.998394, 0.0566439, -0.0566439, 0.998394, 0.84668, -24.071)
 auto_calculate_length_and_angle = false
@@ -401,8 +399,7 @@ bone_angle = 89.725
 
 [node name="arm_R" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(0.878937, -24.9462)
-rotation = 1.51748
-scale = Vector2(1, 1)
+rotation = 1.08832
 rest = Transform2D(0.053289, 0.998579, -0.998579, 0.053289, 0.878937, -24.9462)
 auto_calculate_length_and_angle = false
 length = 30.684
@@ -410,18 +407,20 @@ bone_angle = 5.161
 
 [node name="leg_LL" type="Bone2D" parent="Skeleton2D/hip"]
 position = Vector2(-0.126801, 1.06)
+rotation = -0.640596
 rest = Transform2D(1, 0, 0, 1, -0.126801, 1.06)
 auto_calculate_length_and_angle = false
 length = 30.368
 bone_angle = 93.014
 
 [node name="leg_RR" type="Bone2D" parent="Skeleton2D/hip"]
+rotation = 0.343532
 rest = Transform2D(1, 0, 0, 1, 0, 0)
 auto_calculate_length_and_angle = false
 length = 30.684
 bone_angle = 92.509
 
-[node name="animation_player" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ayy1v")
 }

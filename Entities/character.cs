@@ -41,8 +41,6 @@ public partial class character : Node2D
 			.Select(k => k.Key)
 			.FirstOrDefault();
 
-
-
 		if (newDirection != null && newDirection != _currentDirection)
             ActivateDirection(newDirection);
     }
@@ -55,8 +53,10 @@ public partial class character : Node2D
 			if (child.Visible)
 			{
                 _currentAnimation?.Stop();
-                _currentAnimation = child.FindChild("animation_player") as AnimationPlayer;
+                _currentAnimation = child.FindChild("AnimationPlayer") as AnimationPlayer;
 				_currentDirection = name;
+
+				GD.Print($"animation found for dir: {name}, animation exists: {_currentAnimation != null}");
             }
         }
     }
