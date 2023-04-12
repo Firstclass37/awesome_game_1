@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6pc1iywbpqk1" path="res://character.tscn" id="2_56fre"]
 
 [node name="Game" type="Node2D"]
+rotation = 0.00258588
 
 [node name="Map" parent="." instance=ExtResource("1_8mokw")]
 
