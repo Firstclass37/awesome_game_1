@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://clv000a0x6mb2"]
+[gd_scene load_steps=7 format=3 uid="uid://clv000a0x6mb2"]
 
 [ext_resource type="Texture2D" uid="uid://y0f55krrn4bl" path="res://Sources/boy_left.png" id="1_0oxwt"]
+[ext_resource type="Texture2D" uid="uid://do1r6hlop3n48" path="res://Sources/sword.png" id="2_c5kty"]
 
 [sub_resource type="Animation" id="Animation_vle6g"]
 length = 0.001
@@ -198,7 +199,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0566743, -0.297908, 0.533945, 0.0566743]
+"values": [1.8299, 1.32442, 2.37985, 1.92109]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -365,6 +366,15 @@ polygon = PackedVector2Array(482.36, 393.552, 491.363, 393.796, 505.961, 389.173
 uv = PackedVector2Array(482.36, 393.552, 491.363, 393.796, 505.961, 389.173, 516.667, 380.535, 524.574, 368.978, 527.007, 358.394, 525.426, 344.769, 517.518, 335.523, 503.163, 329.44, 487.591, 330.17, 474.939, 336.253, 467.032, 346.594, 464.355, 357.299, 465.693, 362.774, 467.762, 367.64, 465.815, 379.197, 468.248, 386.01, 473.479, 389.903)
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/arm_L", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/arm_R", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/leg_l", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/leg_r", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
+[node name="weapon" type="Polygon2D" parent="CharacterBody2D"]
+position = Vector2(-397, -139)
+rotation = -0.00140141
+texture = ExtResource("2_c5kty")
+skeleton = NodePath("../../Skeleton2D")
+polygon = PackedVector2Array(797.328, 558.779, 907.634, 558.015, 906.489, 524.046, 793.13, 523.282, 794.656, 557.252)
+uv = PackedVector2Array(797.328, 558.779, 907.634, 558.015, 906.489, 524.046, 793.13, 523.282, 794.656, 557.252)
+bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0), "hip/chest/arm_L", PackedFloat32Array(0, 0, 0, 0, 0), "hip/chest/arm_R", PackedFloat32Array(0, 0, 0, 0, 0), "hip/chest/arm_R/weapon-2", PackedFloat32Array(1, 1, 1, 1, 1), "hip/leg_LL", PackedFloat32Array(0, 0, 0, 0, 0), "hip/leg_RR", PackedFloat32Array(0, 0, 0, 0, 0)]
+
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 rotation = -0.000113956
 
@@ -375,50 +385,62 @@ rest = Transform2D(1, 0, 0.076719, 0.997053, 499, 398)
 auto_calculate_length_and_angle = false
 length = 11.105
 bone_angle = -6.89
+editor_settings/show_bone_gizmo = false
 
 [node name="chest" type="Bone2D" parent="Skeleton2D/hip"]
 position = Vector2(0.538635, -7.02066)
 rest = Transform2D(1, 0, 0, 1, 0.538635, -7.02066)
+editor_settings/show_bone_gizmo = false
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(1.46225, -32.0946)
-rotation = -0.0336423
-rest = Transform2D(0.999434, -0.0336359, 0.0336359, 0.999434, 1.46225, -32.0946)
+rotation = -0.545167
+rest = Transform2D(0.855041, -0.518561, 0.518561, 0.855041, 1.46225, -32.0946)
 auto_calculate_length_and_angle = false
 length = 16.0
 bone_angle = -173.832
+editor_settings/show_bone_gizmo = false
 
 [node name="arm_L" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(0.84668, -24.071)
-rotation = 0.533945
-scale = Vector2(0.999999, 0.999999)
-rest = Transform2D(0.998394, 0.0566439, -0.0566439, 0.998394, 0.84668, -24.071)
+rotation = 1.92109
+scale = Vector2(1, 1)
+rest = Transform2D(-0.243387, 0.969929, -0.969929, -0.243387, 0.84668, -24.071)
 auto_calculate_length_and_angle = false
 length = 30.685
 bone_angle = 89.725
+editor_settings/show_bone_gizmo = false
 
 [node name="arm_R" type="Bone2D" parent="Skeleton2D/hip/chest"]
 position = Vector2(0.878937, -24.9462)
-rotation = 1.08832
-rest = Transform2D(0.053289, 0.998579, -0.998579, 0.053289, 0.878937, -24.9462)
+rotation = 1.51748
+rest = Transform2D(0.0423237, 0.999104, -0.999104, 0.0423237, 0.878937, -24.9462)
 auto_calculate_length_and_angle = false
 length = 30.684
 bone_angle = 5.161
+editor_settings/show_bone_gizmo = false
+
+[node name="weapon-2" type="Bone2D" parent="Skeleton2D/hip/chest/arm_R"]
+position = Vector2(37.7137, 8.53342)
+rest = Transform2D(1, 0, 0, 1, 37.7137, 8.53342)
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 89.569
 
 [node name="leg_LL" type="Bone2D" parent="Skeleton2D/hip"]
 position = Vector2(-0.126801, 1.06)
-rotation = -0.640596
 rest = Transform2D(1, 0, 0, 1, -0.126801, 1.06)
 auto_calculate_length_and_angle = false
 length = 30.368
 bone_angle = 93.014
+editor_settings/show_bone_gizmo = false
 
 [node name="leg_RR" type="Bone2D" parent="Skeleton2D/hip"]
-rotation = 0.343532
 rest = Transform2D(1, 0, 0, 1, 0, 0)
 auto_calculate_length_and_angle = false
 length = 30.684
 bone_angle = 92.509
+editor_settings/show_bone_gizmo = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
