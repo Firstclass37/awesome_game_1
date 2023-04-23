@@ -14,4 +14,7 @@
     <None Include="Sources\boy-right.png.import" />
     <None Include="Sources\boy_left.png.import" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+  </ItemGroup>
 </Project>

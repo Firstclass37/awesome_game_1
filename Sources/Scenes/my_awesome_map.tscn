@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ce2ihb8q0amjl"]
+[gd_scene load_steps=7 format=3 uid="uid://ce2ihb8q0amjl"]
 
+[ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://bxhtvlfc5gkx5" path="res://Assets/Map/kenney_isometric-miniature-dungeon/barrels_E.png" id="1_seqs0"]
 [ext_resource type="Texture2D" uid="uid://b3yj2wprb7xjp" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N.png" id="2_f8ovm"]
 
@@ -19,6 +20,7 @@ sources/0 = SubResource("TileSetAtlasSource_agoxw")
 sources/1 = SubResource("TileSetAtlasSource_ck43x")
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_5omci")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_27fdg")

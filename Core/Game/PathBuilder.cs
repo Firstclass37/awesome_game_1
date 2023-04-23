@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace My_awesome_character.Core.Game
 {
-    internal class PathBuilder
+    internal class PathBuilder : IPathBuilder
     {
         private class Node
         {
