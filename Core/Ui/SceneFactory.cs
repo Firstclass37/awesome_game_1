@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 
-namespace My_awesome_character.Core
+namespace My_awesome_character.Core.Ui
 {
     public static class SceneFactory
     {
@@ -13,8 +13,8 @@ namespace My_awesome_character.Core
 
             var scene = inventoryScene.Instantiate();
             scene.Name = name;
-            return scene is T 
-                ? scene as T 
+            return scene is T
+                ? scene as T
                 : throw new ArgumentException($"can't cast scene ({path}) to type {typeof(T).Name} couse original type is {scene.GetType().Name} ");
         }
     }

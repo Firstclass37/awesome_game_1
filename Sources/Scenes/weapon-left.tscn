@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgfsigm1n8x8i"]
+
+[ext_resource type="Texture2D" uid="uid://ddk8rasd53eh4" path="res://Sources/sword-left.png" id="1_2eeq6"]
+
+[node name="Polygon2D" type="Polygon2D"]
+texture = ExtResource("1_2eeq6")
+polygon = PackedVector2Array(-3.74332, -2.49554, 115.152, -1.24777, 116.043, 37.2549, -4.81284, 38.3244)
+uv = PackedVector2Array(-3.74332, -2.49554, 115.152, -1.24777, 116.043, 37.2549, -4.81284, 38.3244)

@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce2ihb8q0amjl"]
+
+[ext_resource type="Texture2D" uid="uid://bxhtvlfc5gkx5" path="res://Assets/Map/kenney_isometric-miniature-dungeon/barrels_E.png" id="1_seqs0"]
+[ext_resource type="Texture2D" uid="uid://b3yj2wprb7xjp" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N.png" id="2_f8ovm"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_agoxw"]
+texture = ExtResource("1_seqs0")
+texture_region_size = Vector2i(256, 128)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ck43x"]
+texture = ExtResource("2_f8ovm")
+texture_region_size = Vector2i(256, 128)
+0:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_27fdg"]
+tile_shape = 1
+tile_size = Vector2i(256, 128)
+sources/0 = SubResource("TileSetAtlasSource_agoxw")
+sources/1 = SubResource("TileSetAtlasSource_ck43x")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_27fdg")
+format = 2
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(458751, 1, 3, 458752, 1, 3, 524288, 1, 3, 589824, 1, 3, 524289, 1, 3, 589825, 1, 3, 655361, 1, 3, 524287, 1, 3, 393216, 1, 3, 327680, 1, 3, 393217, 1, 3, 458753, 1, 3, 524290, 1, 3, 393215, 1, 3, 262144, 1, 3, 196608, 1, 3, 262145, 1, 3, 327681, 1, 3, 393218, 1, 3, 458754, 1, 3, 524291, 1, 3, 589827, 1, 3, 458755, 1, 3, 524292, 1, 3, 393219, 1, 3, 327682, 1, 3, 262146, 1, 3, 196609, 1, 3, 131073, 1, 3, 65536, 1, 3, 131072, 1, 3, 262143, 1, 3, 327679, 1, 3, 524286, 1, 3, 458750, 1, 3, 393214, 1, 3, 589823, 1, 3, 655359, 1, 3, 655360, 1, 3, 720896, 1, 3, 786433, 1, 3, 720897, 1, 3, 655362, 1, 3, 589826, 1, 3, 655363, 1, 3, 720898, 1, 3, 786434, 1, 3, 851969, 1, 3, 917506, 1, 3, 851970, 1, 3, 786435, 1, 3, 720899, 1, 3, 655364, 1, 3, 589828, 1, 3, 1310722, 1, 3, 1245185, 1, 3, 1179649, 1, 3, 1114112, 1, 3, 1048576, 1, 3, 1048575, 1, 3, 983039, 1, 3, 917503, 1, 3, 851967, 1, 3, 786430, 1, 3, 720894, 1, 3, 655357, 1, 3, 720893, 1, 3, 589821, 1, 3, 524285, 1, 3, 655356, 1, 3, 786429, 1, 3, 851966, 1, 3, 917502, 1, 3, 1245186, 1, 3, 1179651, 1, 3, 1114115, 1, 3, 1048580, 1, 3, 983044, 1, 3, 917509, 1, 3, 851973, 1, 3, 786438, 1, 3, 720901, 1, 3, 655365, 1, 3, 720900, 1, 3, 786437, 1, 3, 851972, 1, 3, 917508, 1, 3, 983043, 1, 3, 1048579, 1, 3, 1114114, 1, 3, 983042, 1, 3, 917507, 1, 3, 851971, 1, 3, 786436, 1, 3, 1179650, 1, 3, 1114113, 1, 3, 1048577, 1, 3, 983040, 1, 3, 917504, 1, 3, 983041, 1, 3, 1048578, 1, 3, 917505, 1, 3, 851968, 1, 3, 786432, 1, 3, 786431, 1, 3, 720895, 1, 3, 655358, 1, 3, 589822, 1, 3, 720892, 1, 3, 786428, 1, 3, 851965, 1, 3, 1179647, 1, 3, 1179648, 1, 3, 917501, 1, 3, 983038, 1, 3, 1048574, 1, 3, 1114111, 1, 3, 1245184, 1, 3, 1310721, 1, 3, 1376257, 1, 3)

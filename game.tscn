@@ -1,12 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2rjwxyf3ba8u"]
 
-[ext_resource type="PackedScene" uid="uid://dl33b4fte6the" path="res://map.tscn" id="1_8mokw"]
 [ext_resource type="PackedScene" uid="uid://c6pc1iywbpqk1" path="res://character.tscn" id="2_56fre"]
+[ext_resource type="PackedScene" uid="uid://ce2ihb8q0amjl" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
 
 [node name="Game" type="Node2D"]
 rotation = 0.00258588
 
-[node name="Map" parent="." instance=ExtResource("1_8mokw")]
-
 [node name="Character" parent="." instance=ExtResource("2_56fre")]
+z_index = 100
 position = Vector2(419, 198)
+
+[node name="map" parent="." instance=ExtResource("2_gxlwo")]
+position = Vector2(144.058, -364.374)
