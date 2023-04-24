@@ -2,6 +2,8 @@
 {
     internal class ScenePaths
     {
+        public const string Character = "C:\\Projects\\Mine\\My_awesome_character\\character.tscn";
+
         public const string Player_Front = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\character_front.tscn";
         public const string Player_Back = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\player_back.tscn";
         public const string Player_Left = "C:\\Projects\\Mine\\My_awesome_character\\node_2d.tscn";

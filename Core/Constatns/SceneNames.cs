@@ -4,5 +4,6 @@
     {
         public const string Map = "map";
         public const string Character = "character";
+        public const string Game = "Game";
     }
 }
