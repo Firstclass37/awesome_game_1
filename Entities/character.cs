@@ -1,10 +1,13 @@
 using Godot;
 using Godot.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public partial class character : Node2D
 {
+	private Tween _tween;
+
 	private readonly System.Collections.Generic.Dictionary<string, Key[]> _keyToDirectionMap = new System.Collections.Generic.Dictionary<string, Key[]> 
 	{
 		{ "back-left", new Key[] { Key.Left, Key.Up } },
@@ -20,6 +23,7 @@ public partial class character : Node2D
 	private AnimationPlayer _currentAnimation;
 	private string _currentDirection;
 
+	public bool IsBusy => _tween != null && _tween.IsRunning();
 
 	public MapCell MapPosition { get; set; }
 
@@ -31,6 +35,59 @@ public partial class character : Node2D
 	{
 		Move();
 	}
+
+	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider)
+	{
+		if (_tween != null)
+			_tween.Kill();
+
+        _tween = CreateTween();
+
+        for (int i = 0; i < path.Length; i++)
+		{
+			var current = i == 0 ? MapPosition : path[i - 1];
+			var to = path[i];
+
+			var currentPosition = positionProvider(current);
+            var targetPosition = positionProvider(to);
+            _tween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition))));
+            _tween.TweenProperty(this, "position", targetPosition, 1.5F);
+            _tween.TweenCallback(Callable.From(() => MapPosition = to));
+        }
+        
+		_tween.TweenCallback(Callable.From(() => ActivateDirection("front")));
+        _tween.Play();
+	}
+
+	private string SelectDirection(Vector2 vector)
+	{
+		if (vector.X == 0 && vector.Y > 0)
+			return "front";
+
+		if (vector.X == 0 && vector.Y < 0)
+			return "back";
+
+		if (vector.X > 0 && vector.Y == 0)
+			return "right";
+
+        if (vector.X < 0 && vector.Y == 0)
+            return "left";
+
+		if (vector.X > 0 && vector.Y > 0)
+			return "front-right";
+
+        if (vector.X < 0 && vector.Y > 0)
+            return "front-left";
+
+        if (vector.X > 0 && vector.Y < 0)
+            return "back-right";
+
+        if (vector.X < 0 && vector.Y < 0)
+            return "back-left";
+
+		throw new Exception($"cant detect direction for vector {vector}");
+	}
+
 
 	public override void _UnhandledKeyInput(InputEvent @event)
 	{
@@ -57,8 +114,6 @@ public partial class character : Node2D
                 _currentAnimation?.Stop();
                 _currentAnimation = child.FindChild("AnimationPlayer") as AnimationPlayer;
 				_currentDirection = name;
-
-				GD.Print($"animation found for dir: {name}, animation exists: {_currentAnimation != null}");
             }
         }
     }

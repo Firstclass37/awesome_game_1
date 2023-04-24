@@ -13,8 +13,6 @@ namespace My_awesome_character.Core.Systems
         private readonly IPathBuilder _pathBuilder;
         private readonly ISceneAccessor _sceneAccessor;
 
-        private static double _lastTime;
-
         public MovementSystem(IPathBuilder pathBuilder, ISceneAccessor sceneAccessor)
         {
             _pathBuilder = pathBuilder;
@@ -25,7 +23,8 @@ namespace My_awesome_character.Core.Systems
         {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
-            if (character == null)
+            var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
+            if (character == null || character.IsBusy)
                 return;
 
             var randomPoint = map.GetCells.Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
@@ -35,13 +34,7 @@ namespace My_awesome_character.Core.Systems
             GD.Print($"New: {randomPoint}");
             GD.Print($"path: {string.Join(" - ", pathToRandomPoint.Select(p => p))}");
 
-
-            foreach(var cell in pathToRandomPoint) 
-            {
-                character.GlobalPosition = map.GetGlobalPositionOf(cell);
-                character.MapPosition = randomPoint;
-            }
-            Thread.Sleep(5000);
+            character.MoveTo(pathToRandomPoint, mc => game.ToLocal(map.GetGlobalPositionOf(mc)));
         }
     }
 }
