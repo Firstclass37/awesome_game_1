@@ -22,19 +22,17 @@ namespace My_awesome_character.Core.Systems
 
         public void Process(double gameTime)
         {
-            GD.Print(gameTime);
             if (_lastTime != 0D && gameTime - _lastTime < 500)
                 return;
 
             _lastTime = gameTime;
 
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
+            //var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            //var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
 
-            var randomPoint = map.GetCells.OrderBy(g => Guid.NewGuid()).First();
-            character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
-
-            Godot.GD.Print(randomPoint);
+            //var randomPoint = map.GetCells.OrderBy(g => Guid.NewGuid()).First();
+            //character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
+            //character.MapPosition = randomPoint;
         }
     }
 }

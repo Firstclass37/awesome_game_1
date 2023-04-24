@@ -21,6 +21,8 @@ public partial class character : Node2D
 	private string _currentDirection;
 
 
+	public MapCell MapPosition { get; set; }
+
 	public override void _Ready()
 	{
 	}
