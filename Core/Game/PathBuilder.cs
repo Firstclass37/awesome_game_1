@@ -24,10 +24,8 @@ namespace My_awesome_character.Core.Game
             }
         }
 
-        public Coordiante[] FindPath(int[,] map, Coordiante start, Coordiante end)
+        public MapCell[] FindPath(MapCell start, MapCell end, INeighboursAccessor neighboursAccessor)
         {
-            int[] dx = { -1, 0, 1, 0 };
-            int[] dy = { 0, 1, 0, -1 };
             var openList = new List<Node>();
             var closedList = new List<Node>();
 
@@ -44,31 +42,26 @@ namespace My_awesome_character.Core.Game
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                for (int i = 0; i < dx.Length; i++)
+                foreach(var neighbour in neighboursAccessor.GetNeighboursOf(new MapCell(currentNode.X, currentNode.Y)))
                 {
-                    var nextX = currentNode.X + dx[i];
-                    var nextY = currentNode.Y + dy[i];
-
-                    if (nextX < 0 || nextY < 0 || nextX >= map.GetLength(0) || nextY >= map.GetLength(1))
-                        continue;
-
-                    if (map[nextX, nextY] == 1)
-                        continue;
+                    //todo: добавить суловие, при котором поле заблокировано для хотьбы
+                    //if (по текущему полю нельзя ходить)
+                    //    continue;
 
                     var newCost = currentNode.Cost + 1;
-                    var nextNode = closedList.FirstOrDefault(n => n.X == nextX && n.Y == nextY);
+                    var nextNode = closedList.FirstOrDefault(n => n.X == neighbour.X && n.Y == neighbour.Y);
                     if (nextNode != null && newCost >= nextNode.Cost)
                         continue;
 
-                    nextNode = openList.FirstOrDefault(n => n.X == nextX && n.Y == nextY);
+                    nextNode = openList.FirstOrDefault(n => n.X == neighbour.X && n.Y == neighbour.Y);
                     if (nextNode == null || newCost < nextNode.Cost)
                     {
-                        var h = Math.Abs(nextX - end.X) + Math.Abs(nextY - end.Y);
+                        var h = Math.Abs(neighbour.X - end.X) + Math.Abs(neighbour.Y - end.Y);
                         var f = newCost + h;
 
                         if (nextNode == null)
                         {
-                            nextNode = new Node(nextX, nextY, newCost, f, currentNode);
+                            nextNode = new Node(neighbour.X, neighbour.Y, newCost, f, currentNode);
                             openList.Add(nextNode);
                         }
                         else
@@ -80,10 +73,10 @@ namespace My_awesome_character.Core.Game
                     }
                 }
             }
-            return Array.Empty<Coordiante>();
+            return Array.Empty<MapCell>();
         }
 
-        private Coordiante[] CreatePath(Node node)
+        private MapCell[] CreatePath(Node node)
         {
             var path = new List<Node>();
             while (node != null)
@@ -92,7 +85,7 @@ namespace My_awesome_character.Core.Game
                 node = node.Parent;
             }
             path.Reverse();
-            return path.Select(n => new Coordiante(n.X, n.Y)).ToArray();
+            return path.Select(n => new MapCell(n.X, n.Y)).ToArray();
         }
     }
 }

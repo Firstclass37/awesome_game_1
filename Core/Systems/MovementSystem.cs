@@ -4,6 +4,7 @@ using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Ui;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace My_awesome_character.Core.Systems
 {
@@ -22,17 +23,25 @@ namespace My_awesome_character.Core.Systems
 
         public void Process(double gameTime)
         {
-            if (_lastTime != 0D && gameTime - _lastTime < 500)
+            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
+            if (character == null)
                 return;
 
-            _lastTime = gameTime;
+            var randomPoint = map.GetCells.Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
+            var pathToRandomPoint = _pathBuilder.FindPath(character.MapPosition, randomPoint, map);
 
-            //var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            //var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
+            GD.Print($"Character: {character.MapPosition}");
+            GD.Print($"New: {randomPoint}");
+            GD.Print($"path: {string.Join(" - ", pathToRandomPoint.Select(p => p))}");
 
-            //var randomPoint = map.GetCells.OrderBy(g => Guid.NewGuid()).First();
-            //character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
-            //character.MapPosition = randomPoint;
+
+            foreach(var cell in pathToRandomPoint) 
+            {
+                character.GlobalPosition = map.GetGlobalPositionOf(cell);
+                character.MapPosition = randomPoint;
+            }
+            Thread.Sleep(5000);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     internal interface IPathBuilder
     {
-        Coordiante[] FindPath(int[,] map, Coordiante start, Coordiante end);
+        MapCell[] FindPath(MapCell start, MapCell end, INeighboursAccessor neighboursAccessor);
     }
 }
