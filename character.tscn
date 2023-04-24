@@ -16,45 +16,53 @@ script = ExtResource("1_4yjlo")
 
 [node name="left" parent="." instance=ExtResource("1_1hamw")]
 visible = false
-position = Vector2(-472, -305)
+position = Vector2(-499, -438)
 script = ExtResource("1_yphb6")
 
 [node name="right" parent="." instance=ExtResource("4_b8q7b")]
 visible = false
-position = Vector2(-492, -305)
+position = Vector2(-519, -438)
 
 [node name="front" parent="." instance=ExtResource("5_ag81l")]
-visible = false
-position = Vector2(-457, -267)
+position = Vector2(-484, -400)
 
 [node name="back" parent="." instance=ExtResource("6_xm5tn")]
 visible = false
-position = Vector2(-446, -235)
+position = Vector2(-473, -368)
 
 [node name="back-left" parent="." instance=ExtResource("7_7v1xq")]
 visible = false
-position = Vector2(-457, -282)
+position = Vector2(-484, -415)
 
 [node name="back-right" parent="." instance=ExtResource("8_f5jol")]
 visible = false
-position = Vector2(-425, -287)
+position = Vector2(-452, -420)
 
 [node name="front-left" parent="." instance=ExtResource("9_ts4gx")]
 visible = false
-position = Vector2(-442, -263)
+position = Vector2(-469, -396)
 
 [node name="front-right" parent="." instance=ExtResource("10_5u2y7")]
-position = Vector2(-461, -243)
+visible = false
+position = Vector2(-488, -376)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
-offset_top = 132.0
-offset_right = 114.0
-offset_bottom = 133.0
+offset_left = -27.0
+offset_top = -1.0
+offset_right = 87.0
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 visible = false
 z_index = 100
-offset_left = 27.0
-offset_right = 28.0
-offset_bottom = 131.0
+offset_top = -133.0
+offset_right = 1.0
+offset_bottom = -2.0
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+visible = false
+z_index = 4096
+offset_left = -27.0
+offset_top = -72.0
+offset_right = 87.0
+offset_bottom = -69.0

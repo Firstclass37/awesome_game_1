@@ -8,7 +8,7 @@ rotation = 0.00258588
 
 [node name="character" parent="." instance=ExtResource("2_56fre")]
 z_index = 100
-position = Vector2(419, 198)
+position = Vector2(348.506, 195.099)
 
 [node name="map" parent="." instance=ExtResource("2_gxlwo")]
-position = Vector2(144.058, -364.374)
+position = Vector2(-25.956, 17.0672)
