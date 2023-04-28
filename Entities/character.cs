@@ -25,6 +25,8 @@ public partial class character : Node2D
 
 	public bool IsBusy => _tween != null && _tween.IsRunning();
 
+	public bool IsMoving { get; set; }
+
 	public MapCell MapPosition { get; set; }
 
 	public override void _Ready()
@@ -33,7 +35,7 @@ public partial class character : Node2D
 
 	public override void _Process(double delta)
 	{
-		Move();
+		MoveAnimation();
 	}
 
 	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider)
@@ -42,7 +44,7 @@ public partial class character : Node2D
 			_tween.Kill();
 
         _tween = CreateTween();
-
+        _tween.TweenCallback(Callable.From(() => IsMoving = true));
         for (int i = 0; i < path.Length; i++)
 		{
 			var current = i == 0 ? MapPosition : path[i - 1];
@@ -51,11 +53,11 @@ public partial class character : Node2D
 			var currentPosition = positionProvider(current);
             var targetPosition = positionProvider(to);
             _tween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition))));
-            _tween.TweenProperty(this, "position", targetPosition, 1.5F);
+            _tween.TweenProperty(this, "position", targetPosition, 2.0F);
             _tween.TweenCallback(Callable.From(() => MapPosition = to));
         }
-        
-		_tween.TweenCallback(Callable.From(() => ActivateDirection("front")));
+
+        _tween.TweenCallback(Callable.From(() => IsMoving = false));
         _tween.Play();
 	}
 
@@ -116,6 +118,17 @@ public partial class character : Node2D
 				_currentDirection = name;
             }
         }
+    }
+
+	private void MoveAnimation()
+	{
+        if (_currentAnimation == null)
+            return;
+
+        if (!IsMoving && _currentAnimation.IsPlaying())
+            _currentAnimation.Stop();
+        if (IsMoving && !_currentAnimation.IsPlaying())
+            _currentAnimation.Play("move");
     }
 
 	private void Move()
