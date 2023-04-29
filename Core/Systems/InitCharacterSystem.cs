@@ -23,13 +23,14 @@ namespace My_awesome_character.Core.Systems
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var randomPoint = map.GetCells.OrderBy(g => Guid.NewGuid()).First();
+            var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
 
             character = SceneFactory.Create<character>(SceneNames.Character, ScenePaths.Character);
             game.AddChild(character, forceReadableName: true);
             character.ZIndex = 100;
             character.MapPosition = randomPoint;
             character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
+            character.Scale = new Vector2(0.8f, 0.8f);
         }
     }
 }

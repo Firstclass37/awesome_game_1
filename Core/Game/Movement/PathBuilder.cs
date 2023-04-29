@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace My_awesome_character.Core.Game
+namespace My_awesome_character.Core.Game.Movement
 {
     internal class PathBuilder : IPathBuilder
     {
@@ -24,7 +24,7 @@ namespace My_awesome_character.Core.Game
             }
         }
 
-        public MapCell[] FindPath(MapCell start, MapCell end, INeighboursAccessor neighboursAccessor)
+        public MapCell[] FindPath(MapCell start, MapCell end, INeighboursSelector neighboursSelector)
         {
             var openList = new List<Node>();
             var closedList = new List<Node>();
@@ -42,7 +42,7 @@ namespace My_awesome_character.Core.Game
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                foreach(var neighbour in neighboursAccessor.GetNeighboursOf(new MapCell(currentNode.X, currentNode.Y)))
+                foreach (var neighbour in neighboursSelector.GetNeighboursOf(new MapCell(currentNode.X, currentNode.Y)))
                 {
                     //todo: добавить суловие, при котором поле заблокировано для хотьбы
                     //if (по текущему полю нельзя ходить)
