@@ -85,7 +85,7 @@ namespace My_awesome_character.Core.Game.Movement
                 node = node.Parent;
             }
             path.Reverse();
-            return path.Select(n => new MapCell(n.X, n.Y)).ToArray();
+            return path.Select(n => new MapCell(n.X, n.Y)).Skip(1).ToArray();
         }
     }
 }
