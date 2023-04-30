@@ -31,7 +31,7 @@ namespace My_awesome_character.Core.Systems
                 var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
                 var character = SceneFactory.Create<character>(SceneNames.Character(i + 1), ScenePaths.Character);
                 game.AddChild(character, forceReadableName: true);
-                character.ZIndex = 100;
+                character.ZIndex = i + 10;
                 character.MapPosition = randomPoint;
                 character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
                 character.Scale = new Vector2(0.8f, 0.8f);
