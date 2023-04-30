@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class character : Node2D
 {
-	private Tween _tween;
+	private Tween _movingTween;
 
 	private readonly System.Collections.Generic.Dictionary<string, Key[]> _keyToDirectionMap = new System.Collections.Generic.Dictionary<string, Key[]> 
 	{
@@ -23,11 +23,11 @@ public partial class character : Node2D
 	private AnimationPlayer _currentAnimation;
 	private string _currentDirection;
 
-	public bool IsBusy => _tween != null && _tween.IsRunning();
+	public bool IsBusy => _movingTween != null && _movingTween.IsRunning();
 
-	public bool IsMoving { get; set; }
+	public bool IsMoving => _movingTween.IsRunning();
 
-	public MapCell MapPosition { get; set; }
+    public MapCell MapPosition { get; set; }
 
 	public override void _Ready()
 	{
@@ -40,11 +40,10 @@ public partial class character : Node2D
 
 	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider)
 	{
-		if (_tween != null)
-			_tween.Kill();
+		if (_movingTween != null)
+			_movingTween.Kill();
 
-        _tween = CreateTween();
-        _tween.TweenCallback(Callable.From(() => IsMoving = true));
+        _movingTween = CreateTween();
         for (int i = 0; i < path.Length; i++)
 		{
 			var current = i == 0 ? MapPosition : path[i - 1];
@@ -52,17 +51,19 @@ public partial class character : Node2D
 
 			var currentPosition = positionProvider(current);
             var targetPosition = positionProvider(to);
-            _tween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition))));
-            _tween.TweenProperty(this, "position", targetPosition, 2.0F);
-            _tween.TweenCallback(Callable.From(() => MapPosition = to));
+            _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
+            _movingTween.TweenProperty(this, "position", targetPosition, 2.0F);
+            _movingTween.TweenCallback(Callable.From(() => MapPosition = to));
         }
 
-        _tween.TweenCallback(Callable.From(() => IsMoving = false));
-        _tween.Play();
+        _movingTween.Play();
 	}
 
-	private string SelectDirection(Vector2 vector)
+	private string SelectDirection(Vector2 vector, string currentDirection)
 	{
+		if (vector == Vector2.Zero)
+			return currentDirection;
+
 		if (vector.X == 0 && vector.Y > 0)
 			return "front";
 
@@ -108,6 +109,9 @@ public partial class character : Node2D
 
     private void ActivateDirection(string name)
 	{
+		if (string.IsNullOrEmpty(name)) 
+			throw new ArgumentOutOfRangeException("cat't activate empty direction");
+
 		foreach(Node2D child in GetChildren().Where(c => c is Node2D))
 		{
             child.Visible = child.Name == name;
