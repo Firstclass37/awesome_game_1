@@ -10,6 +10,8 @@ namespace My_awesome_character.Core.Systems
     {
         private readonly ISceneAccessor _sceneAccessor;
 
+        private const int _characterCount = 10;
+
         public InitCharacterSystem(ISceneAccessor sceneAccessor)
         {
             _sceneAccessor = sceneAccessor;
@@ -17,20 +19,23 @@ namespace My_awesome_character.Core.Systems
 
         public void Process(double gameTime)
         {
-            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character);
-            if (character != null)
+            var characters = _sceneAccessor.FindAll<character>();
+            if (characters.Any())
                 return;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
-
-            character = SceneFactory.Create<character>(SceneNames.Character, ScenePaths.Character);
-            game.AddChild(character, forceReadableName: true);
-            character.ZIndex = 100;
-            character.MapPosition = randomPoint;
-            character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
-            character.Scale = new Vector2(0.8f, 0.8f);
+            
+            for (int i = 0; i < _characterCount; i++)
+            {
+                var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
+                var character = SceneFactory.Create<character>(SceneNames.Character(i + 1), ScenePaths.Character);
+                game.AddChild(character, forceReadableName: true);
+                character.ZIndex = 100;
+                character.MapPosition = randomPoint;
+                character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
+                character.Scale = new Vector2(0.8f, 0.8f);
+            }
         }
     }
 }
