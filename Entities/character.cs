@@ -8,6 +8,8 @@ public partial class character : Node2D
 {
 	private Tween _movingTween;
 
+	public int Id { get; set; }
+
 	private readonly System.Collections.Generic.Dictionary<string, Key[]> _keyToDirectionMap = new System.Collections.Generic.Dictionary<string, Key[]> 
 	{
 		{ "back-left", new Key[] { Key.Left, Key.Up } },
@@ -38,7 +40,7 @@ public partial class character : Node2D
 		MoveAnimation();
 	}
 
-	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider)
+	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider, Action onEnd)
 	{
 		if (_movingTween != null)
 			_movingTween.Kill();
@@ -55,6 +57,7 @@ public partial class character : Node2D
             _movingTween.TweenProperty(this, "position", targetPosition, 2.0F);
             _movingTween.TweenCallback(Callable.From(() => MapPosition = to));
         }
+		_movingTween.TweenCallback(Callable.From(onEnd));
 
         _movingTween.Play();
 	}

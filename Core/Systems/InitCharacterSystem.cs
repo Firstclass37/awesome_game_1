@@ -28,9 +28,12 @@ namespace My_awesome_character.Core.Systems
             
             for (int i = 0; i < _characterCount; i++)
             {
+                var id = i + 1;
+
                 var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
-                var character = SceneFactory.Create<character>(SceneNames.Character(i + 1), ScenePaths.Character);
+                var character = SceneFactory.Create<character>(SceneNames.Character(id), ScenePaths.Character);
                 game.AddChild(character, forceReadableName: true);
+                character.Id = id;
                 character.ZIndex = i + 10;
                 character.MapPosition = randomPoint;
                 character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
