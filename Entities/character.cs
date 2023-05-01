@@ -1,7 +1,5 @@
 using Godot;
-using Godot.Collections;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 public partial class character : Node2D
@@ -54,7 +52,7 @@ public partial class character : Node2D
 			var currentPosition = positionProvider(current);
             var targetPosition = positionProvider(to);
             _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
-            _movingTween.TweenProperty(this, "position", targetPosition, 2.0F);
+            _movingTween.TweenProperty(this, "position", targetPosition, 0.3F);
             _movingTween.TweenCallback(Callable.From(() => MapPosition = to));
         }
 		_movingTween.TweenCallback(Callable.From(onEnd));

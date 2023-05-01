@@ -1,6 +1,7 @@
 using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Movement;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -48,6 +49,10 @@ public partial class Map : Node2D, INeighboursAccessor
         {
             foreach (var cell in neighbours)
             {
+				var exists = TileMap.GetCellTileData(layer.LayerId, new Vector2I(cell.X, cell.Y)) != null;
+				if (!exists)
+					continue;
+
                 var tempMapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerName]);
                 if (!cells.Contains(tempMapCell))
                     cells.Add(tempMapCell);

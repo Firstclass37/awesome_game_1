@@ -8,16 +8,14 @@ namespace My_awesome_character.Core.Game.Movement
     {
         private class Node
         {
-            public int X { get; set; }
-            public int Y { get; set; }
+            public MapCell Cell;
             public int Cost { get; set; }
             public int F { get; set; }
             public Node Parent { get; set; }
 
-            public Node(int x, int y, int cost, int f, Node parent)
+            public Node(MapCell cell, int cost, int f, Node parent)
             {
-                X = x;
-                Y = y;
+                Cell = cell;
                 Cost = cost;
                 F = f;
                 Parent = parent;
@@ -29,31 +27,31 @@ namespace My_awesome_character.Core.Game.Movement
             var openList = new List<Node>();
             var closedList = new List<Node>();
 
-            var startNode = new Node(start.X, start.Y, 0, 0, null);
+            var startNode = new Node(start, 0, 0, null);
 
             openList.Add(startNode);
 
             while (openList.Count > 0)
             {
                 var currentNode = openList.OrderBy(n => n.F).First();
-                if (currentNode.X == end.X && currentNode.Y == end.Y)
+                if (currentNode.Cell == end)
                     return CreatePath(currentNode);
 
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                foreach (var neighbour in neighboursSelector.GetNeighboursOf(new MapCell(currentNode.X, currentNode.Y)))
+                foreach (var neighbour in neighboursSelector.GetNeighboursOf(currentNode.Cell))
                 {
                     //todo: добавить суловие, при котором поле заблокировано для хотьбы
                     //if (по текущему полю нельзя ходить)
                     //    continue;
 
                     var newCost = currentNode.Cost + 1;
-                    var nextNode = closedList.FirstOrDefault(n => n.X == neighbour.X && n.Y == neighbour.Y);
+                    var nextNode = closedList.FirstOrDefault(n => n.Cell == neighbour);
                     if (nextNode != null && newCost >= nextNode.Cost)
                         continue;
 
-                    nextNode = openList.FirstOrDefault(n => n.X == neighbour.X && n.Y == neighbour.Y);
+                    nextNode = openList.FirstOrDefault(n => n.Cell == neighbour);
                     if (nextNode == null || newCost < nextNode.Cost)
                     {
                         var h = Math.Abs(neighbour.X - end.X) + Math.Abs(neighbour.Y - end.Y);
@@ -61,7 +59,7 @@ namespace My_awesome_character.Core.Game.Movement
 
                         if (nextNode == null)
                         {
-                            nextNode = new Node(neighbour.X, neighbour.Y, newCost, f, currentNode);
+                            nextNode = new Node(neighbour, newCost, f, currentNode);
                             openList.Add(nextNode);
                         }
                         else
@@ -85,7 +83,7 @@ namespace My_awesome_character.Core.Game.Movement
                 node = node.Parent;
             }
             path.Reverse();
-            return path.Select(n => new MapCell(n.X, n.Y)).Skip(1).ToArray();
+            return path.Select(n => n.Cell).Skip(1).ToArray();
         }
     }
 }
