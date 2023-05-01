@@ -10,14 +10,14 @@ namespace My_awesome_character.Core.Game.Movement
         {
             public MapCell Cell;
             public int Cost { get; set; }
-            public int F { get; set; }
+            public int FScore { get; set; }
             public Node Parent { get; set; }
 
-            public Node(MapCell cell, int cost, int f, Node parent)
+            public Node(MapCell cell, int cost, int fScore, Node parent)
             {
                 Cell = cell;
                 Cost = cost;
-                F = f;
+                FScore = fScore;
                 Parent = parent;
             }
         }
@@ -33,7 +33,7 @@ namespace My_awesome_character.Core.Game.Movement
 
             while (openList.Count > 0)
             {
-                var currentNode = openList.OrderBy(n => n.F).First();
+                var currentNode = openList.OrderBy(n => n.FScore).First();
                 if (currentNode.Cell == end)
                     return CreatePath(currentNode);
 
@@ -42,16 +42,12 @@ namespace My_awesome_character.Core.Game.Movement
 
                 foreach (var neighbour in neighboursSelector.GetNeighboursOf(currentNode.Cell))
                 {
-                    //todo: добавить суловие, при котором поле заблокировано для хотьбы
-                    //if (по текущему полю нельзя ходить)
-                    //    continue;
-
                     var newCost = currentNode.Cost + 1;
-                    var nextNode = closedList.FirstOrDefault(n => n.Cell == neighbour);
-                    if (nextNode != null && newCost >= nextNode.Cost)
+                    var alreadyVisitedNode = closedList.FirstOrDefault(n => n.Cell == neighbour);
+                    if (alreadyVisitedNode != null && newCost >= alreadyVisitedNode.Cost)
                         continue;
 
-                    nextNode = openList.FirstOrDefault(n => n.Cell == neighbour);
+                    var nextNode = openList.FirstOrDefault(n => n.Cell == neighbour);
                     if (nextNode == null || newCost < nextNode.Cost)
                     {
                         var h = Math.Abs(neighbour.X - end.X) + Math.Abs(neighbour.Y - end.Y);
@@ -65,7 +61,7 @@ namespace My_awesome_character.Core.Game.Movement
                         else
                         {
                             nextNode.Cost = newCost;
-                            nextNode.F = f;
+                            nextNode.FScore = f;
                             nextNode.Parent = currentNode;
                         }
                     }
