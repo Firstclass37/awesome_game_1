@@ -12,7 +12,7 @@ namespace My_awesome_character.Core.Game.Movement.Path
             var pathMap = new Dictionary<T, T>();
 
             var gScore = new Dictionary<T, double> { { start, 0 } };
-            var fScore = new Dictionary<T, double> { { start, setting.FScoreStrategy.Get(start, end, 0) } };
+            var fScore = new Dictionary<T, double> { { start, setting.FScoreStrategy.Get(start, end, gScore[start]) } };
 
             while (open.Count > 0)
             {
