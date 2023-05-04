@@ -10,7 +10,7 @@ namespace My_awesome_character.Core.Systems
     {
         private readonly ISceneAccessor _sceneAccessor;
 
-        private const int _characterCount = 200;
+        private const int _characterCount = 10;
 
         public InitCharacterSystem(ISceneAccessor sceneAccessor)
         {
