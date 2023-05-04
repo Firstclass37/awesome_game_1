@@ -1,7 +1,8 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
-using My_awesome_character.Core.Game.Movement;
+using My_awesome_character.Core.Game.Movement.Path;
+using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Game.Unknown;
 using My_awesome_character.Core.Ui;
 using System;
@@ -11,15 +12,17 @@ namespace My_awesome_character.Core.Systems
 {
     internal class RandomPathGeneratorSystem: ISystem
     {
-        private readonly IPathBuilder _pathBuilder;
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IStorage _storage;
+        private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
+        private readonly IPathSearcher _pathSearcher;
 
-        public RandomPathGeneratorSystem(IPathBuilder pathBuilder, ISceneAccessor sceneAccessor, IStorage storage)
+        public RandomPathGeneratorSystem(ISceneAccessor sceneAccessor, IStorage storage, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IPathSearcher pathSearcher)
         {
-            _pathBuilder = pathBuilder;
             _sceneAccessor = sceneAccessor;
             _storage = storage;
+            _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
+            _pathSearcher = pathSearcher;
         }
 
         public void Process(double gameTime)
@@ -34,7 +37,7 @@ namespace My_awesome_character.Core.Systems
                     continue;
 
                 var randomPoint = map.GetCells().Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
-                var pathToRandomPoint = _pathBuilder.FindPath(character.MapPosition, randomPoint, SelectSelector(character.MapPosition, randomPoint, map));
+                var pathToRandomPoint = _pathSearcher.Search(character.MapPosition, randomPoint, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, randomPoint, map)));
 
                 _storage.Add(new CharacterMovement
                 {
@@ -46,7 +49,7 @@ namespace My_awesome_character.Core.Systems
             }
         }
 
-        private INeighboursSelector SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
+        private INieighborsSearchStrategy<MapCell> SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
         {
             if (currentPosition.Tags.Contains(MapCellTags.Road) && targetPosition.Tags.Contains(MapCellTags.Road))
                 return new OnlyRoadNeighboursSelector(map);
