@@ -31,7 +31,8 @@ public partial class character : Node2D
 
 	public override void _Ready()
 	{
-	}
+		ActivateDirection("front");
+    }
 
 	public override void _Process(double delta)
 	{
@@ -53,11 +54,16 @@ public partial class character : Node2D
             var targetPosition = positionProvider(to);
             _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
             _movingTween.TweenProperty(this, "position", targetPosition, 0.3F);
-            _movingTween.TweenCallback(Callable.From(() => MapPosition = to));
+            _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
         }
 		_movingTween.TweenCallback(Callable.From(onEnd));
 
         _movingTween.Play();
+	}
+
+	private void SetNewPosition(MapCell newCell)
+	{
+		MapPosition = newCell;
 	}
 
 	private string SelectDirection(Vector2 vector, string currentDirection)
@@ -111,7 +117,7 @@ public partial class character : Node2D
     private void ActivateDirection(string name)
 	{
 		if (string.IsNullOrEmpty(name)) 
-			throw new ArgumentOutOfRangeException("cat't activate empty direction");
+			throw new ArgumentOutOfRangeException("can't activate empty direction");
 
 		foreach(Node2D child in GetChildren().Where(c => c is Node2D))
 		{

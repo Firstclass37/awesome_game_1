@@ -36,8 +36,7 @@ namespace My_awesome_character.Core.Systems
 
         private void EndMovement(CharacterMovement characterMovement)
         {
-            characterMovement.Actual = false;
-            _storage.Update(characterMovement);
+            _storage.Remove(characterMovement);
         }
     }
 }
