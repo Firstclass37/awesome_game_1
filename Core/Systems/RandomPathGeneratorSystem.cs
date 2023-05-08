@@ -1,11 +1,12 @@
-﻿using Godot;
-using My_awesome_character.Core.Constatns;
+﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
+using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
-using My_awesome_character.Core.Game.Unknown;
+using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace My_awesome_character.Core.Systems
@@ -16,37 +17,61 @@ namespace My_awesome_character.Core.Systems
         private readonly IStorage _storage;
         private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
         private readonly IPathSearcher _pathSearcher;
+        private readonly IEventAggregator _eventAggregator;
 
-        public RandomPathGeneratorSystem(ISceneAccessor sceneAccessor, IStorage storage, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IPathSearcher pathSearcher)
+        public RandomPathGeneratorSystem(ISceneAccessor sceneAccessor, IStorage storage, IPathSearcherSettingsFactory pathSearcherSettingsFactory,
+            IPathSearcher pathSearcher, IEventAggregator eventAggregator)
         {
             _sceneAccessor = sceneAccessor;
             _storage = storage;
             _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
             _pathSearcher = pathSearcher;
+            _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<GameEvent<MovementEndEvent>>().Subscribe(OnCharacterMovementEnd);
         }
+
+        private void OnCharacterMovementEnd(MovementEndEvent obj)
+        {
+            if (obj.ObjectType != typeof(character)) 
+                return;
+
+            GenerateRandomPath(obj.ObjectId);
+        }
+
+        private static Dictionary<int, character> Characters;
 
         public void Process(double gameTime)
         {
+            var ready = (int)gameTime % 2 == 0;
+            if (!ready)
+                return;
+
+            if (Characters == null)
+                Characters = _sceneAccessor.FindAll<character>().ToDictionary(c => c.Id, c => c);
+
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
-            var lazyCharacters = _sceneAccessor.FindAll<character>();
+            var characters = Characters.Values.Where(c => c.IsMoving == false).Take(20).ToArray();
+            foreach (var character in characters)
+                GenerateRandomPath(character, map);
+        }
 
-            foreach (var character in lazyCharacters)
+        private void GenerateRandomPath(int characterId)
+        {
+            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            GenerateRandomPath(Characters[characterId], map);
+        }
+
+        private void GenerateRandomPath(character character, Map map)
+        {
+            var randomPoint = map.GetCells().Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
+            var pathToRandomPoint = _pathSearcher.Search(character.MapPosition, randomPoint, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, randomPoint, map)));
+
+            _eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Publish(new MovementCharacterPathEvent
             {
-                if (_storage.Exists<CharacterMovement>(m => m.CharacterId == character.Id && m.Actual))
-                    continue;
-
-                var randomPoint = map.GetCells().Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
-                var pathToRandomPoint = _pathSearcher.Search(character.MapPosition, randomPoint, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, randomPoint, map)));
-
-                _storage.Add(new CharacterMovement
-                {
-                    CharacterId = character.Id,
-                    Actual = true,
-                    Path = pathToRandomPoint,
-                    StartCell = character.MapPosition
-                });
-            }
+                CharacterId = character.Id,
+                Path = pathToRandomPoint
+            });
         }
 
         private INieighborsSearchStrategy<MapCell> SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
@@ -55,6 +80,10 @@ namespace My_awesome_character.Core.Systems
                 return new OnlyRoadNeighboursSelector(map);
             else
                 return new AllNeighboursSelector(map);
+        }
+
+        public void OnStart()
+        {
         }
     }
 }

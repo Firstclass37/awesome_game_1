@@ -52,4 +52,9 @@ namespace My_awesome_character.Core.Infrastructure.Events
             actions.TryRemove(data, out var _);
         }
     }
+
+    public class GameEvent<T> : PubSubEvent<T> 
+    {
+    
+    }
 }

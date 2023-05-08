@@ -14,8 +14,8 @@ namespace My_awesome_character.Core.Ioc
         {
             var builder = new ContainerBuilder();
             var assemblies = Assembly.GetAssembly(typeof(Application));
-            builder.RegisterAssemblyTypes(assemblies).AsImplementedInterfaces();
             builder.RegisterAssemblyModules(assemblies);
+            //builder.RegisterAssemblyTypes(assemblies).AsImplementedInterfaces();
             _container = builder.Build();
         }
 

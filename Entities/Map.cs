@@ -2,6 +2,7 @@ using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Movement;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -36,11 +37,16 @@ public partial class Map : Node2D, INeighboursAccessor
 	}
 
 	public override void _Process(double delta)
-	{
-	}
+    {
+    }
+
+	private ConcurrentDictionary<MapCell, MapCell[]>  _neighbours = new ConcurrentDictionary<MapCell, MapCell[]>();
 
     public MapCell[] GetNeighboursOf(MapCell mapCell)
     {
+		if (_neighbours.ContainsKey(mapCell))
+			return _neighbours[mapCell];
+
         var layers = _layers.Select(l => new { LayerId = l.Key, LayerName = l.Value, Cells = TileMap.GetUsedCells(l.Key) }).OrderByDescending(l => l.LayerId).ToArray();
         var cells = new HashSet<MapCell>();
 		var neighbours = TileMap.GetSurroundingCells(new Vector2I(mapCell.X, mapCell.Y));
@@ -58,11 +64,17 @@ public partial class Map : Node2D, INeighboursAccessor
                     cells.Add(tempMapCell);
             }
         }
-        return cells.ToArray();
+		_neighbours.TryAdd(mapCell, cells.ToArray());
+        return _neighbours[mapCell];
     }
+
+	private MapCell[] _allCells;
 
     public MapCell[] GetCells()
 	{
+		if (_allCells != null)
+			return _allCells;
+
 		var layers = _layers.Select(l => new { LayerId = l.Key, LayerName = l.Value, Cells = TileMap.GetUsedCells(l.Key) }).OrderByDescending(l => l.LayerId).ToArray();
 		var cells = new HashSet<MapCell>();
 		foreach(var layer in layers)
@@ -74,7 +86,8 @@ public partial class Map : Node2D, INeighboursAccessor
 					cells.Add(mapCell);
 			}
 		}
-		return cells.ToArray();
+		_allCells = cells.ToArray();
+		return _allCells;
 	}
 }
 

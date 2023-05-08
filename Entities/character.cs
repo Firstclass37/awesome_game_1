@@ -25,7 +25,7 @@ public partial class character : Node2D
 
 	public bool IsBusy => _movingTween != null && _movingTween.IsRunning();
 
-	public bool IsMoving => _movingTween.IsRunning();
+	public bool IsMoving { get; set; }
 
     public MapCell MapPosition { get; set; }
 
@@ -53,10 +53,10 @@ public partial class character : Node2D
 			var currentPosition = positionProvider(current);
             var targetPosition = positionProvider(to);
             _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
-            _movingTween.TweenProperty(this, "position", targetPosition, 0.3F);
+            _movingTween.TweenProperty(this, "position", targetPosition, 1F);
             _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
         }
-		_movingTween.TweenCallback(Callable.From(onEnd));
+        _movingTween.TweenCallback(Callable.From(onEnd));
 
         _movingTween.Play();
 	}
