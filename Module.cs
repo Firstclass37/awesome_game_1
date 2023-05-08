@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using My_awesome_character.Core.Game;
+using My_awesome_character.Core.Infrastructure.Events;
 
 namespace My_awesome_character
 {
@@ -8,6 +9,7 @@ namespace My_awesome_character
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<Storage>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<EventAggregator>().AsImplementedInterfaces().SingleInstance();
         }
     }
 }
