@@ -4,7 +4,6 @@ using My_awesome_character.Core.Game.Movement;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 public partial class Map : Node2D, INeighboursAccessor
@@ -89,30 +88,4 @@ public partial class Map : Node2D, INeighboursAccessor
 		_allCells = cells.ToArray();
 		return _allCells;
 	}
-}
-
-public struct MapCell
-{
-	public MapCell(int x, int y, params string[] tags)
-	{
-		X = x;
-		Y = y;
-		Tags = tags;
-	}
-
-	public int X { get; set; }
-
-	public int Y { get; set; }
-
-	public string[] Tags { get; set; }
-
-    public static bool operator !=(MapCell a, MapCell b) => !(a == b);
-
-    public static bool operator ==(MapCell a, MapCell b) => a.X == b.X && a.Y == b.Y;
-
-	public override string ToString() => $"\"{X} {Y}\"";
-
-	public override bool Equals([NotNullWhen(true)] object obj) => this == (MapCell)obj;
-
-	public override int GetHashCode() => $"{X} {Y}".GetHashCode();
 }
