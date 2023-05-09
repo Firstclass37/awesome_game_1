@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Movement;
 using System;
@@ -22,6 +22,8 @@ public partial class Map : Node2D, INeighboursAccessor
 		{ _groundLayerName, MapCellTags.Ground },
 		{ _roadLayerName, MapCellTags.Road }
 	};
+
+	public event Action<MapCell> OnCellClicked;
 
     private TileMap TileMap => GetNode<TileMap>("TileMap");
 
@@ -87,5 +89,22 @@ public partial class Map : Node2D, INeighboursAccessor
 		}
 		_allCells = cells.ToArray();
 		return _allCells;
+	}
+
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton inputEventMouse)
+		{
+			var pos = inputEventMouse.GlobalPosition;
+			var localPos = TileMap.ToLocal(pos);
+			var tilePos = TileMap.LocalToMap(localPos);
+			if (inputEventMouse.IsPressed())
+			{
+                GD.Print($"CLiked at: {tilePos}");
+				//todo: переделать на сигналы/ивенты
+				OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+            }
+		}
 	}
 }
