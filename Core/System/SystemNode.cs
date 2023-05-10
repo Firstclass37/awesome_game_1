@@ -1,4 +1,6 @@
 ﻿using Godot;
+using My_awesome_character.Core.Game.Events;
+using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ioc;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Ui;
@@ -8,13 +10,16 @@ namespace My_awesome_character.Core.System
 {
     internal partial class SystemNode: Node
     {
-        private double _timeElapsed = 0;
+        public static double GameTime = 0;
 
         private ISystem[] _systems = Application.GetAll<ISystem>();
+        private IEventAggregator _eventAggregator = Application.Get<IEventAggregator>();
 
         public override void _EnterTree()
         {
             SceneAccessor.Root = GetParent();
+
+            
         }
 
         public override void _Ready()
@@ -27,9 +32,9 @@ namespace My_awesome_character.Core.System
 
         public override void _Process(double delta)
         {
-            _timeElapsed += delta;
+            GameTime += delta;
             foreach (var system in _systems)
-                system.Process(_timeElapsed);
+                system.Process(GameTime);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace My_awesome_character.Core.Systems
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IEventAggregator _eventAggregator;
 
-        private const int _characterCount = 500;
+        private const int _characterCount = 1;
 
         public InitCharacterSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator)
         {
