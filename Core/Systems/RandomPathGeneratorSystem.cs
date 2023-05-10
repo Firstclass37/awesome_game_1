@@ -47,8 +47,7 @@ namespace My_awesome_character.Core.Systems
             if (!ready)
                 return;
 
-            if (Characters == null)
-                Characters = _sceneAccessor.FindAll<character>().ToDictionary(c => c.Id, c => c);
+            Characters = _sceneAccessor.FindAll<character>().ToDictionary(c => c.Id, c => c);
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var characters = Characters.Values.Where(c => c.IsMoving == false).Take(20).ToArray();

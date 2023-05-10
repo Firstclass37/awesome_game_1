@@ -22,6 +22,8 @@ namespace My_awesome_character
             builder.RegisterType<RandomPathGeneratorSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<InitCharacterSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeCreatingSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<HomeCharacterSpawnSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
         }
     }
 }

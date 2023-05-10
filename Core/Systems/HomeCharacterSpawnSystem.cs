@@ -31,6 +31,8 @@ namespace My_awesome_character.Core.Systems
                 {
                     home.LastFireTime = gameTime;
                     _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(new CharacterCreationRequestEvent { InitPosition = home.SpawnCell });
+
+                    Godot.GD.Print($"Character creation request sended");
                 }
             }
         }
