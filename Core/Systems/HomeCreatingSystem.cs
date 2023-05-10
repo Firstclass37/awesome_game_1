@@ -34,6 +34,7 @@ namespace My_awesome_character.Core.Systems
             home.Id = newHomeId;
             home.SpawnCell = obj;
             home.LastFireTime = SystemNode.GameTime;
+            home.SpawnEverySecond = 5;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);

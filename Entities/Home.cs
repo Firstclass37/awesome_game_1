@@ -10,6 +10,8 @@ namespace My_awesome_character.Entities
 
         public double LastFireTime { get; set; }
 
+        public double SpawnEverySecond { get; set; }
+
         public Dictionary<MapCell, Vector2I> CellsToTile = new Dictionary<MapCell, Vector2I>();
 
         public MapCell[] Cells => CellsToTile.Keys.ToArray();
