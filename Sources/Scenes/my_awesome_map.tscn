@@ -1,7 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://ce2ihb8q0amjl"]
+[gd_scene load_steps=27 format=3 uid="uid://ce2ihb8q0amjl"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://cleo1irs3suir" path="res://Assets/Map/kenney_retro-urban-kit/wallA_roofDetailed_SE.png" id="2_lv6bw"]
+[ext_resource type="Texture2D" uid="uid://bxhtvlfc5gkx5" path="res://Assets/Map/kenney_isometric-miniature-dungeon/barrels_E.png" id="2_xo4m8"]
+[ext_resource type="Texture2D" uid="uid://cbtxtfmq1a0st" path="res://Assets/Map/kenney_isometric-miniature-dungeon/barrel_E.png" id="3_b0jol"]
 [ext_resource type="Texture2D" uid="uid://bp0vflhhjikjm" path="res://Assets/Map/kenney_retro-urban-kit/wallA_SE.png" id="3_d1x2l"]
 [ext_resource type="Texture2D" uid="uid://clehlocqjol7p" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N_128_64.png" id="4_1acxk"]
 [ext_resource type="Texture2D" uid="uid://dre1lj8riply6" path="res://Assets/Map/kenney_retro-urban-kit/wallA_window_SE.png" id="4_3blka"]
@@ -11,6 +13,26 @@
 [ext_resource type="Texture2D" uid="uid://bx8y8f50p0ia4" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NE.png" id="7_owoer"]
 [ext_resource type="Texture2D" uid="uid://biakqfi1f0eob" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NW.png" id="9_n5v3i"]
 [ext_resource type="Texture2D" uid="uid://r0qs7xqmgruf" path="res://Assets/Map/kenney_retro-urban-kit/wallA_corner_NE.png" id="11_i82et"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bbwcp"]
+texture = ExtResource("2_xo4m8")
+texture_region_size = Vector2i(170, 66)
+0:5/0 = 0
+0:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:5/0/physics_layer_0/angular_velocity = 0.0
+0:6/0 = 0
+0:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:6/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5gp17"]
+texture = ExtResource("3_b0jol")
+texture_region_size = Vector2i(255, 67)
+0:5/0 = 0
+0:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:5/0/physics_layer_0/angular_velocity = 0.0
+0:6/0 = 0
+0:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:6/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3nxo3"]
 texture = ExtResource("2_lv6bw")
@@ -381,6 +403,8 @@ sources/18 = SubResource("TileSetAtlasSource_nyfj8")
 sources/19 = SubResource("TileSetAtlasSource_m8pws")
 sources/21 = SubResource("TileSetAtlasSource_r6xpg")
 sources/4 = SubResource("TileSetAtlasSource_ka6sj")
+sources/0 = SubResource("TileSetAtlasSource_bbwcp")
+sources/1 = SubResource("TileSetAtlasSource_5gp17")
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_5omci")

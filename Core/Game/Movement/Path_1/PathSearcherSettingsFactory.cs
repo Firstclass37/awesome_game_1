@@ -7,7 +7,7 @@ namespace My_awesome_character.Core.Game.Movement.Path_1
         public PathSearcherSetting<MapCell> Create(INieighborsSearchStrategy<MapCell> nieighborsSearchStrategy) =>
             new PathSearcherSetting<MapCell>
             {
-                FScoreStrategy = new FScoreStrategy(),
+                HScoreStrategy = new HScoreStrategy(),
                 GScoreStrategy = new GScoreStrategy(),
                 NeighborsSearchStrategy = nieighborsSearchStrategy
             };

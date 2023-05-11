@@ -3,7 +3,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 
-namespace My_awesome_character.Core.Systems.Home
+namespace My_awesome_character.Core.Systems.Homes
 {
     internal class HomeCharacterSpawnSystem : ISystem
     {

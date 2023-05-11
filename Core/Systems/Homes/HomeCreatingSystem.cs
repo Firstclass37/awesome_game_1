@@ -5,7 +5,7 @@ using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 using System.Linq;
 
-namespace My_awesome_character.Core.Systems.Home
+namespace My_awesome_character.Core.Systems.Homes
 {
     internal class HomeCreatingSystem : ISystem
     {
@@ -28,16 +28,22 @@ namespace My_awesome_character.Core.Systems.Home
         private void HomeCreatingSystem_OnCellClicked(MapCell obj)
         {
             var otherHomes = _sceneAccessor.FindAll<Home>();
-            var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
+            if (otherHomes.Any(h => h.MapPosition == obj))
+                return;
 
+            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+
+            var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
             home.Id = newHomeId;
             home.SpawnCell = obj;
             home.LastFireTime = SystemNode.GameTime;
             home.SpawnEverySecond = 5;
+            home.MapPosition = obj;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
+            map.TileMap.SetCell(MapLayers.BuildingWallsLayer, new Vector2I(obj.X, obj.Y), 1, new Vector2I(0, 6));
 
             GD.Print($"home created on: {obj}");
         }

@@ -12,7 +12,7 @@ namespace My_awesome_character.Core.Game.Movement.Path
             var pathMap = new Dictionary<T, T>();
 
             var gScore = new Dictionary<T, double> { { start, 0 } };
-            var fScore = new Dictionary<T, double> { { start, setting.FScoreStrategy.Get(start, end, gScore[start]) } };
+            var fScore = new Dictionary<T, double> { { start, setting.HScoreStrategy.Get(start, end) } };
 
             while (open.Count > 0)
             {
@@ -26,17 +26,17 @@ namespace My_awesome_character.Core.Game.Movement.Path
                 for (var i = 0; i < neighbors.Length; i++)
                 {
                     var neighbor = neighbors[i];
-                    var currentGScore = gScore[current] + setting.GScoreStrategy.Get(current, neighbor);
-                    if (!gScore.ContainsKey(neighbor) || currentGScore < gScore[neighbor])
+                    var tentativeGScore = gScore[current] + setting.GScoreStrategy.Get(current, neighbor);
+                    if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
                     {
                         pathMap.Remove(neighbor);
                         pathMap.Add(neighbor, current);
 
                         gScore.Remove(neighbor);
-                        gScore.Add(neighbor, currentGScore);
+                        gScore.Add(neighbor, tentativeGScore);
 
                         fScore.Remove(neighbor);
-                        fScore.Add(neighbor, setting.FScoreStrategy.Get(neighbor, end, currentGScore));
+                        fScore.Add(neighbor, setting.HScoreStrategy.Get(neighbor, end) + tentativeGScore);
                         if (!open.Contains(neighbor))
                             open.Add(neighbor);
                     }
