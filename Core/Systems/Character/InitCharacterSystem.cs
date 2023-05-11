@@ -6,7 +6,7 @@ using My_awesome_character.Core.Ui;
 using System;
 using System.Linq;
 
-namespace My_awesome_character.Core.Systems
+namespace My_awesome_character.Core.Systems.Character
 {
     internal class InitCharacterSystem : ISystem
     {
@@ -33,7 +33,7 @@ namespace My_awesome_character.Core.Systems
                 var id = i + 1;
                 if (_sceneAccessor.FindFirst<character>(SceneNames.Character(id)) != null)
                     continue;
-                
+
                 var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
                 var character = SceneFactory.Create<character>(SceneNames.Character(id), ScenePaths.Character);
                 game.AddChild(character, forceReadableName: true);

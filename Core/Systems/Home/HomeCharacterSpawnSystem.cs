@@ -3,7 +3,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 
-namespace My_awesome_character.Core.Systems
+namespace My_awesome_character.Core.Systems.Home
 {
     internal class HomeCharacterSpawnSystem : ISystem
     {
@@ -23,10 +23,10 @@ namespace My_awesome_character.Core.Systems
         public void Process(double gameTime)
         {
             var homes = _sceneAccessor.FindAll<Home>();
-            
-            foreach (var home in homes) 
+
+            foreach (var home in homes)
             {
-                var needFire = (gameTime - home.LastFireTime) > home.SpawnEverySecond;
+                var needFire = gameTime - home.LastFireTime > home.SpawnEverySecond;
                 if (needFire)
                 {
                     home.LastFireTime = gameTime;

@@ -4,7 +4,7 @@ using My_awesome_character.Core.Ui;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Game.Events;
 
-namespace My_awesome_character.Core.Systems
+namespace My_awesome_character.Core.Systems.Character
 {
     internal class MovementSystem : ISystem
     {
@@ -25,7 +25,7 @@ namespace My_awesome_character.Core.Systems
 
         public void Process(double gameTime)
         {
-            
+
         }
 
         private void Move(MovementCharacterPathEvent @event)

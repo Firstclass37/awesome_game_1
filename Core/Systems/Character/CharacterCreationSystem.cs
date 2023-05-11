@@ -5,7 +5,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using System.Linq;
 
-namespace My_awesome_character.Core.Systems
+namespace My_awesome_character.Core.Systems.Character
 {
     internal class CharacterCreationSystem : ISystem
     {
@@ -39,7 +39,7 @@ namespace My_awesome_character.Core.Systems
             character.GlobalPosition = map.GetGlobalPositionOf(obj.InitPosition);
             character.Scale = new Vector2(0.8f, 0.8f);
 
-            Godot.GD.Print($"character create {character.Id}");
+            GD.Print($"character create {character.Id}");
         }
 
         public void Process(double gameTime)

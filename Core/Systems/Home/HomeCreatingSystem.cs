@@ -5,7 +5,7 @@ using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 using System.Linq;
 
-namespace My_awesome_character.Core.Systems
+namespace My_awesome_character.Core.Systems.Home
 {
     internal class HomeCreatingSystem : ISystem
     {
@@ -28,7 +28,7 @@ namespace My_awesome_character.Core.Systems
         private void HomeCreatingSystem_OnCellClicked(MapCell obj)
         {
             var otherHomes = _sceneAccessor.FindAll<Home>();
-            var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1; 
+            var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
 
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
             home.Id = newHomeId;
@@ -39,7 +39,7 @@ namespace My_awesome_character.Core.Systems
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
 
-            Godot.GD.Print($"home created on: {obj}");
+            GD.Print($"home created on: {obj}");
         }
     }
 }

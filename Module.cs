@@ -4,6 +4,8 @@ using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
+using My_awesome_character.Core.Systems.Character;
+using My_awesome_character.Core.Systems.Home;
 using My_awesome_character.Core.Ui;
 
 namespace My_awesome_character
