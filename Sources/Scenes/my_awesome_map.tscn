@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ce2ihb8q0amjl"]
+[gd_scene load_steps=29 format=3 uid="uid://c0myim6wm0p7b"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://cleo1irs3suir" path="res://Assets/Map/kenney_retro-urban-kit/wallA_roofDetailed_SE.png" id="2_lv6bw"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bx8y8f50p0ia4" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NE.png" id="7_owoer"]
 [ext_resource type="Texture2D" uid="uid://biakqfi1f0eob" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NW.png" id="9_n5v3i"]
 [ext_resource type="Texture2D" uid="uid://r0qs7xqmgruf" path="res://Assets/Map/kenney_retro-urban-kit/wallA_corner_NE.png" id="11_i82et"]
+[ext_resource type="Texture2D" uid="uid://8cfv74esusys" path="res://Assets/Map/Building/home_test.png" id="14_s5tbg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bbwcp"]
 texture = ExtResource("2_xo4m8")
@@ -389,6 +390,13 @@ texture_region_size = Vector2i(128, 64)
 2:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 2:6/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_apt4r"]
+texture = ExtResource("14_s5tbg")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
 [sub_resource type="TileSet" id="TileSet_27fdg"]
 tile_shape = 1
 tile_size = Vector2i(128, 64)
@@ -405,6 +413,7 @@ sources/21 = SubResource("TileSetAtlasSource_r6xpg")
 sources/4 = SubResource("TileSetAtlasSource_ka6sj")
 sources/0 = SubResource("TileSetAtlasSource_bbwcp")
 sources/1 = SubResource("TileSetAtlasSource_5gp17")
+sources/5 = SubResource("TileSetAtlasSource_apt4r")
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_5omci")
@@ -429,11 +438,11 @@ layer_2/modulate = Color(1, 1, 1, 1)
 layer_2/y_sort_enabled = true
 layer_2/y_sort_origin = 0
 layer_2/z_index = 0
-layer_2/tile_data = PackedInt32Array(1179654, 65550, 4, 1179655, 131086, 4, 1310726, 65550, 5, 1441798, 65550, 6, 1441799, 131086, 6, 1310727, 131086, 5)
+layer_2/tile_data = PackedInt32Array()
 layer_3/name = "buildings_roofs"
 layer_3/enabled = true
 layer_3/modulate = Color(1, 1, 1, 1)
 layer_3/y_sort_enabled = true
 layer_3/y_sort_origin = 0
 layer_3/z_index = 0
-layer_3/tile_data = PackedInt32Array(1048583, 131085, 5, 1179655, 131085, 6, 1048584, 196621, 5, 1048582, 65549, 5, 1179654, 65549, 6, 917510, 65549, 4, 917511, 131085, 4)
+layer_3/tile_data = PackedInt32Array()

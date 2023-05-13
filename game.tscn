@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2rjwxyf3ba8u"]
 
 [ext_resource type="Script" path="res://Entities/FpsMeter.cs" id="2_bqtc4"]
-[ext_resource type="PackedScene" uid="uid://ce2ihb8q0amjl" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
+[ext_resource type="PackedScene" uid="uid://c0myim6wm0p7b" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5c161"]
 font_size = 27
