@@ -393,10 +393,14 @@ texture_region_size = Vector2i(128, 64)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_apt4r"]
 texture = ExtResource("14_2v5tu")
 texture_region_size = Vector2i(256, 256)
-use_texture_padding = false
+0:0/next_alternative_id = 4
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/1 = 1
+0:0/1/modulate = Color(1, 1, 1, 0.439216)
+0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/1/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_27fdg"]
 tile_shape = 1
