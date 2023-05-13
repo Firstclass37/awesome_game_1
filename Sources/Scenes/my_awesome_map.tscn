@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c0myim6wm0p7b"]
+[gd_scene load_steps=29 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://cleo1irs3suir" path="res://Assets/Map/kenney_retro-urban-kit/wallA_roofDetailed_SE.png" id="2_lv6bw"]
@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bx8y8f50p0ia4" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NE.png" id="7_owoer"]
 [ext_resource type="Texture2D" uid="uid://biakqfi1f0eob" path="res://Assets/Map/kenney_retro-urban-kit/wallA_flat_NW.png" id="9_n5v3i"]
 [ext_resource type="Texture2D" uid="uid://r0qs7xqmgruf" path="res://Assets/Map/kenney_retro-urban-kit/wallA_corner_NE.png" id="11_i82et"]
-[ext_resource type="Texture2D" uid="uid://8cfv74esusys" path="res://Assets/Map/Building/home_test.png" id="14_s5tbg"]
+[ext_resource type="Texture2D" uid="uid://8cfv74esusys" path="res://Assets/Map/Building/home_test_2x2.png" id="14_2v5tu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bbwcp"]
 texture = ExtResource("2_xo4m8")
@@ -391,8 +391,9 @@ texture_region_size = Vector2i(128, 64)
 2:6/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_apt4r"]
-texture = ExtResource("14_s5tbg")
+texture = ExtResource("14_2v5tu")
 texture_region_size = Vector2i(256, 256)
+use_texture_padding = false
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -432,17 +433,10 @@ layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(1703936, 2, 6, 1638400, 2, 6, 1572865, 2, 6, 1507329, 2, 6, 1441794, 2, 6, 1376258, 2, 6, 1310723, 2, 6, 1245187, 2, 6, 1310724, 2, 6, 1245188, 2, 6, 1179653, 2, 6, 1114117, 2, 6, 1048582, 2, 6, 983046, 2, 6, 917510, 2, 6, 851973, 2, 6, 786437, 2, 6, 720901, 2, 6, 655366, 2, 6, 589830, 2, 6, 524295, 2, 6, 458759, 2, 6, 393224, 2, 6, 327688, 2, 6, 393225, 2, 6, 458761, 2, 6, 524298, 2, 6, 589834, 2, 6, 655370, 2, 6, 720905, 2, 6, 786441, 2, 6, 851977, 2, 6, 917514, 2, 6, 983049, 2, 6, 1048585, 2, 6, 1114120, 2, 6, 1179656, 2, 6, 1245191, 2, 6, 1310728, 2, 6, 1376264, 2, 6, 1507335, 2, 6, 1572872, 2, 6, 1638408, 2, 6, 1572873, 2, 6, 1507337, 2, 6, 1441802, 2, 6, 1376266, 2, 6, 1310730, 2, 6, 1245193, 2, 6, 1310729, 2, 6, 1376265, 2, 6, 1441801, 2, 6, 1507336, 2, 6, 1638407, 2, 6, 1703944, 2, 6, 262152, 2, 6, 196615, 2, 6, 131080, 2, 6, 65543, 2, 6, 7, 2, 6, 65542, 2, 6, 6, 2, 6, 65541, 2, 6, 131077, 2, 6, 196613, 2, 6, 262149, 2, 6, 327684, 2, 6, 393220, 2, 6, 327683, 2, 6, 393219, 2, 6, 327682, 2, 6, 262146, 2, 6, 327681, 2, 6, 262145, 2, 6, 196608, 2, 6, 131073, 2, 6, 65537, 2, 6, 131074, 2, 6, 196609, 2, 6, 196610, 2, 6, 458754, 2, 6, 524291, 2, 6, 589827, 2, 6, 655363, 2, 6, 720898, 2, 6, 786434, 2, 6, 851969, 2, 6, 917506, 2, 6, 983041, 2, 6, 1048577, 2, 6, 983040, 2, 6, 917504, 2, 6, 851968, 2, 6, 786433, 2, 6, 917505, 2, 6, 1441799, 2, 6)
-layer_2/name = "Buildings_walls"
+layer_2/name = "Buildings"
 layer_2/enabled = true
 layer_2/modulate = Color(1, 1, 1, 1)
 layer_2/y_sort_enabled = true
 layer_2/y_sort_origin = 0
 layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array()
-layer_3/name = "buildings_roofs"
-layer_3/enabled = true
-layer_3/modulate = Color(1, 1, 1, 1)
-layer_3/y_sort_enabled = true
-layer_3/y_sort_origin = 0
-layer_3/z_index = 0
-layer_3/tile_data = PackedInt32Array()

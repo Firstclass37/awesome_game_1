@@ -11,8 +11,7 @@ public class MapLayers
 {
     public const int GroundLayer = 0;
     public const int RoadLayer = 1;
-    public const int BuildingWallsLayer = 2;
-    public const int BuildingRoofsLayer = 3;
+    public const int Buildings = 2;
 }
 
 public partial class Map : Node2D, INeighboursAccessor
@@ -21,8 +20,7 @@ public partial class Map : Node2D, INeighboursAccessor
 	{
 		{ MapLayers.GroundLayer, MapCellTags.Ground },
 		{ MapLayers.RoadLayer, MapCellTags.Road },
-		{ MapLayers.BuildingWallsLayer, MapCellTags.Blocking },
-		{ MapLayers.BuildingRoofsLayer, MapCellTags.Blocking }
+		{ MapLayers.Buildings, MapCellTags.Blocking },
 	};
 
 	public event Action<MapCell> OnCellClicked;
@@ -102,8 +100,7 @@ public partial class Map : Node2D, INeighboursAccessor
 			var tilePos = TileMap.LocalToMap(localPos);
 			if (inputEventMouse.IsPressed())
 			{
-				var tileSource = TileMap.GetCellTileData(2, tilePos);
-                GD.Print($"CLiked at: {tilePos}, Tile texture: {tileSource?.TextureOrigin}");
+                GD.Print($"CLiked at: {tilePos}");
 				//todo: переделать на сигналы/ивенты
 				OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
             }
