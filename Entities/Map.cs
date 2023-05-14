@@ -115,7 +115,8 @@ public partial class Map : Node2D, INeighboursAccessor
 			{
                 GD.Print($"CLiked at: {tilePos}");
 				//todo: переделать на сигналы/ивенты
-				OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+				if (inputEventMouse.ButtonIndex == MouseButton.Left)
+					OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
             }
 		}
 	}
