@@ -71,6 +71,8 @@ public partial class Map : Node2D, INeighboursAccessor
 
 	private MapCell[] _allCells;
 
+
+
     public MapCell[] GetCells()
 	{
 		if (_allCells != null)
@@ -91,8 +93,19 @@ public partial class Map : Node2D, INeighboursAccessor
 		return _allCells;
 	}
 
+	public bool IsMouseExists(Vector2 mousePosition, out MapCell mapCell)
+	{
+        var localPos = TileMap.ToLocal(mousePosition);
+        var tilePos = TileMap.LocalToMap(localPos);
+		mapCell = GetCells().FirstOrDefault(c => c.X == tilePos.X && c.Y == tilePos.Y);
+
+		return mapCell != default;
+    }
+
+
     public override void _Input(InputEvent @event)
     {
+        // InputEventMouseMotion - when mouse moved
         if (@event is InputEventMouseButton inputEventMouse)
 		{
 			var pos = inputEventMouse.GlobalPosition;

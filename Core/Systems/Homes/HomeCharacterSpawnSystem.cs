@@ -26,6 +26,9 @@ namespace My_awesome_character.Core.Systems.Homes
 
             foreach (var home in homes)
             {
+                if (!home.SpawnEverySecond.HasValue)
+                    continue;
+
                 var needFire = gameTime - home.LastFireTime > home.SpawnEverySecond;
                 if (needFire)
                 {

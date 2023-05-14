@@ -32,7 +32,7 @@ namespace My_awesome_character.Core.Systems.Character
         {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
-            var character = _sceneAccessor.GetScene<character>(SceneNames.Character(@event.CharacterId));
+            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(@event.CharacterId));
 
             character.IsMoving = true;
             character.MoveTo(@event.Path, mc => game.ToLocal(map.GetGlobalPositionOf(mc)), () => OnMovementEnd(character));

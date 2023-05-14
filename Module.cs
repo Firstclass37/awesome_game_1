@@ -26,6 +26,8 @@ namespace My_awesome_character
             builder.RegisterType<HomeCreatingSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeCharacterSpawnSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<HomePreviewSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<HomeBuildingPreviewConditionSystem>().As<ISystem>().SingleInstance();
         }
     }
 }

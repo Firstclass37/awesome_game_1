@@ -10,7 +10,9 @@ namespace My_awesome_character.Entities
 
         public double LastFireTime { get; set; }
 
-        public double SpawnEverySecond { get; set; }
+        public double? SpawnEverySecond { get; set; }
+
+        public MapCell RootCell { get; set; }
 
         public MapCell[] Cells { get; set; }
 

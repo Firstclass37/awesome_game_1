@@ -1,8 +1,11 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game.Events.Homes;
+using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.System;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
+using System;
 using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Homes
@@ -10,15 +13,23 @@ namespace My_awesome_character.Core.Systems.Homes
     internal class HomeCreatingSystem : ISystem
     {
         private readonly ISceneAccessor _sceneAccessor;
+        private readonly IEventAggregator _eventAggregator;
 
-        public HomeCreatingSystem(ISceneAccessor sceneAccessor)
+        public HomeCreatingSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator)
         {
             _sceneAccessor = sceneAccessor;
+            _eventAggregator = eventAggregator;
         }
 
         public void OnStart()
         {
-            _sceneAccessor.GetScene<Map>(SceneNames.Map).OnCellClicked += HomeCreatingSystem_OnCellClicked;
+            _sceneAccessor.FindFirst<Map>(SceneNames.Map).OnCellClicked += HomeCreatingSystem_OnCellClicked;
+            _eventAggregator.GetEvent<GameEvent<HomeCreateRequestEvent>>().Subscribe(OnRequested);
+        }
+
+        private void OnRequested(HomeCreateRequestEvent obj)
+        {
+            HomeCreatingSystem_OnCellClicked(obj.TargetCell);
         }
 
         public void Process(double gameTime)
@@ -40,6 +51,7 @@ namespace My_awesome_character.Core.Systems.Homes
             home.LastFireTime = SystemNode.GameTime;
             home.SpawnEverySecond = 5;
             home.Cells = size;
+            home.RootCell = obj;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);

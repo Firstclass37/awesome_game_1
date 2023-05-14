@@ -18,8 +18,6 @@ namespace My_awesome_character.Core.System
         public override void _EnterTree()
         {
             SceneAccessor.Root = GetParent();
-
-            
         }
 
         public override void _Ready()
