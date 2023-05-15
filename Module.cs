@@ -6,6 +6,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Character;
 using My_awesome_character.Core.Systems.Homes;
+using My_awesome_character.Core.Systems.Resources;
 using My_awesome_character.Core.Ui;
 
 namespace My_awesome_character
@@ -28,6 +29,7 @@ namespace My_awesome_character
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomePreviewSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeBuildingPreviewConditionSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<InitResourcesInfoSystem>().As<ISystem>().SingleInstance();
         }
     }
 }

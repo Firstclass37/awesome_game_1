@@ -2,16 +2,18 @@ using Godot;
 
 public partial class Resource : HBoxContainer
 {
-	private Label AmountLabel => GetNode<Label>("HBoxContainer/Label");
-	private TextureRect TextureRect => GetNode<TextureRect>("HBoxContainer/TextureRect");
+	private Label AmountLabel => GetNode<Label>("Label");
+	private TextureRect TextureRect => GetNode<TextureRect>("TextureRect");
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 	}
 
 	public override void _Process(double delta)
 	{
 	}
+
+	public int ResourceType { get; set; }
 
 	public Texture2D PreviewTexture 
 	{

@@ -24,3 +24,9 @@ label_settings = SubResource("LabelSettings_5c161")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_bqtc4")
+
+[node name="ResourceContainer" type="HBoxContainer" parent="."]
+z_index = 99
+offset_right = 1156.0
+offset_bottom = 42.0
+alignment = 1

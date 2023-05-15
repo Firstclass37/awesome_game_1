@@ -3,10 +3,11 @@
 [ext_resource type="Script" path="res://Entities/Resource.cs" id="2_wfke6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_41wpi"]
+font_size = 24
 font_color = Color(1, 0, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer"]
-custom_minimum_size = Vector2(50, 20)
+custom_minimum_size = Vector2(70, 20)
 offset_left = -25.0
 offset_top = -13.0
 offset_right = 25.0
@@ -15,7 +16,7 @@ alignment = 1
 script = ExtResource("2_wfke6")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(35, 30)
 layout_mode = 2
 expand_mode = 1
 
@@ -25,4 +26,3 @@ text = "0"
 label_settings = SubResource("LabelSettings_41wpi")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_wfke6")
