@@ -11,17 +11,19 @@ public class MapLayers
 {
     public const int GroundLayer = 0;
     public const int RoadLayer = 1;
-    public const int Buildings = 2;
+	public const int Resources = 2;
+    public const int Buildings = 4;
 }
 
 public partial class Map : Node2D, INeighboursAccessor
 {
-    private readonly System.Collections.Generic.Dictionary<int, string> _layersToTags = new System.Collections.Generic.Dictionary<int, string>()
+    private readonly Dictionary<int, string> _layersToTags = new Dictionary<int, string>()
 	{
 		{ MapLayers.GroundLayer, MapCellTags.Ground },
 		{ MapLayers.RoadLayer, MapCellTags.Road },
-		{ MapLayers.Buildings, MapCellTags.Blocking },
-	};
+		{ MapLayers.Resources, MapCellTags.Ground },
+        { MapLayers.Buildings, MapCellTags.Blocking },
+    };
 
 	public event Action<MapCell> OnCellClicked;
 
