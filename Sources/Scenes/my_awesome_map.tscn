@@ -68,9 +68,18 @@ texture_region_size = Vector2i(128, 64)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hksly"]
 texture = ExtResource("6_3p2xd")
 texture_region_size = Vector2i(255, 196)
+0:0/next_alternative_id = 3
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/1 = 1
+0:0/1/modulate = Color(1, 1, 1, 0.439216)
+0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/1/physics_layer_0/angular_velocity = 0.0
+0:0/2 = 2
+0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
+0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/2/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_27fdg"]
 tile_shape = 1
