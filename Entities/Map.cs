@@ -12,7 +12,7 @@ public class MapLayers
     public const int GroundLayer = 0;
     public const int RoadLayer = 1;
 	public const int Resources = 2;
-    public const int Buildings = 4;
+    public const int Buildings = 3;
 }
 
 public partial class Map : Node2D, INeighboursAccessor
