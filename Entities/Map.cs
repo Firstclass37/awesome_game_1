@@ -6,6 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 
+public static class Tiles
+{
+    public const int HomeType1 = 5;
+    public const int MineUranus = 8;
+}
+
 public class MapLayers
 {
     public const int GroundLayer = 0;
