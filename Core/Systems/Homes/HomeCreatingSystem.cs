@@ -1,6 +1,8 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings;
+using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
@@ -50,10 +52,10 @@ namespace My_awesome_character.Core.Systems.Homes
             var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
             var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
+
             home.Id = newHomeId;
             home.SpawnCell = new MapCell(rootCell.X, rootCell.Y + 3, MapCellType.Groud);
-            home.LastFireTime = SystemNode.GameTime;
-            home.SpawnEverySecond = 5;
+            home.PeriodicAction = new CommonPeriodicAction(() => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(new CharacterCreationRequestEvent { InitPosition = home.SpawnCell }), 5, SystemNode.GameTime);
             home.Cells = size;
             home.RootCell = rootCell;
             home.BuildingType = obj.BuildingType;
