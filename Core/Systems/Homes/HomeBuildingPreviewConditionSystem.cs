@@ -1,9 +1,11 @@
 ﻿using Godot;
+using Godot.Collections;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
+using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Homes
 {
@@ -11,6 +13,12 @@ namespace My_awesome_character.Core.Systems.Homes
     {
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IEventAggregator _eventAggregator;
+
+        private readonly Dictionary<string, BuildingTypes> _hotKeys = new Dictionary<string, BuildingTypes>()
+        {
+            { "h_pressed" , BuildingTypes.HomeType1 },
+            { "m_pressed", BuildingTypes.MineUranus },
+        };
 
         public HomeBuildingPreviewConditionSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)
         {
@@ -40,8 +48,10 @@ namespace My_awesome_character.Core.Systems.Homes
 
         public void Process(double gameTime)
         {
-            if (Input.IsActionPressed("d_pressed"))
+            var pressed = _hotKeys.Keys.FirstOrDefault(k => Input.IsActionPressed(k));
+            if (!string.IsNullOrWhiteSpace(pressed))
             {
+                var buildingType = _hotKeys[pressed];
                 var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
                 var mouseCoord = map.GetGlobalMousePosition();
                 if (map.IsMouseExists(mouseCoord, out var cell))
