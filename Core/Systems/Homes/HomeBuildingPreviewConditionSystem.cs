@@ -40,8 +40,11 @@ namespace My_awesome_character.Core.Systems.Homes
                 var mouseCoord = map.GetGlobalMousePosition();
                 if (map.IsMouseExists(mouseCoord, out var cell))
                 {
-                    _eventAggregator.GetEvent<GameEvent<HomePreviewCanceledEvent>>().Publish(new HomePreviewCanceledEvent());
-                    _eventAggregator.GetEvent<GameEvent<HomeCreateRequestEvent>>().Publish(new HomeCreateRequestEvent { TargetCell = cell });
+                    _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Publish(new BuildingPreviewCanceledEvent());
+
+                    var pressed = _hotKeys.Keys.FirstOrDefault(k => Input.IsActionPressed(k));
+                    if (pressed != null)
+                        _eventAggregator.GetEvent<GameEvent<HomeCreateRequestEvent>>().Publish(new HomeCreateRequestEvent { BuildingType = _hotKeys[pressed], TargetCell = cell });
                 }
             }
         }
@@ -55,13 +58,13 @@ namespace My_awesome_character.Core.Systems.Homes
                 var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
                 var mouseCoord = map.GetGlobalMousePosition();
                 if (map.IsMouseExists(mouseCoord, out var cell))
-                    _eventAggregator.GetEvent<GameEvent<HomePreviewEvent>>().Publish(new HomePreviewEvent { TargetCell = cell });
+                    _eventAggregator.GetEvent<GameEvent<BuildingPreviewEvent>>().Publish(new BuildingPreviewEvent { BuildingType = buildingType, TargetCell = cell });
                 else
-                    _eventAggregator.GetEvent<GameEvent<HomePreviewCanceledEvent>>().Publish(new HomePreviewCanceledEvent());
+                    _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Publish(new BuildingPreviewCanceledEvent());
             }
             else if (Input.IsActionJustReleased("d_pressed")) 
             {
-                _eventAggregator.GetEvent<GameEvent<HomePreviewCanceledEvent>>().Publish(new HomePreviewCanceledEvent());
+                _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Publish(new BuildingPreviewCanceledEvent());
             }
         }
     }

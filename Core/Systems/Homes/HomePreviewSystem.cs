@@ -21,15 +21,15 @@ namespace My_awesome_character.Core.Systems.Homes
 
         public void OnStart()
         {
-            _eventAggregator.GetEvent<GameEvent<HomePreviewEvent>>().Subscribe(OnCreated);
-            _eventAggregator.GetEvent<GameEvent<HomePreviewCanceledEvent>>().Subscribe(OnCenceled);
+            _eventAggregator.GetEvent<GameEvent<BuildingPreviewEvent>>().Subscribe(OnCreated);
+            _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Subscribe(OnCenceled);
         }
 
         public void Process(double gameTime)
         {
         }
 
-        private void OnCenceled(HomePreviewCanceledEvent obj)
+        private void OnCenceled(BuildingPreviewCanceledEvent obj)
         {
             var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
@@ -42,9 +42,9 @@ namespace My_awesome_character.Core.Systems.Homes
             game.RemoveChild(existingPreview);
         }
 
-        private void OnCreated(HomePreviewEvent homePreviewEvent)
+        private void OnCreated(BuildingPreviewEvent homePreviewEvent)
         {
-            OnCenceled(new HomePreviewCanceledEvent());
+            OnCenceled(new BuildingPreviewCanceledEvent());
 
             var targetCell = new MapCell(homePreviewEvent.TargetCell.X, homePreviewEvent.TargetCell.Y, MapCellType.Building); 
             var alreadyBuiltHome = _sceneAccessor.FindAll<Home>().Where(h => h.Id != default).Any(h => h.RootCell == targetCell);

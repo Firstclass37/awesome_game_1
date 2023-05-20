@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using My_awesome_character.Core.Game;
+using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Infrastructure.Events;
@@ -20,6 +21,8 @@ namespace My_awesome_character
             builder.RegisterType<SceneAccessor>().As<ISceneAccessor>().SingleInstance();
             builder.RegisterType<PathSearcherSettingsFactory>().As<IPathSearcherSettingsFactory>().SingleInstance();
             builder.RegisterType<PathSearcher>().As<IPathSearcher>().SingleInstance();
+
+            builder.RegisterType<BuildRequirementProvider>().As<IBuildRequirementProvider>().SingleInstance();
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<RandomPathGeneratorSystem>().As<ISystem>().SingleInstance();
