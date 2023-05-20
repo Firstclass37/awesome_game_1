@@ -38,10 +38,10 @@ texture_region_size = Vector2i(256, 256)
 0:0/1/modulate = Color(1, 1, 1, 0.439216)
 0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/1/physics_layer_0/angular_velocity = 0.0
-0:0/4 = 4
-0:0/4/modulate = Color(1, 0.0470588, 0, 0.439216)
-0:0/4/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/4/physics_layer_0/angular_velocity = 0.0
+0:0/2 = 2
+0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
+0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/2/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cvj6c"]
 texture = ExtResource("15_svoh3")

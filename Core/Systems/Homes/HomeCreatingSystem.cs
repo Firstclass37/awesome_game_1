@@ -51,7 +51,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
-            map.SetCell(home.RootCell, home.Cells, 5, new Vector2I(0, 0));
+            map.SetCell(home.RootCell, home.Cells, 5);
 
             GD.Print($"home created on: {obj}");
         }

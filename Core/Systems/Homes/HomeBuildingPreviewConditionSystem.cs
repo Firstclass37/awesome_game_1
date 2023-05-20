@@ -52,6 +52,7 @@ namespace My_awesome_character.Core.Systems.Homes
         public void Process(double gameTime)
         {
             var pressed = _hotKeys.Keys.FirstOrDefault(k => Input.IsActionPressed(k));
+            var anyReleased = _hotKeys.Keys.Any(k => Input.IsActionJustReleased(k));
             if (!string.IsNullOrWhiteSpace(pressed))
             {
                 var buildingType = _hotKeys[pressed];
@@ -62,7 +63,7 @@ namespace My_awesome_character.Core.Systems.Homes
                 else
                     _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Publish(new BuildingPreviewCanceledEvent());
             }
-            else if (Input.IsActionJustReleased("d_pressed")) 
+            else if (anyReleased) 
             {
                 _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Publish(new BuildingPreviewCanceledEvent());
             }

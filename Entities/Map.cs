@@ -59,20 +59,20 @@ public partial class Map : Node2D, INeighboursAccessor
 
     public MapCell[] GetCells() => _activeCells.Value.Keys.ToArray();
 
-    public void SetCell(MapCell cell, MapCell[] size, int sourceId, Vector2I? atlasCoords = null, int alternativeTile = 0)
+    public void SetCell(MapCell cell, MapCell[] size, int sourceId, int alternativeTile = 0)
     {
         var layer = _layersToTags.First(g => g.Value == cell.CellType).Key;
-        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, atlasCoords, alternativeTile);
+        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
         _activeCells.Value[cell] = layer;
 
         foreach(var c in size)
             _activeCells.Value[c] = _layersToTags.First(g => g.Value == c.CellType).Key;
     }
 
-    public void SetCellPreview(MapCell cell, int sourceId, Vector2I? atlasCoords = null, int alternativeTile = 0)
+    public void SetCellPreview(MapCell cell, int sourceId, int alternativeTile = 0)
     {
         var layer = _layersToTags.First(g => g.Value == cell.CellType).Key;
-        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, atlasCoords, alternativeTile);
+        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
 
     public void ClearPreview(MapCell cell)
