@@ -2,7 +2,6 @@
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Movement;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,71 +28,52 @@ public partial class Map : Node2D, INeighboursAccessor
 
     public TileMap TileMap => GetNode<TileMap>("TileMap");
 
+
+	private Lazy<Dictionary<MapCell, int>> _activeCells;
+
+
 	public Vector2 GetGlobalPositionOf(MapCell mapCell) 
 	{
 		var cell = TileMap.MapToLocal(new Vector2I { X = mapCell.X, Y = mapCell.Y });
 		return ToGlobal(cell);
 	}
 
+    public Map()
+    {
+        _activeCells = new Lazy<Dictionary<MapCell, int>>(GetInitialState);
+    }
+
     public override void _Ready()
 	{
-	}
+    }
 
 	public override void _Process(double delta)
     {
     }
 
-	private ConcurrentDictionary<MapCell, MapCell[]>  _neighbours = new ConcurrentDictionary<MapCell, MapCell[]>();
+    public MapCell[] GetCells() => _activeCells.Value.Keys.ToArray();
 
     public MapCell[] GetNeighboursOf(MapCell mapCell)
     {
-		if (_neighbours.ContainsKey(mapCell))
-			return _neighbours[mapCell];
-
-        var layers = _layersToTags.Select(l => new { LayerId = l.Key, Cells = TileMap.GetUsedCells(l.Key) }).OrderByDescending(l => l.LayerId).ToArray();
         var cells = new HashSet<MapCell>();
 		var neighbours = TileMap.GetSurroundingCells(new Vector2I(mapCell.X, mapCell.Y));
+        var layers = _activeCells.Value.Select(g => g.Value).OrderByDescending(g => g).ToArray();
 
         foreach (var layer in layers)
         {
             foreach (var cell in neighbours)
             {
-				var exists = TileMap.GetCellTileData(layer.LayerId, new Vector2I(cell.X, cell.Y)) != null;
+				var exists = TileMap.GetCellTileData(layer, new Vector2I(cell.X, cell.Y)) != null;
 				if (!exists)
 					continue;
 
-                var tempMapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerId]);
+                var tempMapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer]);
                 if (!cells.Contains(tempMapCell))
                     cells.Add(tempMapCell);
             }
         }
-		_neighbours.TryAdd(mapCell, cells.ToArray());
-        return _neighbours[mapCell];
+        return cells.ToArray();
     }
-
-	private MapCell[] _allCells;
-
-
-
-    public MapCell[] GetCells()
-	{
-		if (_allCells != null)
-			return _allCells;
-
-		var layers = _layersToTags.Select(l => new { LayerId = l.Key, Cells = TileMap.GetUsedCells(l.Key) }).OrderByDescending(l => l.LayerId).ToArray();
-		var cells = new HashSet<MapCell>();
-		foreach(var layer in layers)
-		{
-			foreach(var cell in layer.Cells)
-			{
-				var mapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerId]);
-				if (!cells.Contains(mapCell))
-					cells.Add(mapCell);
-			}
-		}
-		_allCells = cells.ToArray();
-		return _allCells;
-	}
 
 	public bool IsMouseExists(Vector2 mousePosition, out MapCell mapCell)
 	{
@@ -103,7 +83,6 @@ public partial class Map : Node2D, INeighboursAccessor
 
 		return mapCell != default;
     }
-
 
     public override void _Input(InputEvent @event)
     {
@@ -122,4 +101,20 @@ public partial class Map : Node2D, INeighboursAccessor
             }
 		}
 	}
+
+	private Dictionary<MapCell, int> GetInitialState()
+	{
+        var cells = new Dictionary<MapCell, int>();
+        var layers = _layersToTags.Select(l => new { LayerId = l.Key, Cells = TileMap.GetUsedCells(l.Key) }).OrderByDescending(l => l.LayerId).ToArray();
+        foreach (var layer in layers)
+        {
+            foreach (var cell in layer.Cells)
+            {
+                var mapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerId]);
+                if (!cells.ContainsKey(mapCell))
+                    cells.Add(mapCell, layer.LayerId);
+            }
+        }
+        return cells;
+    }
 }
