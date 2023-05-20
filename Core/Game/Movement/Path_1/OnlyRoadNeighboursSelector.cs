@@ -16,7 +16,7 @@ namespace My_awesome_character.Core.Game.Movement.Path_1
 
         public MapCell[] Search(MapCell element)
         {
-            return _neighboursAccessor.GetNeighboursOf(element).Where(c => c.Tags.Contains(MapCellTags.Road)).ToArray();
+            return _neighboursAccessor.GetNeighboursOf(element).Where(c => c.CellType == MapCellType.Road).ToArray();
         }
     }
 }

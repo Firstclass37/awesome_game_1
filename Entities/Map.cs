@@ -16,12 +16,12 @@ public class MapLayers
 
 public partial class Map : Node2D, INeighboursAccessor
 {
-    private readonly Dictionary<int, string> _layersToTags = new Dictionary<int, string>()
+    private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{
-		{ MapLayers.GroundLayer, MapCellTags.Ground },
-		{ MapLayers.RoadLayer, MapCellTags.Road },
-		{ MapLayers.Resources, MapCellTags.Ground },
-        { MapLayers.Buildings, MapCellTags.Blocking },
+		{ MapLayers.GroundLayer, MapCellType.Groud },
+		{ MapLayers.RoadLayer, MapCellType.Road },
+		{ MapLayers.Resources, MapCellType.Resource },
+        { MapLayers.Buildings, MapCellType.Building },
     };
 
 	public event Action<MapCell> OnCellClicked;

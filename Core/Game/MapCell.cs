@@ -1,17 +1,21 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using My_awesome_character.Core.Constatns;
+using System.Diagnostics.CodeAnalysis;
 
 public struct MapCell
 {
-	public MapCell(int x, int y, params string[] tags)
+	public MapCell(int x, int y, MapCellType cellType,  params string[] tags)
 	{
 		X = x;
 		Y = y;
 		Tags = tags;
+		CellType = cellType;
 	}
 
 	public int X { get; set; }
 
 	public int Y { get; set; }
+
+	public MapCellType CellType { get; set; }
 
 	public string[] Tags { get; set; }
 

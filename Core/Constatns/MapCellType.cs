@@ -11,4 +11,12 @@
 
         public const string Blocking = "blocking";
     }
+
+    public enum MapCellType
+    {
+        Groud,
+        Road,
+        Resource,
+        Building
+    }
 }

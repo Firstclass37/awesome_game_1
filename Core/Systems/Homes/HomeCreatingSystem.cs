@@ -47,7 +47,7 @@ namespace My_awesome_character.Core.Systems.Homes
             var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
             home.Id = newHomeId;
-            home.SpawnCell = new MapCell(obj.X, obj.Y + 3);
+            home.SpawnCell = new MapCell(obj.X, obj.Y + 3, MapCellType.Groud);
             home.LastFireTime = SystemNode.GameTime;
             home.SpawnEverySecond = 5;
             home.Cells = size;
@@ -62,10 +62,10 @@ namespace My_awesome_character.Core.Systems.Homes
 
         private MapCell[] GetSize(MapCell center)
         {
-            var first = new MapCell(center.X, center.Y + 1);
-            var second = new MapCell(center.X - 1, center.Y + 1);
-            var third = new MapCell(center.X, center.Y + 2);
-            var spawn = new MapCell(center.X, center.Y + 3);
+            var first = new MapCell(center.X, center.Y + 1, MapCellType.Building);
+            var second = new MapCell(center.X - 1, center.Y + 1, MapCellType.Building);
+            var third = new MapCell(center.X, center.Y + 2, MapCellType.Building);
+            var spawn = new MapCell(center.X, center.Y + 3, MapCellType.Building);
             return new MapCell[] { center, first, second, third, spawn };
         }
     }
