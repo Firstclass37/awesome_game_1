@@ -37,7 +37,8 @@ namespace My_awesome_character.Core.Systems.Homes
             if (existingPreview == null)
                 return;
 
-            map.TileMap.SetCell(MapLayers.Buildings, new Vector2I(existingPreview.RootCell.X, existingPreview.RootCell.Y), -1);
+            var cell = new MapCell(existingPreview.RootCell.X, existingPreview.RootCell.Y, MapCellType.Building);
+            map.ClearPreview(cell);
             game.RemoveChild(existingPreview);
         }
 
@@ -45,7 +46,7 @@ namespace My_awesome_character.Core.Systems.Homes
         {
             OnCenceled(new HomePreviewCanceledEvent());
 
-            var targetCell = homePreviewEvent.TargetCell;
+            var targetCell = new MapCell(homePreviewEvent.TargetCell.X, homePreviewEvent.TargetCell.Y, MapCellType.Building); 
             var alreadyBuiltHome = _sceneAccessor.FindAll<Home>().Where(h => h.Id != default).Any(h => h.RootCell == targetCell);
             if (alreadyBuiltHome)
                 return;
@@ -62,7 +63,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
-            map.TileMap.SetCell(MapLayers.Buildings, new Vector2I(targetCell.X, targetCell.Y), 5, new Vector2I(0, 0), selectStyle);
+            map.SetCellPreview(home.RootCell, 5, new Vector2I(0, 0), selectStyle);
         }
 
         private MapCell[] GetSize(MapCell center)
