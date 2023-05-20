@@ -52,10 +52,10 @@ namespace My_awesome_character.Core.Systems.Homes
             var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
             var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
+            var spawnCell = new MapCell(rootCell.X, rootCell.Y + 3, MapCellType.Groud);
 
             home.Id = newHomeId;
-            home.SpawnCell = new MapCell(rootCell.X, rootCell.Y + 3, MapCellType.Groud);
-            home.PeriodicAction = new CommonPeriodicAction(() => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(new CharacterCreationRequestEvent { InitPosition = home.SpawnCell }), 5, SystemNode.GameTime);
+            home.PeriodicAction = new CommonPeriodicAction(() => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(new CharacterCreationRequestEvent { InitPosition = spawnCell }), 5, SystemNode.GameTime);
             home.Cells = size;
             home.RootCell = rootCell;
             home.BuildingType = obj.BuildingType;
@@ -71,7 +71,7 @@ namespace My_awesome_character.Core.Systems.Homes
             var first = new MapCell(center.X, center.Y + 1, MapCellType.Building);
             var second = new MapCell(center.X - 1, center.Y + 1, MapCellType.Building);
             var third = new MapCell(center.X, center.Y + 2, MapCellType.Building);
-            var spawn = new MapCell(center.X, center.Y + 3, MapCellType.Building);
+            var spawn = new MapCell(center.X, center.Y + 3, MapCellType.Groud);
             return new MapCell[] { center, first, second, third, spawn };
         }
     }

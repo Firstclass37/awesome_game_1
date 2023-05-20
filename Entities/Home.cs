@@ -16,7 +16,5 @@ namespace My_awesome_character.Entities
         public MapCell RootCell { get; set; }
 
         public MapCell[] Cells { get; set; }
-
-        public MapCell SpawnCell { get; set; }
     }
 }
