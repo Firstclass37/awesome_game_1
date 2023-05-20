@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6pc1iywbpqk1"]
+[gd_scene load_steps=10 format=3 uid="uid://c6pc1iywbpqk1"]
 
 [ext_resource type="PackedScene" uid="uid://clv000a0x6mb2" path="res://node_2d.tscn" id="1_1hamw"]
 [ext_resource type="Script" path="res://Entities/character.cs" id="1_4yjlo"]
-[ext_resource type="Script" path="res://Entities/Character.cs" id="1_yphb6"]
 [ext_resource type="PackedScene" uid="uid://byqnjqgbg1kl4" path="res://node_2d-2.tscn" id="4_b8q7b"]
 [ext_resource type="PackedScene" uid="uid://biy318gne0dhr" path="res://Sources/Scenes/character_front.tscn" id="5_ag81l"]
 [ext_resource type="PackedScene" uid="uid://clgecmgb1yj0" path="res://Sources/Scenes/player_back.tscn" id="6_xm5tn"]
@@ -17,7 +16,6 @@ script = ExtResource("1_4yjlo")
 [node name="left" parent="." instance=ExtResource("1_1hamw")]
 visible = false
 position = Vector2(-499, -438)
-script = ExtResource("1_yphb6")
 
 [node name="right" parent="." instance=ExtResource("4_b8q7b")]
 visible = false
