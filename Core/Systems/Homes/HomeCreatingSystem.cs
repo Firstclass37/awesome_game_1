@@ -1,6 +1,8 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Events.Homes;
+using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.System;
 using My_awesome_character.Core.Ui;
@@ -13,11 +15,13 @@ namespace My_awesome_character.Core.Systems.Homes
     {
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IBuildRequirementProvider _buildRequirementProvider;
 
-        public HomeCreatingSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator)
+        public HomeCreatingSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator, IBuildRequirementProvider buildRequirementProvider)
         {
             _sceneAccessor = sceneAccessor;
             _eventAggregator = eventAggregator;
+            _buildRequirementProvider = buildRequirementProvider;
         }
 
         public void OnStart()
@@ -37,8 +41,13 @@ namespace My_awesome_character.Core.Systems.Homes
             if (otherHomes.Any(h => h.Cells.Intersect(size).Any()))
                 return;
 
-            var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            var whereWantToBuild = map.GetCells().Where(c => size.Contains(c)).ToArray();
+            var canBuildHere = _buildRequirementProvider.GetRequirementFor(obj.BuildingType).CanBuild(whereWantToBuild);
+            if (!canBuildHere)
+                return;
+
+            var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
             var newHomeId = otherHomes.Any() ? otherHomes.Max(h => h.Id) + 1 : 1;
             var home = SceneFactory.Create<Home>(SceneNames.HomeFactory(newHomeId), ScenePaths.HomeFactory);
             home.Id = newHomeId;
@@ -47,13 +56,12 @@ namespace My_awesome_character.Core.Systems.Homes
             home.SpawnEverySecond = 5;
             home.Cells = size;
             home.RootCell = rootCell;
-            home.BuildingType = BuildingTypes.HomeType1;
+            home.BuildingType = obj.BuildingType;
 
+            var tile = new BuildingTileSelector().Select(obj.BuildingType);
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
-            map.SetCell(home.RootCell, home.Cells, 5);
-
-            GD.Print($"home created on: {obj}");
+            map.SetCell(home.RootCell, home.Cells, tile);
         }
 
         private MapCell[] GetSize(MapCell center)
