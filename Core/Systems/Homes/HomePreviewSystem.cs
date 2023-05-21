@@ -6,6 +6,7 @@ using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Homes
@@ -57,7 +58,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
-            var size = GetSize(targetCell);
+            var size = GetSize(targetCell, map).ToArray();
             var whereWantToBuild = map.GetCells().Where(c => size.Contains(c)).ToArray();
             var otherHomes = _sceneAccessor.FindAll<Home>();
             var canBuildHere = _buildRequirementProvider.GetRequirementFor(homePreviewEvent.BuildingType).CanBuild(whereWantToBuild);
@@ -65,7 +66,7 @@ namespace My_awesome_character.Core.Systems.Homes
             var tile = new BuildingTileSelector().Select(homePreviewEvent.BuildingType);
 
             var home = SceneFactory.Create<Home>(SceneNames.Builidng_preview(typeof(Home)), ScenePaths.HomeFactory);
-            home.Cells = GetSize(targetCell);
+            home.Cells = size;
             home.RootCell = targetCell;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
@@ -73,13 +74,15 @@ namespace My_awesome_character.Core.Systems.Homes
             map.SetCellPreview(home.RootCell, tile, selectStyle);
         }
 
-        private MapCell[] GetSize(MapCell center)
+        private IEnumerable<MapCell> GetSize(MapCell center, Map map)
         {
-            var first = new MapCell(center.X, center.Y + 1, MapCellType.Building);
-            var second = new MapCell(center.X - 1, center.Y + 1, MapCellType.Building);
-            var third = new MapCell(center.X, center.Y + 2, MapCellType.Building);
-            var spawn = new MapCell(center.X, center.Y + 3, MapCellType.Groud);
-            return new MapCell[] { center, first, second, third, spawn };
+            var area = map.Get2x2Area(center);
+            foreach (var cell in area)
+            {
+                var c = cell;
+                c.CellType = MapCellType.Building;
+                yield return c;
+            }
         }
     }
 }

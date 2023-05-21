@@ -100,6 +100,19 @@ public partial class Map : Node2D, INeighboursAccessor
 		return mapCell != default;
     }
 
+    public MapCell[] Get2x2Area(MapCell root)
+    {
+        var vector = new Vector2I(root.X, root.Y);
+
+        var bottomRightSide = TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomRightSide);
+        var bottomLeftSide = TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomLeftSide);
+        var bottomCorner = TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomCorner);
+
+        return new[] { vector, bottomRightSide, bottomLeftSide, bottomCorner }
+            .Select(v => _activeCells.Value.Keys.First(c => c.X == v.X && c.Y == v.Y))
+            .ToArray();
+    }
+
     public override void _Input(InputEvent @event)
     {
         // InputEventMouseMotion - when mouse moved
@@ -110,10 +123,18 @@ public partial class Map : Node2D, INeighboursAccessor
 			var tilePos = TileMap.LocalToMap(localPos);
 			if (inputEventMouse.IsPressed())
 			{
-                GD.Print($"CLiked at: {tilePos}");
 				//todo: переделать на сигналы/ивенты
 				if (inputEventMouse.ButtonIndex == MouseButton.Left)
-					OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+                {
+                    OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+                }
+
+                var right = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.RightSide);
+                var rightCorner = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.RightCorner);
+                var bottomRightSide = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomRightSide);
+                var bottomLeftSide = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomLeftSide);
+                var bottomCorner = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomCorner);
+                GD.Print($"CLiked at: {tilePos}, rightCorner: {rightCorner}  bottomRightSide {bottomRightSide} bottomLeftSite: {bottomLeftSide} bottomCorner {bottomCorner}");
             }
 		}
 	}
