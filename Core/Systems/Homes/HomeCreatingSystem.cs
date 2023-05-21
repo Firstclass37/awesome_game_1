@@ -2,8 +2,10 @@
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings;
+using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Events.Homes;
+using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.System;
@@ -56,10 +58,10 @@ namespace My_awesome_character.Core.Systems.Homes
             var spawnCell = new MapCell(rootCell.X, rootCell.Y + 3, MapCellType.Groud);
 
             home.Id = newHomeId;
-            home.PeriodicAction = new CommonPeriodicAction(() => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(new CharacterCreationRequestEvent { InitPosition = spawnCell }), 5, SystemNode.GameTime);
             home.Cells = size;
             home.RootCell = rootCell;
             home.BuildingType = obj.BuildingType;
+            home.PeriodicAction = CreateAction(home.BuildingType, spawnCell);
 
             var tile = new BuildingTileSelector().Select(obj.BuildingType);
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
@@ -78,6 +80,24 @@ namespace My_awesome_character.Core.Systems.Homes
                 c.CellType = MapCellType.Building;
                 yield return c;
             }
+        }
+
+        private IPeriodicAction CreateAction(BuildingTypes buildingType, MapCell spawnCell)
+        {
+            if (buildingType == BuildingTypes.HomeType1)
+            {
+                var @event = new CharacterCreationRequestEvent { InitPosition = spawnCell };
+                var action = () => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(@event);
+                return new CommonPeriodicAction(action, 5, SystemNode.GameTime);
+            }
+            else if (buildingType == BuildingTypes.MineUranus)
+            {
+                var @event = new ResourceIncreaseEvent { Amount = 5, ResourceTypeId = ResourceType.Uranus };
+                var action = () => _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(@event);
+                return new CommonPeriodicAction(action, 2, SystemNode.GameTime);
+            }
+
+            return null;
         }
     }
 }
