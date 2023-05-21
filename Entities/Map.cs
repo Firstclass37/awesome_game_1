@@ -63,10 +63,14 @@ public partial class Map : Node2D, INeighboursAccessor
     {
         var layer = _layersToTags.First(g => g.Value == cell.CellType).Key;
         TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
-        _activeCells.Value[cell] = layer;
+        _activeCells.Value.Remove(cell);
+        _activeCells.Value.Add(cell, layer);
 
         foreach(var c in size)
-            _activeCells.Value[c] = _layersToTags.First(g => g.Value == c.CellType).Key;
+        {
+            _activeCells.Value.Remove(c);
+            _activeCells.Value.Add(c, _layersToTags.First(g => g.Value == c.CellType).Key);
+        }
     }
 
     public void SetCellPreview(MapCell cell, int sourceId, int alternativeTile = 0)
@@ -83,24 +87,8 @@ public partial class Map : Node2D, INeighboursAccessor
 
     public MapCell[] GetNeighboursOf(MapCell mapCell)
     {
-        var cells = new HashSet<MapCell>();
 		var neighbours = TileMap.GetSurroundingCells(new Vector2I(mapCell.X, mapCell.Y));
-        var layers = _activeCells.Value.Select(g => g.Value).OrderByDescending(g => g).ToArray();
-
-        foreach (var layer in layers)
-        {
-            foreach (var cell in neighbours)
-            {
-				var exists = TileMap.GetCellTileData(layer, new Vector2I(cell.X, cell.Y)) != null;
-				if (!exists)
-					continue;
-
-                var tempMapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer]);
-                if (!cells.Contains(tempMapCell))
-                    cells.Add(tempMapCell);
-            }
-        }
-        return cells.ToArray();
+        return _activeCells.Value.Keys.Where(c => neighbours.Contains(new Vector2I(c.X, c.Y))).ToArray();
     }
 
 	public bool IsMouseExists(Vector2 mousePosition, out MapCell mapCell)

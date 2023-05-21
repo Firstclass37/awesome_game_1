@@ -64,6 +64,8 @@ namespace My_awesome_character.Core.Systems.Homes
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
             map.SetCell(home.RootCell, home.Cells, tile);
+
+            Godot.GD.Print($"Home created at: {string.Join(";", home.Cells)}");
         }
 
         private MapCell[] GetSize(MapCell center)
