@@ -3,6 +3,7 @@ using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Game.Events;
+using My_awesome_character.Core.Game.Events.Character;
 
 namespace My_awesome_character.Core.Systems.Character
 {
@@ -35,7 +36,10 @@ namespace My_awesome_character.Core.Systems.Character
             var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(@event.CharacterId));
 
             character.IsMoving = true;
-            character.MoveTo(@event.Path, mc => game.ToLocal(map.GetGlobalPositionOf(mc)), () => OnMovementEnd(character));
+            character.MoveTo(@event.Path, 
+                mc => game.ToLocal(map.GetGlobalPositionOf(mc)),
+                mc => _eventAggregator.GetEvent<GameEvent<CharacterPositionChangedEvent>>().Publish(new CharacterPositionChangedEvent { CharacterId = character.Id, NewPosition = mc }),
+                () => OnMovementEnd(character));
         }
 
         private void OnMovementEnd(character character)

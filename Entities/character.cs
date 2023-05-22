@@ -39,7 +39,7 @@ public partial class character : Node2D
 		MoveAnimation();
 	}
 
-	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider, Action onEnd)
+	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider, Action<MapCell> onPositionChanged, Action onEnd)
 	{
 		if (_movingTween != null)
 			_movingTween.Kill();
@@ -55,6 +55,8 @@ public partial class character : Node2D
             _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
             _movingTween.TweenProperty(this, "position", targetPosition, 1F);
             _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
+			if (onPositionChanged != null)
+				_movingTween.TweenCallback(Callable.From( () => onPositionChanged(to)));
         }
         _movingTween.TweenCallback(Callable.From(onEnd));
 
