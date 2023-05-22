@@ -7,7 +7,7 @@ namespace My_awesome_character.Core.Ui
     {
         T FindFirst<T>(string name) where T : class;
 
-        IEnumerable<T> FindAll<T>(Predicate<Godot.Node> predicate) where T : class;
+        IEnumerable<T> FindAll<T>(Predicate<T> predicate) where T : class;
 
         IEnumerable<T> FindAll<T>() where T : class;
 

@@ -4,6 +4,7 @@ using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events;
+using My_awesome_character.Core.Game.Events.Character;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Helpers;
@@ -42,7 +43,7 @@ namespace My_awesome_character.Core.Systems.Homes
         {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var targetCell = obj.TargetCell;
-            var size = GetSize(targetCell, map).ToArray();
+            var size = CreateBuildingArea(targetCell, map, obj.BuildingType).ToArray();
             var otherHomes = _sceneAccessor.FindAll<Home>();
             if (otherHomes.Any(h => h.Cells.Intersect(size).Any()))
                 return;
@@ -62,6 +63,7 @@ namespace My_awesome_character.Core.Systems.Homes
             home.RootCell = rootCell;
             home.BuildingType = obj.BuildingType;
             home.PeriodicAction = CreateAction(home.BuildingType, spawnCell);
+            home.InteractionAction = CreateInteraction(home.BuildingType);
 
             var tile = new BuildingTileSelector().Select(obj.BuildingType);
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
@@ -71,15 +73,33 @@ namespace My_awesome_character.Core.Systems.Homes
             Godot.GD.Print($"Home created at: {string.Join(";", home.Cells)}");
         }
 
-        private IEnumerable<MapCell> GetSize(MapCell center, Map map)
+        private IEnumerable<MapCell> CreateBuildingArea(MapCell center, Map map, BuildingTypes buildingTypes)
         {
             var area = map.Get2x2Area(center);
             foreach(var cell in area)
             {
                 var c = cell;
                 c.CellType = MapCellType.Building;
+                if (buildingTypes == BuildingTypes.MineUranus)
+                {
+                    c.Tags = new string[] { MapCellTags.Trap };
+                }
+
                 yield return c;
             }
+        }
+
+        private IInteractionAction CreateInteraction(BuildingTypes buildingTypes)
+        {
+            if (buildingTypes == BuildingTypes.MineUranus)
+            {
+                return new CommonInteractionAction(c =>
+                {
+                    _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
+                    _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus });
+                });
+            }
+            return null;
         }
 
         private IPeriodicAction CreateAction(BuildingTypes buildingType, MapCell spawnCell)
@@ -92,9 +112,9 @@ namespace My_awesome_character.Core.Systems.Homes
             }
             else if (buildingType == BuildingTypes.MineUranus)
             {
-                var @event = new ResourceIncreaseEvent { Amount = 5, ResourceTypeId = ResourceType.Uranus };
-                var action = () => _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(@event);
-                return new CommonPeriodicAction(action, 2, SystemNode.GameTime);
+                //var @event = new ResourceIncreaseEvent { Amount = 5, ResourceTypeId = ResourceType.Uranus };
+                //var action = () => _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(@event);
+                //return new CommonPeriodicAction(action, 2, SystemNode.GameTime);
             }
 
             return null;

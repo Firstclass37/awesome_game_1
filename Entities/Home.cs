@@ -5,7 +5,7 @@ using My_awesome_character.Core.Systems._Core;
 
 namespace My_awesome_character.Entities
 {
-    public partial class Home: Node2D, IPeriodicActionOwner
+    public partial class Home: Node2D, IPeriodicActionOwner, IInteractable
     {
         public int Id { get; set; }
 
@@ -16,5 +16,7 @@ namespace My_awesome_character.Entities
         public MapCell RootCell { get; set; }
 
         public MapCell[] Cells { get; set; }
+
+        public IInteractionAction InteractionAction { get; set; }
     }
 }

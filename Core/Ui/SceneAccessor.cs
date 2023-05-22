@@ -25,9 +25,9 @@ namespace My_awesome_character.Core.Ui
                 .FirstOrDefault(c => c != null);
         }
 
-        public IEnumerable<T> FindAll<T>(Predicate<Node> predicate) where T : class
+        public IEnumerable<T> FindAll<T>(Predicate<T> predicate) where T : class
         {
-            return Find(Root, predicate).Cast<T>();
+            return Find(Root, n => n is T t && predicate(t)).Cast<T>();
         }
 
         public IEnumerable<T> FindAll<T>() where T : class

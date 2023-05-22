@@ -75,7 +75,7 @@ namespace My_awesome_character.Core.Systems
 
         private INieighborsSearchStrategy<MapCell> SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
         {
-            if (currentPosition.Tags.Contains(MapCellTags.Road) && targetPosition.Tags.Contains(MapCellTags.Road))
+            if (currentPosition.CellType == MapCellType.Road && targetPosition.CellType == MapCellType.Road)
                 return new OnlyRoadNeighboursSelector(map);
             else
                 return new AllNeighboursSelector(map);

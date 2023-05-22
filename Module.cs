@@ -35,6 +35,8 @@ namespace My_awesome_character
             builder.RegisterType<HomeBuildingPreviewConditionSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<InitResourcesInfoSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<IncreaseSourceSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<CharacterDamageSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<CharacterInteractionSytem>().As<ISystem>().SingleInstance();
         }
     }
 }
