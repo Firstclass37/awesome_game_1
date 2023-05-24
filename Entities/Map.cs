@@ -1,5 +1,6 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Movement;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public static class Tiles
 {
     public const int HomeType1 = 5;
     public const int MineUranus = 8;
+    public const int ResourceUranus = 6;
+
 }
 
 public class MapLayers
@@ -28,6 +31,11 @@ public partial class Map : Node2D, INeighboursAccessor
 		{ MapLayers.RoadLayer, MapCellType.Road },
 		{ MapLayers.Resources, MapCellType.Resource },
         { MapLayers.Buildings, MapCellType.Building },
+    };
+
+    private readonly Dictionary<int, string> _tileToTags = new Dictionary<int, string>
+    {
+        { Tiles.ResourceUranus,  MapCellTags.Resource_Uranus }
     };
 
 	public event Action<MapCell> OnCellClicked;
@@ -147,7 +155,9 @@ public partial class Map : Node2D, INeighboursAccessor
         {
             foreach (var cell in layer.Cells)
             {
-                var mapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerId]);
+                var tile = TileMap.GetCellSourceId(layer.LayerId, cell);
+                var tags = _tileToTags.ContainsKey(tile) ? new string[] { _tileToTags[tile] } : Array.Empty<string>();
+                var mapCell = new MapCell(cell.X, cell.Y, _layersToTags[layer.LayerId], tags);
                 if (!cells.ContainsKey(mapCell))
                     cells.Add(mapCell, layer.LayerId);
             }

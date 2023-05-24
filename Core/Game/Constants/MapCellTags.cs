@@ -3,5 +3,7 @@
     internal class MapCellTags
     {
         public const string Trap = "trap";
+
+        public const string Resource_Uranus = "resource_uranus";
     }
 }

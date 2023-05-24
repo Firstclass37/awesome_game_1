@@ -1,4 +1,5 @@
 ﻿using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game.Constants;
 using System.Linq;
 
 namespace My_awesome_character.Core.Game.Buildings
@@ -7,7 +8,7 @@ namespace My_awesome_character.Core.Game.Buildings
     {
         public bool CanBuild(MapCell[] area)
         {
-            return area.All(c => c.CellType == MapCellType.Resource);
+            return area.All(c => c.CellType == MapCellType.Resource && c.Tags.Contains(MapCellTags.Resource_Uranus));
         }
     }
 }
