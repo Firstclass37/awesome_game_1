@@ -9,7 +9,8 @@ namespace My_awesome_character.Core.Helpers
         private static readonly Dictionary<BuildingTypes, int> _tiles = new Dictionary<BuildingTypes, int>()
         {
             { BuildingTypes.HomeType1, Tiles.HomeType1 },
-            { BuildingTypes.MineUranus, Tiles.MineUranus }
+            { BuildingTypes.MineUranus, Tiles.MineUranus },
+            { BuildingTypes.PowerStation, Tiles.PowerStation },
         };
 
         public int Select(BuildingTypes from)

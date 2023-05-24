@@ -3,6 +3,7 @@
     public enum BuildingTypes
     {
         HomeType1,
-        MineUranus
+        MineUranus,
+        PowerStation
     }
 }

@@ -9,6 +9,7 @@ namespace My_awesome_character.Core.Game.Buildings
         private readonly Dictionary<BuildingTypes, IBuildRequirement> _requirements = new Dictionary<BuildingTypes, IBuildRequirement>
         {
             { BuildingTypes.HomeType1, new HomeBuildRequirement() },
+            { BuildingTypes.PowerStation, new HomeBuildRequirement() },
             { BuildingTypes.MineUranus, new UranusMineBuildRequirement() }
         };
 

@@ -80,7 +80,7 @@ namespace My_awesome_character.Core.Systems.Homes
             {
                 var c = cell;
                 c.CellType = MapCellType.Building;
-                if (buildingTypes == BuildingTypes.MineUranus)
+                if (buildingTypes == BuildingTypes.MineUranus || buildingTypes == BuildingTypes.PowerStation)
                 {
                     c.Tags = new string[] { MapCellTags.Trap };
                 }
