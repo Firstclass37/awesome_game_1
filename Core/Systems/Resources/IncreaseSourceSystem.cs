@@ -20,6 +20,7 @@ namespace My_awesome_character.Core.Systems.Resources
         public void OnStart()
         {
             _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Subscribe(OnIncrease);
+            _eventAggregator.GetEvent<GameEvent<ResourceDecreaseEvent>>().Subscribe(OnDecrease);
         }
 
         public void Process(double gameTime)
@@ -33,6 +34,18 @@ namespace My_awesome_character.Core.Systems.Resources
                 throw new ArgumentException($"resource {@event.ResourceTypeId} was not found");
 
             resource.Amount = resource.Amount += @event.Amount;
+        }
+
+        private void OnDecrease(ResourceDecreaseEvent @event)
+        {
+            var resource = _sceneAccessor.FindFirst<Resource>(SceneNames.ResourceInfo(@event.ResourceTypeId));
+            if (resource == null)
+                throw new ArgumentException($"resource {@event.ResourceTypeId} was not found");
+
+            if (resource.Amount < @event.Amount)
+                throw new ArgumentException($"cant decrease resource amount cause current value less than dicrement");
+
+            resource.Amount = resource.Amount -= @event.Amount;
         }
     }
 }

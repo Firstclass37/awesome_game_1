@@ -10,6 +10,7 @@ using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.System;
+using My_awesome_character.Core.Systems._TempBUssinessLogic;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 using System.Collections.Generic;
@@ -99,6 +100,10 @@ namespace My_awesome_character.Core.Systems.Homes
                     _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus });
                 });
             }
+            if (buildingTypes == BuildingTypes.PowerStation)
+            {
+                return new PowerStatitionInteraction(_eventAggregator, _sceneAccessor);
+            }
             return null;
         }
 
@@ -116,7 +121,6 @@ namespace My_awesome_character.Core.Systems.Homes
                 //var action = () => _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(@event);
                 //return new CommonPeriodicAction(action, 2, SystemNode.GameTime);
             }
-
             return null;
         }
     }
