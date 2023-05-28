@@ -23,6 +23,7 @@ public class MapLayers
     public const int RoadLayer = 1;
 	public const int Resources = 2;
     public const int Buildings = 3;
+    public const int Preview = 4;
 }
 
 public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
@@ -85,14 +86,12 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
 
     public void SetCellPreview(MapCell cell, int sourceId, int alternativeTile = 0)
     {
-        var layer = _layersToTags.First(g => g.Value == cell.CellType).Key;
-        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
+        TileMap.SetCell(MapLayers.Preview, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
 
     public void ClearPreview(MapCell cell)
     {
-        var layer = _layersToTags.First(g => g.Value == cell.CellType).Key;
-        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), -1);
+        TileMap.SetCell(MapLayers.Preview, new Vector2I(cell.X, cell.Y), -1);
     }
 
     public MapCell[] GetNeighboursOf(MapCell mapCell)

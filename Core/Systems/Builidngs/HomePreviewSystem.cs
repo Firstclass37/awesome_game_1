@@ -44,8 +44,7 @@ namespace My_awesome_character.Core.Systems.Homes
             if (existingPreview == null)
                 return;
 
-            var cell = new MapCell(existingPreview.RootCell.X, existingPreview.RootCell.Y, MapCellType.Building);
-            map.ClearPreview(cell);
+            map.ClearPreview(existingPreview.RootCell);
             game.RemoveChild(existingPreview);
         }
 
@@ -53,13 +52,8 @@ namespace My_awesome_character.Core.Systems.Homes
         {
             OnCenceled(new BuildingPreviewCanceledEvent());
 
-            var targetCell = new MapCell(homePreviewEvent.TargetCell.X, homePreviewEvent.TargetCell.Y, MapCellType.Building); 
-            var alreadyBuiltHome = _sceneAccessor.FindAll<Home>().Where(h => h.Id != default).Any(h => h.RootCell == targetCell);
-            if (alreadyBuiltHome)
-                return;
-
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(targetCell, map);
+            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(homePreviewEvent.TargetCell, map);
 
             var whereWantToBuild = map.GetCells().Where(c => building.Cells.Contains(c)).ToArray();
             var otherHomes = _sceneAccessor.FindAll<Home>();
@@ -69,7 +63,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
             var home = SceneFactory.Create<Home>(SceneNames.Builidng_preview(typeof(Home)), ScenePaths.HomeFactory);
             home.Cells = building.Cells;
-            home.RootCell = targetCell;
+            home.RootCell = building.RootCell;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
