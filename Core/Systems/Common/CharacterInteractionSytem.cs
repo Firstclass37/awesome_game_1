@@ -34,7 +34,7 @@ namespace My_awesome_character.Core.Systems.Common
                 .FindAll<Home>(h => h is IInteractable && h.Cells.Contains(obj.NewPosition))
                 .Cast<IInteractable>()
                 .FirstOrDefault();
-            if (interactionWith != null)
+            if (interactionWith != null && interactionWith.InteractionAction != null)
             {
                 var character = _sceneAccessor.GetScene<character>(SceneNames.Character(obj.CharacterId));
                 interactionWith.InteractionAction.Interacte(character);
