@@ -11,6 +11,7 @@ namespace My_awesome_character.Core.Helpers
             { BuildingTypes.HomeType1, Tiles.HomeType1 },
             { BuildingTypes.MineUranus, Tiles.MineUranus },
             { BuildingTypes.PowerStation, Tiles.PowerStation },
+            { BuildingTypes.Road, Tiles.Road },
         };
 
         public int Select(BuildingTypes from)

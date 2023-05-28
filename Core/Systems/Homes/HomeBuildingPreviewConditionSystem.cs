@@ -19,6 +19,7 @@ namespace My_awesome_character.Core.Systems.Homes
             { "h_pressed" , BuildingTypes.HomeType1 },
             { "m_pressed", BuildingTypes.MineUranus },
             { "p_pressed", BuildingTypes.PowerStation },
+            { "r_pressed", BuildingTypes.Road }
         };
 
         public HomeBuildingPreviewConditionSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)

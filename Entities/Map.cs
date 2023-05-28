@@ -9,11 +9,11 @@ using System.Linq;
 
 public static class Tiles
 {
+    public const int Road = 1;
     public const int HomeType1 = 5;
     public const int MineUranus = 8;
     public const int PowerStation = 10;
     public const int ResourceUranus = 6;
-
 }
 
 public class MapLayers

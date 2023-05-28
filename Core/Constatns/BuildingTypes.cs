@@ -4,6 +4,7 @@
     {
         HomeType1,
         MineUranus,
-        PowerStation
+        PowerStation,
+        Road
     }
 }
