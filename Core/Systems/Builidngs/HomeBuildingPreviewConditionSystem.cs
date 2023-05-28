@@ -30,7 +30,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
         public void OnStart()
         {
-            _sceneAccessor.FindFirst<Map>(SceneNames.Map).OnCellClicked += HomeBuildingPreviewConditionSystem_OnCellClicked; ;
+            _sceneAccessor.FindFirst<Map>(SceneNames.Map).OnCellClicked += HomeBuildingPreviewConditionSystem_OnCellClicked;
         }
 
         private void HomeBuildingPreviewConditionSystem_OnCellClicked(MapCell obj)

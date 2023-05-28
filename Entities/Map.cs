@@ -43,6 +43,8 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
 
 	public event Action<MapCell> OnCellClicked;
 
+    public event Action<MapCell> OnCellHovered;
+
     public TileMap TileMap => GetNode<TileMap>("TileMap");
 
 
@@ -122,31 +124,21 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
             .ToArray();
     }
 
+    //todo: переделать на сигналы/ивенты
     public override void _Input(InputEvent @event)
     {
         // InputEventMouseMotion - when mouse moved
-        if (@event is InputEventMouseButton inputEventMouse)
-		{
-			var pos = inputEventMouse.GlobalPosition;
-			var localPos = TileMap.ToLocal(pos);
-			var tilePos = TileMap.LocalToMap(localPos);
-			if (inputEventMouse.IsPressed())
-			{
-				//todo: переделать на сигналы/ивенты
-				if (inputEventMouse.ButtonIndex == MouseButton.Left)
-                {
-                    OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
-                }
 
-                var right = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.RightSide);
-                var rightCorner = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.RightCorner);
-                var bottomRightSide = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomRightSide);
-                var bottomLeftSide = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomLeftSide);
-                var bottomCorner = TileMap.GetNeighborCell(new Vector2I(tilePos.X, tilePos.Y), TileSet.CellNeighbor.BottomCorner);
-                GD.Print($"CLiked at: {tilePos}, rightCorner: {rightCorner}  bottomRightSide {bottomRightSide} bottomLeftSite: {bottomLeftSide} bottomCorner {bottomCorner}");
-            }
-		}
-	}
+        var mouseEvent = @event as InputEventMouse;
+        if (mouseEvent == null)
+            return;
+
+        var pos = mouseEvent.GlobalPosition;
+        var localPos = TileMap.ToLocal(pos);
+        var tilePos = TileMap.LocalToMap(localPos);
+        if (Input.IsActionPressed("left-click"))
+            OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+    }
 
 	private Dictionary<MapCell, int> GetInitialState()
 	{
