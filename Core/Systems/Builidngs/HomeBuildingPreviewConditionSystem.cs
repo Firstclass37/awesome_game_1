@@ -16,7 +16,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
         private readonly Dictionary<string, BuildingTypes> _hotKeys = new Dictionary<string, BuildingTypes>()
         {
-            { "h_pressed" , BuildingTypes.HomeType1 },
+            { "h_pressed", BuildingTypes.HomeType1 },
             { "m_pressed", BuildingTypes.MineUranus },
             { "p_pressed", BuildingTypes.PowerStation },
             { "r_pressed", BuildingTypes.Road }

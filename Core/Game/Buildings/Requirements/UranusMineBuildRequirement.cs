@@ -2,7 +2,7 @@
 using My_awesome_character.Core.Game.Constants;
 using System.Linq;
 
-namespace My_awesome_character.Core.Game.Buildings
+namespace My_awesome_character.Core.Game.Buildings.Requirements
 {
     public class UranusMineBuildRequirement : IBuildRequirement
     {

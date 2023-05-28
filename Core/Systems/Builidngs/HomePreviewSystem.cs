@@ -1,12 +1,12 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Buildings;
+using My_awesome_character.Core.Game.Buildings.Build;
+using My_awesome_character.Core.Game.Buildings.Requirements;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Homes
@@ -16,12 +16,14 @@ namespace My_awesome_character.Core.Systems.Homes
         private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IBuildRequirementProvider _buildRequirementProvider;
+        private readonly IBuildingFactoryProvider _buildingFactoryProvider;
 
-        public HomePreviewSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor, IBuildRequirementProvider buildRequirementProvider)
+        public HomePreviewSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor, IBuildRequirementProvider buildRequirementProvider, IBuildingFactoryProvider buildingFactoryProvider)
         {
             _eventAggregator = eventAggregator;
             _sceneAccessor = sceneAccessor;
             _buildRequirementProvider = buildRequirementProvider;
+            _buildingFactoryProvider = buildingFactoryProvider;
         }
 
         public void OnStart()
@@ -57,32 +59,21 @@ namespace My_awesome_character.Core.Systems.Homes
                 return;
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(targetCell, map);
 
-            var size = GetSize(targetCell, map).ToArray();
-            var whereWantToBuild = map.GetCells().Where(c => size.Contains(c)).ToArray();
+            var whereWantToBuild = map.GetCells().Where(c => building.Cells.Contains(c)).ToArray();
             var otherHomes = _sceneAccessor.FindAll<Home>();
             var canBuildHere = _buildRequirementProvider.GetRequirementFor(homePreviewEvent.BuildingType).CanBuild(whereWantToBuild);
-            var selectStyle = otherHomes.Any(h => h.Cells.Intersect(size).Any()) || !canBuildHere ? 2 : 1;
+            var selectStyle = otherHomes.Any(h => h.Cells.Intersect(building.Cells).Any()) || !canBuildHere ? 2 : 1;
             var tile = new BuildingTileSelector().Select(homePreviewEvent.BuildingType);
 
             var home = SceneFactory.Create<Home>(SceneNames.Builidng_preview(typeof(Home)), ScenePaths.HomeFactory);
-            home.Cells = size;
+            home.Cells = building.Cells;
             home.RootCell = targetCell;
 
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(home);
             map.SetCellPreview(home.RootCell, tile, selectStyle);
-        }
-
-        private IEnumerable<MapCell> GetSize(MapCell center, Map map)
-        {
-            var area = map.Get2x2Area(center);
-            foreach (var cell in area)
-            {
-                var c = cell;
-                c.CellType = MapCellType.Building;
-                yield return c;
-            }
         }
     }
 }

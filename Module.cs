@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using My_awesome_character.Core.Game;
-using My_awesome_character.Core.Game.Buildings;
+using My_awesome_character.Core.Game.Buildings.Build;
+using My_awesome_character.Core.Game.Buildings.Build.Factories;
+using My_awesome_character.Core.Game.Buildings.Requirements;
 using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Infrastructure.Events;
@@ -24,6 +26,12 @@ namespace My_awesome_character
             builder.RegisterType<PathSearcher>().As<IPathSearcher>().SingleInstance();
 
             builder.RegisterType<BuildRequirementProvider>().As<IBuildRequirementProvider>().SingleInstance();
+
+            builder.RegisterType<BuildingFactoryProvider>().As<IBuildingFactoryProvider>().SingleInstance();
+            builder.RegisterType<HomeFactory>().AsSelf();
+            builder.RegisterType<RoadFactory>().AsSelf();
+            builder.RegisterType<PowerStationFactory>().AsSelf();
+            builder.RegisterType<UranusMineFactory>().AsSelf();
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<RandomPathGeneratorSystem>().As<ISystem>().SingleInstance();

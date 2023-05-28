@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace My_awesome_character.Core.Game.Buildings
+namespace My_awesome_character.Core.Game.Buildings.Requirements
 {
     internal class BuildRequirementProvider : IBuildRequirementProvider
     {
@@ -15,7 +15,7 @@ namespace My_awesome_character.Core.Game.Buildings
 
         public IBuildRequirement GetRequirementFor(BuildingTypes buildingType)
         {
-            return _requirements.ContainsKey(buildingType) ? _requirements[buildingType] : throw new ArgumentOutOfRangeException($"no build requirements for type {buildingType}");
+            return _requirements.ContainsKey(buildingType) ? _requirements[buildingType] : new OnlyGroundRequirement();
         }
     }
 }

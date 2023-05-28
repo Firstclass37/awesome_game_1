@@ -1,12 +1,11 @@
 ﻿using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events.Character;
 using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 
-namespace My_awesome_character.Core.Systems._TempBUssinessLogic
+namespace My_awesome_character.Core.Game.Buildings.Build.Interactions
 {
     internal class PowerStatitionInteraction : IInteractionAction
     {

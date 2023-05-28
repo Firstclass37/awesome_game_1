@@ -1,5 +1,6 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Movement;
 using System;
@@ -24,7 +25,7 @@ public class MapLayers
     public const int Buildings = 3;
 }
 
-public partial class Map : Node2D, INeighboursAccessor
+public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{
@@ -75,7 +76,7 @@ public partial class Map : Node2D, INeighboursAccessor
         _activeCells.Value.Remove(cell);
         _activeCells.Value.Add(cell, layer);
 
-        foreach(var c in size)
+        foreach(var c in size.Where(s => s != cell))
         {
             _activeCells.Value.Remove(c);
             _activeCells.Value.Add(c, _layersToTags.First(g => g.Value == c.CellType).Key);

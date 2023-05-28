@@ -1,7 +1,7 @@
 ﻿using My_awesome_character.Core.Constatns;
 using System.Linq;
 
-namespace My_awesome_character.Core.Game.Buildings
+namespace My_awesome_character.Core.Game.Buildings.Requirements
 {
     public class HomeBuildRequirement : IBuildRequirement
     {
