@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-System="*res://Sources/Scenes/system.tscn"
+System="res://Sources/Scenes/system.tscn"
 
 [dotnet]
 

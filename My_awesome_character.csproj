@@ -8,6 +8,7 @@
     <Content Include="Sources\boy_left.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Entities\Components\" />
     <Folder Include="Sources\Scenes\" />
   </ItemGroup>
   <ItemGroup>
