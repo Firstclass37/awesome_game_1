@@ -1,6 +1,7 @@
 ﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events.Character;
+using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Game.Models;
 using My_awesome_character.Core.Infrastructure.Events;
@@ -28,7 +29,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             building.Cells = CreateBuildingArea(targetCell, areaCalculator).ToArray();
             building.RootCell = rootCell;
             building.BuildingType = BuildingTypes.MineUranus;
-            building.InteractionAction = CreateInteraction();
+            building.InteractionAction = CreateInteraction(building.Id);
 
             return building;
         }
@@ -45,10 +46,11 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             }
         }
 
-        private IInteractionAction CreateInteraction()
+        private IInteractionAction CreateInteraction(int buildingId)
         {
             return new CommonInteractionAction(c =>
             {
+                _eventAggregator.GetEvent<GameEvent<BuildingLoadingEvent>>().Publish(new BuildingLoadingEvent { BuidlingId = buildingId, DurationSec = 5 });
                 _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
                 _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus });
             });

@@ -9,6 +9,7 @@ font_color = Color(0.47451, 0.121569, 0.0823529, 1)
 outline_color = Color(1, 0.247059, 0.517647, 1)
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(-36, -4)
 script = ExtResource("1_snuvl")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

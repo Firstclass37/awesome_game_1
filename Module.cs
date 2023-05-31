@@ -7,6 +7,7 @@ using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
+using My_awesome_character.Core.Systems.Builidngs;
 using My_awesome_character.Core.Systems.Character;
 using My_awesome_character.Core.Systems.Common;
 using My_awesome_character.Core.Systems.Homes;
@@ -41,6 +42,7 @@ namespace My_awesome_character
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomePreviewSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeBuildingPreviewConditionSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<BuildingLoadingCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<InitResourcesInfoSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<IncreaseSourceSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterDamageSystem>().As<ISystem>().SingleInstance();
