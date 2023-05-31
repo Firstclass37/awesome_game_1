@@ -10,7 +10,7 @@ using System.Linq;
 
 public static class Tiles
 {
-    public const int Road = 1;
+    public const int RoadAshpalt = 9;
     public const int HomeType1 = 5;
     public const int MineUranus = 8;
     public const int PowerStation = 10;
