@@ -15,7 +15,9 @@ public partial class LoadingBar : Node2D
 
     public double Duration { get; set; }
 
-    public void Start(Action onEnd)
+	public Action<LoadingBar> WhenEnd { get; set; }
+
+    public void Start()
 	{
 		CounterLabel.Text = Duration.ToString("##");
 
@@ -24,7 +26,7 @@ public partial class LoadingBar : Node2D
 		tween.TweenProperty(ProgressRect, "size", new Vector2(BackgroundProgressRect.Size.X, ProgressRect.Size.Y), Duration);
 		tween.TweenMethod(Callable.From<double>(v => { TileLeft = v; }), Duration, 1, Duration);
 		tween.Chain()
-			.TweenCallback(Callable.From(() => { onEnd?.Invoke(); }));
+			.TweenCallback(Callable.From(() => { WhenEnd?.Invoke(this); }));
 
 		tween.Play();
 	}

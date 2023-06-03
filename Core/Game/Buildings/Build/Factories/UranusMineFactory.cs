@@ -1,10 +1,12 @@
 ﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Constants;
+using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Events.Character;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Game.Models;
 using My_awesome_character.Core.Infrastructure.Events;
+using My_awesome_character.Core.Infrastructure.Events.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,9 +52,13 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
         {
             return new CommonInteractionAction(c =>
             {
-                _eventAggregator.GetEvent<GameEvent<BuildingLoadingEvent>>().Publish(new BuildingLoadingEvent { BuidlingId = buildingId, DurationSec = 5 });
-                _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
-                _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus });
+                _eventAggregator.PublishGameEvent(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
+                _eventAggregator.PublishGameEvent(new BuildingDelayedActionEvent
+                {
+                    BuidlingId = buildingId,
+                    DelaySec = 5,
+                    Event = new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus }
+                });
             });
         }
     }
