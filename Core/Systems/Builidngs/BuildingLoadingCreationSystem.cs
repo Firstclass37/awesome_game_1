@@ -5,6 +5,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Infrastructure.Events.Extentions;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
         private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
 
-        private readonly static Queue<BuildingDelayedActionEvent> _eventsQueue = new Queue<BuildingDelayedActionEvent>();
+        private readonly static Dictionary<int, Queue<BuildingDelayedActionEvent>> _eventsQueue = new Dictionary<int, Queue<BuildingDelayedActionEvent>>();
 
         public BuildingLoadingCreationSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)
         {
@@ -35,12 +36,15 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void OnLoad(BuildingDelayedActionEvent @event)
         {
+            if (!_eventsQueue.ContainsKey(@event.BuidlingId))
+                _eventsQueue.Add(@event.BuidlingId, new Queue<BuildingDelayedActionEvent>());
+
             var building = _sceneAccessor.FindAll<Home>(h => h.Id == @event.BuidlingId).First();
             var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
             var exisingLoading = _sceneAccessor.FindFirst<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId));
             if (exisingLoading != null)
             {
-                _eventsQueue.Enqueue(@event);
+                _eventsQueue[@event.BuidlingId].Enqueue(@event);
                 return;
             }
 
@@ -66,7 +70,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
             
             if (_eventsQueue.Any())
             {
-                var newEvent = _eventsQueue.Dequeue();
+                var newEvent = _eventsQueue[buildingId].Dequeue();
                 OnLoad(newEvent);
             }
         }
