@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7geng7yrfasf"]
+
+[ext_resource type="Script" path="res://Entities/TrafficLight.cs" id="1_0pqwv"]
+[ext_resource type="Texture2D" uid="uid://d0w6sbnc2l2c5" path="res://Assets/Map/Ground/1.png" id="1_2md1n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7naue"]
+line_spacing = 10.0
+font_size = 40
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_0pqwv")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 512.0
+offset_bottom = 256.0
+texture = ExtResource("1_2md1n")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Left_polygon" type="Polygon2D" parent="TextureRect"]
+position = Vector2(0, 1)
+texture = ExtResource("1_2md1n")
+polygon = PackedVector2Array(0.710901, 124.171, 254.739, 123.934, 254.502, 0.236967, 189.337, 5.6872, 118.483, 21.564, 61.8484, 46.2085, 34.5972, 65.8768, 11.3744, 91.9431, 1.4218, 121.564)
+uv = PackedVector2Array(0.710901, 124.171, 254.739, 123.934, 254.502, 0.236967, 189.337, 5.6872, 118.483, 21.564, 61.8484, 46.2085, 34.5972, 65.8768, 11.3744, 91.9431, 1.4218, 121.564)
+
+[node name="Left" type="Label" parent="TextureRect/Left_polygon"]
+offset_left = 133.0
+offset_top = 40.0
+offset_right = 195.0
+offset_bottom = 105.0
+text = "1/1"
+label_settings = SubResource("LabelSettings_7naue")
+
+[node name="Top_polygon" type="Polygon2D" parent="TextureRect"]
+texture = ExtResource("1_2md1n")
+polygon = PackedVector2Array(260.901, 122.275, 259.716, 0.473934, 276.303, 1.18484, 298.341, 2.84361, 323.697, 6.16114, 351.896, 11.1374, 376.777, 17.2986, 405.924, 26.0664, 436.019, 39.0995, 458.057, 51.1848, 477.251, 65.6398, 491.706, 81.2796, 503.081, 98.3413, 511.138, 123.934)
+uv = PackedVector2Array(260.901, 122.275, 259.716, 0.473934, 276.303, 1.18484, 298.341, 2.84361, 323.697, 6.16114, 351.896, 11.1374, 376.777, 17.2986, 405.924, 26.0664, 436.019, 39.0995, 458.057, 51.1848, 477.251, 65.6398, 491.706, 81.2796, 503.081, 98.3413, 511.138, 123.934)
+
+[node name="Top" type="Label" parent="TextureRect/Top_polygon"]
+offset_left = 308.0
+offset_top = 39.0
+offset_right = 370.0
+offset_bottom = 104.0
+text = "1/1"
+label_settings = SubResource("LabelSettings_7naue")
+
+[node name="Bottom_polygon" type="Polygon2D" parent="TextureRect"]
+texture = ExtResource("1_2md1n")
+polygon = PackedVector2Array(0.473934, 129.621, 255.213, 129.147, 255.687, 255.45, 211.374, 253.792, 163.507, 247.156, 118.72, 235.782, 82.9384, 221.327, 51.1848, 203.318, 21.327, 177.488, 7.58294, 156.635)
+uv = PackedVector2Array(0.473934, 129.621, 255.213, 129.147, 255.687, 255.45, 211.374, 253.792, 163.507, 247.156, 118.72, 235.782, 82.9384, 221.327, 51.1848, 203.318, 21.327, 177.488, 7.58294, 156.635)
+
+[node name="Bottom" type="Label" parent="TextureRect/Bottom_polygon"]
+offset_left = 135.0
+offset_top = 149.0
+offset_right = 197.0
+offset_bottom = 214.0
+text = "1/1"
+label_settings = SubResource("LabelSettings_7naue")
+
+[node name="Right_polygon" type="Polygon2D" parent="TextureRect"]
+texture = ExtResource("1_2md1n")
+polygon = PackedVector2Array(260.25, 128.699, 511.586, 128.877, 509.091, 145.633, 499.644, 167.201, 481.105, 188.77, 449.554, 211.052, 411.23, 229.59, 368.627, 242.424, 327.451, 250.98, 290.018, 254.724, 259.893, 255.615)
+uv = PackedVector2Array(260.25, 128.699, 511.586, 128.877, 509.091, 145.633, 499.644, 167.201, 481.105, 188.77, 449.554, 211.052, 411.23, 229.59, 368.627, 242.424, 327.451, 250.98, 290.018, 254.724, 259.893, 255.615)
+
+[node name="Right" type="Label" parent="TextureRect/Right_polygon"]
+offset_left = 302.0
+offset_top = 148.0
+offset_right = 364.0
+offset_bottom = 213.0
+text = "1/1
+"
+label_settings = SubResource("LabelSettings_7naue")
