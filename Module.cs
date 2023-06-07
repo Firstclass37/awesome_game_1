@@ -28,6 +28,8 @@ namespace My_awesome_character
 
             builder.RegisterType<BuildRequirementProvider>().As<IBuildRequirementProvider>().SingleInstance();
 
+            builder.RegisterType<GameInitSystem>().As<ISystem>();
+
             builder.RegisterType<BuildingFactoryProvider>().As<IBuildingFactoryProvider>().SingleInstance();
             builder.RegisterType<HomeFactory>().AsSelf();
             builder.RegisterType<RoadFactory>().AsSelf();
@@ -36,7 +38,7 @@ namespace My_awesome_character
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<RandomPathGeneratorSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<InitCharacterSystem>().As<ISystem>().SingleInstance();
+            //builder.RegisterType<InitCharacterSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeCreatingSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<PeriodicActionsSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
