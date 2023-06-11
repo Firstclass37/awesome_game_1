@@ -12,6 +12,7 @@ using My_awesome_character.Core.Systems.Character;
 using My_awesome_character.Core.Systems.Common;
 using My_awesome_character.Core.Systems.Homes;
 using My_awesome_character.Core.Systems.Resources;
+using My_awesome_character.Core.Systems.TrafficLights;
 using My_awesome_character.Core.Ui;
 
 namespace My_awesome_character
@@ -49,6 +50,8 @@ namespace My_awesome_character
             builder.RegisterType<IncreaseSourceSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterDamageSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterInteractionSytem>().As<ISystem>().SingleInstance();
+
+            builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
         }
     }
 }

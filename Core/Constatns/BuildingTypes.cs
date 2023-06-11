@@ -5,6 +5,7 @@
         HomeType1,
         MineUranus,
         PowerStation,
-        Road
+        Road,
+        TrafficLight
     }
 }

@@ -7,6 +7,7 @@ using My_awesome_character.Core.Game.Movement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 
 public static class Tiles
@@ -52,7 +53,7 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
 	private Lazy<Dictionary<MapCell, int>> _activeCells;
 
 
-	public Vector2 GetGlobalPositionOf(MapCell mapCell) 
+	public Godot.Vector2 GetGlobalPositionOf(MapCell mapCell) 
 	{
 		var cell = TileMap.MapToLocal(new Vector2I { X = mapCell.X, Y = mapCell.Y });
 		return ToGlobal(cell);
@@ -103,7 +104,22 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         return _activeCells.Value.Keys.Where(c => neighbours.Contains(new Vector2I(c.X, c.Y))).ToArray();
     }
 
-	public bool IsMouseExists(Vector2 mousePosition, out MapCell mapCell)
+    public Dictionary<MapCell, Direction> GetDirectedNeighboursOf(MapCell mapCell)
+    {
+        var vector = new Vector2I(mapCell.X, mapCell.Y);
+
+        return new Dictionary<Vector2I, Direction>
+        {
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomRightSide), Direction.Right },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomLeftSide), Direction.Bottom },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopRightSide), Direction.Top },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopLeftSide), Direction.Left }
+        }
+        .ToDictionary(v => _activeCells.Value.Keys.First(c => c.X == v.Key.X && c.Y == v.Key.Y), v => v.Value);
+    }
+
+
+    public bool IsMouseExists(Godot.Vector2 mousePosition, out MapCell mapCell)
 	{
         var localPos = TileMap.ToLocal(mousePosition);
         var tilePos = TileMap.LocalToMap(localPos);

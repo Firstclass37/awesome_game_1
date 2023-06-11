@@ -1,11 +1,12 @@
 using Godot;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
 using System.Collections.Generic;
 using System.Linq;
 
 public partial class TrafficLight : Node2D
 {
-	private readonly Dictionary<Direction, Polygon2D> _directions;
+	private readonly Dictionary<Direction, Polygon2D> _directions = new();
 
 	public override void _Ready()
 	{
@@ -22,7 +23,11 @@ public partial class TrafficLight : Node2D
 	{
 	}
 
+	public Coordiante MapPosition { get; set; }
+
 	public Direction CurrentDirection { get; private set; }
+
+	public Direction[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
 
 	public void NextDirection()
 	{
