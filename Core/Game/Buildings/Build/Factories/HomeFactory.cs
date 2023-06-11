@@ -15,13 +15,12 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
     internal class HomeFactory : IBuildingFactory
     {
         private readonly IEventAggregator _eventAggregator;
-
         public HomeFactory(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
         }
 
-        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator)
+        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator, IMap map)
         {
             var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
             var spawnCell = new MapCell(rootCell.X, rootCell.Y + 3, MapCellType.Groud);
@@ -31,7 +30,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             building.Cells = CreateBuildingArea(targetCell, areaCalculator).ToArray();
             building.RootCell = rootCell;
             building.BuildingType = BuildingTypes.HomeType1;
-            building.PeriodicAction = CreateAction(spawnCell);
+            building.PeriodicAction = CreateAction(spawnCell, map);
             building.InteractionAction = CreateInteraction();
 
             return building;
@@ -57,10 +56,15 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             });
         }
 
-        private IPeriodicAction CreateAction(MapCell spawnCell)
+        private IPeriodicAction CreateAction(MapCell spawnCell, IMap map)
         {
             var @event = new CharacterCreationRequestEvent { InitPosition = spawnCell };
-            var action = () => _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(@event);
+            var action = () =>
+            {
+                var actualCell = map.GetActualCell(new Coordiante(spawnCell.X, spawnCell.Y));
+                if (actualCell.CellType == MapCellType.Road || actualCell.Tags.Contains(MapCellTags.Trap))
+                    _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(@event);
+            };
             return new CommonPeriodicAction(action, 5, SystemNode.GameTime);
             
         }

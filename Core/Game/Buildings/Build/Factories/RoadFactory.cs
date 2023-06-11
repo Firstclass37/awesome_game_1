@@ -7,7 +7,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
 {
     internal class RoadFactory : IBuildingFactory
     {
-        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator)
+        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator, IMap map)
         {
             var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Road, MapCellTags.Trap);
 

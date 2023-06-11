@@ -53,7 +53,7 @@ namespace My_awesome_character.Core.Systems.Homes
             OnCenceled(new BuildingPreviewCanceledEvent());
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(homePreviewEvent.TargetCell, map);
+            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(homePreviewEvent.TargetCell, map, map);
 
             var whereWantToBuild = map.GetCells().Where(c => building.Cells.Contains(c)).ToArray();
             var otherHomes = _sceneAccessor.FindAll<Home>();

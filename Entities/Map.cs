@@ -1,5 +1,6 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Movement;
@@ -26,7 +27,7 @@ public class MapLayers
     public const int Preview = 4;
 }
 
-public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
+public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{
@@ -156,5 +157,10 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator
             }
         }
         return cells;
+    }
+
+    public MapCell GetActualCell(Coordiante coordiante)
+    {
+        return _activeCells.Value.First(k => k.Key.X == coordiante.X && k.Key.Y == coordiante.Y).Key;
     }
 }

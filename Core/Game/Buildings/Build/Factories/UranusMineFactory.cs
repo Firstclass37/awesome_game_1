@@ -22,7 +22,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             _eventAggregator = eventAggregator;
         }
 
-        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator)
+        public Building Create(MapCell targetCell, IAreaCalculator areaCalculator, IMap map)
         {
             var rootCell = new MapCell(targetCell.X, targetCell.Y, MapCellType.Building);
 

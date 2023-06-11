@@ -40,7 +40,7 @@ namespace My_awesome_character.Core.Systems.Homes
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var targetCell = obj.TargetCell;
 
-            var building = _buildingFactoryProvider.GetFor(obj.BuildingType).Create(targetCell, map);
+            var building = _buildingFactoryProvider.GetFor(obj.BuildingType).Create(targetCell, map, map);
             var otherHomes = _sceneAccessor.FindAll<Home>();
             if (otherHomes.Any(h => h.Cells.Intersect(building.Cells).Any()))
                 return;
