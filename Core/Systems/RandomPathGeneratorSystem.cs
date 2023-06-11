@@ -1,5 +1,6 @@
 ﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
+using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Movement.Path;
 using My_awesome_character.Core.Game.Movement.Path_1;
@@ -63,7 +64,10 @@ namespace My_awesome_character.Core.Systems
 
         private void GenerateRandomPath(character character, Map map)
         {
-            var randomPoint = map.GetCells().Where(p => p != character.MapPosition).OrderBy(g => Guid.NewGuid()).First();
+            var randomPoint = map.GetCells()
+                .Where(p => p != character.MapPosition && IsRoad(p))
+                .OrderBy(g => Guid.NewGuid())
+                .First();
             var pathToRandomPoint = _pathSearcher.Search(character.MapPosition, randomPoint, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, randomPoint, map)));
 
             _eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Publish(new MovementCharacterPathEvent
@@ -75,7 +79,9 @@ namespace My_awesome_character.Core.Systems
 
         private INieighborsSearchStrategy<MapCell> SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
         {
-            if (currentPosition.CellType == MapCellType.Road && targetPosition.CellType == MapCellType.Road)
+            return new OnlyRoadNeighboursSelector(map);
+
+            if (IsRoad(currentPosition) && IsRoad(targetPosition))
                 return new OnlyRoadNeighboursSelector(map);
             else
                 return new AllNeighboursSelector(map);
@@ -84,5 +90,9 @@ namespace My_awesome_character.Core.Systems
         public void OnStart()
         {
         }
+
+
+        private bool IsRoad(MapCell cell) => cell.CellType == MapCellType.Road || cell.Tags.Contains(MapCellTags.Trap);
+
     }
 }
