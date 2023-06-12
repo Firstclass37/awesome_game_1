@@ -63,6 +63,13 @@ public partial class character : Node2D
         _movingTween.Play();
 	}
 
+	public void StopMoving()
+	{
+        _movingTween?.Stop();
+		_movingTween?.Dispose();
+		_movingTween = null;
+    }
+
 	private void SetNewPosition(MapCell newCell)
 	{
 		MapPosition = newCell;

@@ -56,11 +56,17 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             });
         }
 
+        private static int _count = 0;
+
         private IPeriodicAction CreateAction(MapCell spawnCell, IMap map)
         {
             var @event = new CharacterCreationRequestEvent { InitPosition = spawnCell };
             var action = () =>
             {
+                if (_count > 1)
+                    return;
+
+                _count++;
                 var actualCell = map.GetActualCell(new Coordiante(spawnCell.X, spawnCell.Y));
                 if (actualCell.CellType == MapCellType.Road || actualCell.Tags.Contains(MapCellTags.Trap))
                     _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Publish(@event);

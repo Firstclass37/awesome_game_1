@@ -52,6 +52,7 @@ namespace My_awesome_character
             builder.RegisterType<CharacterInteractionSytem>().As<ISystem>().SingleInstance();
 
             builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<TrafficLightLogicSystem>().As<ISystem>().SingleInstance();
         }
     }
 }

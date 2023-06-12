@@ -50,9 +50,9 @@ namespace My_awesome_character.Core.Systems.TrafficLights
                 var neighboursRoads = map
                         .GetDirectedNeighboursOf(candidate)
                         .Where(n => n.Key.CellType == MapCellType.Road || n.Key.Tags.Contains(MapCellTags.Trap))
-                        .ToArray();
+                        .ToDictionary(n => n.Key, n => n.Value);
                 
-                if (neighboursRoads.Any() && neighboursRoads.Length > 2)
+                if (neighboursRoads.Any() && neighboursRoads.Count > 2)
                 {
                     var exists = _sceneAccessor
                         .FindAll<TrafficLight>(t => t.MapPosition.Equals(new Game.Coordiante(candidate.X, candidate.Y)))
@@ -60,13 +60,16 @@ namespace My_awesome_character.Core.Systems.TrafficLights
 
                     if (exists != null)
                     {
-                        var newDirections = neighboursRoads.Select(n => n.Value).Except(exists.GetActiveDirections()).ToArray();
+                        var activeDirections = exists.GetActiveDirections();
+                        var newDirections = neighboursRoads
+                            .Where(n => !activeDirections.Contains(n.Value))
+                            .ToDictionary(n => n.Key, n => n.Value);
                         AddDirections(exists, newDirections);
                     }
                     else
                     {
                         var trafficLight = Create(candidate, map);
-                        AddDirections(trafficLight, neighboursRoads.Select(d => d.Value).ToArray());
+                        AddDirections(trafficLight, neighboursRoads);
                     }
                 }
             }
@@ -86,12 +89,12 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             return trafficLight;
         }
 
-        private void AddDirections(TrafficLight trafficLight, params Direction[] directions)
+        private void AddDirections(TrafficLight trafficLight, Dictionary<MapCell, Direction> neightboars)
         {
-            foreach (var derection in directions)
+            foreach (var neightboar in neightboars)
             {
-                trafficLight.SetSize(derection, 1);
-                trafficLight.ActivateDirection(derection);
+                trafficLight.SetSize(neightboar.Value, 1);
+                trafficLight.ActivateDirection(neightboar.Value, neightboar.Key);
             }
         }
     }

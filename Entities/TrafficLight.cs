@@ -7,6 +7,7 @@ using System.Linq;
 public partial class TrafficLight : Node2D
 {
 	private readonly Dictionary<Direction, Polygon2D> _directions = new();
+	private readonly Dictionary<Direction, MapCell> _trackingCells = new();
 
 	public override void _Ready()
 	{
@@ -25,21 +26,19 @@ public partial class TrafficLight : Node2D
 
 	public Coordiante MapPosition { get; set; }
 
-	public Direction CurrentDirection { get; private set; }
-
 	public Direction[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
 
-	public void NextDirection()
-	{
-		var array = _directions.Keys.ToList();
-		var currentIndex = array.IndexOf(CurrentDirection);
-		CurrentDirection = currentIndex == array.Count - 1 ? array[0] : array[currentIndex + 1];
-	}
+	public MapCell GetTrackingCell(Direction direction) => _trackingCells[direction];
 
-	public void ActivateDirection(Direction direction)
+    public MapCell[] GetTrackingCells() => _trackingCells.Values.ToArray();
+
+	public Direction GetDirectionFor(MapCell cell) => _trackingCells.First(c => c.Value == cell).Key;
+
+    public void ActivateDirection(Direction direction, MapCell trackingCell)
 	{
 		_directions[direction].Visible = true;
-	}
+        _trackingCells.TryAdd(direction, trackingCell);
+    }
 
 	public void DeactivateDirection(Direction direction)
 	{
@@ -53,6 +52,11 @@ public partial class TrafficLight : Node2D
 		var values = label.Text.Split('/');
 		var currentValue = values[0];
 		return int.Parse(currentValue);
+	}
+
+	public void DecreaseValue(Direction direction)
+	{
+		SetValue(direction, GetValue(direction) - 1);
 	}
 
 	public int GetSize(Direction direction)
@@ -71,7 +75,7 @@ public partial class TrafficLight : Node2D
 		var values = label.Text.Split('/');
 		var currentValue = values[0];
 
-		label.Text = $"{currentValue} / {size}";
+		label.Text = $"{currentValue}/{size}";
 	}
 
 	public void SetValue(Direction direction, int value)
@@ -81,6 +85,13 @@ public partial class TrafficLight : Node2D
 		var values = label.Text.Split('/');
 		var currentSize = values[1];
 
-		label.Text = $"{value} / {currentSize}";
+		label.Text = $"{value}/{currentSize}";
 	}
+
+	public void Reset(Direction direction)
+	{
+		SetValue(direction, GetSize(direction));
+	}
+
+
 }
