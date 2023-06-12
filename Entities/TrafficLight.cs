@@ -8,6 +8,7 @@ public partial class TrafficLight : Node2D
 {
 	private readonly Dictionary<Direction, Polygon2D> _directions = new();
 	private readonly Dictionary<Direction, MapCell> _trackingCells = new();
+	private readonly HashSet<int> _skippedPlayers = new();
 
 	public override void _Ready()
 	{
@@ -93,5 +94,9 @@ public partial class TrafficLight : Node2D
 		SetValue(direction, GetSize(direction));
 	}
 
+	public void SkipCharacter(int characterId) => _skippedPlayers.Add(characterId);
 
+	public bool WasSkipped(int characterId) => _skippedPlayers.Contains(characterId);
+
+	public void ClearSkip(int characterId) => _skippedPlayers.Remove(characterId);
 }
