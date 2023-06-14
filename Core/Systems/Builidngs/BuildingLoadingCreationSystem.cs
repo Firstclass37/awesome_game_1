@@ -5,6 +5,7 @@ using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Infrastructure.Events.Extentions;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,13 +61,12 @@ namespace My_awesome_character.Core.Systems.Builidngs
             loadingBar.Start();
         }
 
-        private void WhenEnd(int buildingId, object @event, LoadingBar bar)
+        private void WhenEnd(int buildingId, Action @event, LoadingBar bar)
         {
             bar.GetParent().RemoveChild(bar);
             bar.Dispose();
 
-            if (@event is ResourceIncreaseEvent resourceIncreaseEvent)
-                _eventAggregator.PublishGameEvent(resourceIncreaseEvent);
+            @event?.Invoke();
             
             if (_eventsQueue.Any())
             {

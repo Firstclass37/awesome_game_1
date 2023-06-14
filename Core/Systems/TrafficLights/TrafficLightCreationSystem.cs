@@ -42,14 +42,14 @@ namespace My_awesome_character.Core.Systems.TrafficLights
 
             var actualCell = map.GetActualCell(new Game.Coordiante(targetCell.X, targetCell.Y));
             var candidates = map.GetNeighboursOf(targetCell).Union(new[] { actualCell })
-                .Where(n => n.CellType == MapCellType.Road || n.Tags.Contains(MapCellTags.Trap))
+                .Where(n => n.CellType == MapCellType.Road)
                 .ToArray();
 
             foreach(var candidate in candidates)
             {
                 var neighboursRoads = map
                         .GetDirectedNeighboursOf(candidate)
-                        .Where(n => n.Key.CellType == MapCellType.Road || n.Key.Tags.Contains(MapCellTags.Trap))
+                        .Where(n => n.Key.CellType == MapCellType.Road)
                         .ToDictionary(n => n.Key, n => n.Value);
                 
                 if (neighboursRoads.Any() && neighboursRoads.Count > 2)

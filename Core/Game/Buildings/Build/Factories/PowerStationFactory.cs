@@ -2,6 +2,7 @@
 using My_awesome_character.Core.Game.Buildings.Build.Interactions;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Models;
+using My_awesome_character.Core.Game.Resources;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using System;
@@ -14,11 +15,13 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
+        private readonly IResourceManager _resourceManager;
 
-        public PowerStationFactory(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)
+        public PowerStationFactory(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor, IResourceManager resourceManager)
         {
             _eventAggregator = eventAggregator;
             _sceneAccessor = sceneAccessor;
+            _resourceManager = resourceManager;
         }
 
         public Building Create(MapCell targetCell, IAreaCalculator areaCalculator, IMap map)
@@ -30,7 +33,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
             building.Cells = CreateBuildingArea(targetCell, areaCalculator).ToArray();
             building.RootCell = rootCell;
             building.BuildingType = BuildingTypes.MineUranus;
-            building.InteractionAction = new PowerStatitionInteraction(_eventAggregator, _sceneAccessor);
+            building.InteractionAction = new PowerStatitionInteraction(_eventAggregator, _resourceManager);
 
             return building;
         }

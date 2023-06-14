@@ -5,6 +5,7 @@ using My_awesome_character.Core.Game.Events.Character;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Game.Models;
+using My_awesome_character.Core.Game.Resources;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Infrastructure.Events.Extentions;
 using System;
@@ -16,10 +17,12 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
     internal class UranusMineFactory : IBuildingFactory
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IResourceManager _resourceManager;
 
-        public UranusMineFactory(IEventAggregator eventAggregator)
+        public UranusMineFactory(IEventAggregator eventAggregator, IResourceManager resourceManager)
         {
             _eventAggregator = eventAggregator;
+            _resourceManager = resourceManager;
         }
 
         public Building Create(MapCell targetCell, IAreaCalculator areaCalculator, IMap map)
@@ -57,7 +60,7 @@ namespace My_awesome_character.Core.Game.Buildings.Build.Factories
                 {
                     BuidlingId = buildingId,
                     DelaySec = 5,
-                    Event = new ResourceIncreaseEvent { Amount = 2, ResourceTypeId = ResourceType.Uranus }
+                    Event = () => _resourceManager.Increse(ResourceType.Uranus, 2)
                 });
             });
         }

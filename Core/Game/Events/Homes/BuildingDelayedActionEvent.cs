@@ -1,4 +1,6 @@
-﻿namespace My_awesome_character.Core.Game.Events.Homes
+﻿using System;
+
+namespace My_awesome_character.Core.Game.Events.Homes
 {
     internal class BuildingDelayedActionEvent
     {
@@ -6,6 +8,6 @@
 
         public double DelaySec { get; set; }
 
-        public object Event { get; set; }
+        public Action Event { get; set; }
     }
 }
