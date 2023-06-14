@@ -8,5 +8,6 @@
         public const int Electricity = 4;
         public const int Steel = 5;
         public const int Uranus = 6;
+        public const int Microchip = 7;
     }
 }

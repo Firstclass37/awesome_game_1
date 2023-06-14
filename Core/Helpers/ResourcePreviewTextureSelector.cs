@@ -15,6 +15,7 @@ namespace My_awesome_character.Core.Helpers
             { ResourceType.Electricity, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Resources\\electrosity_preview.png") },
             { ResourceType.Steel, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Resources\\steel_preview.png") },
             { ResourceType.Uranus, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Resources\\uranus_preview.png") },
+            { ResourceType.Microchip, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Resources\\microchip_preview.png") },
         };
 
 

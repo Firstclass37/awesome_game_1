@@ -27,17 +27,18 @@ namespace My_awesome_character.Core.Systems.Resources
             resourceContainer.AddChild(Create(ResourceType.Electricity, textureSelector));
             resourceContainer.AddChild(Create(ResourceType.Steel, textureSelector));
             resourceContainer.AddChild(Create(ResourceType.Uranus, textureSelector));
+            resourceContainer.AddChild(Create(ResourceType.Microchip, textureSelector, 100));
         }
 
         public void Process(double gameTime)
         {
         }
 
-        private Resource Create(int resourceId, ISelector<int, Texture2D> textureSelector)
+        private Resource Create(int resourceId, ISelector<int, Texture2D> textureSelector, int amount = 0)
         {
             var resource = SceneFactory.Create<Resource>(SceneNames.ResourceInfo(resourceId), ScenePaths.ResourceInfo);
             resource.ResourceType = resourceId;
-            resource.Amount = 0;
+            resource.Amount = amount;
             resource.PreviewTexture = textureSelector.Select(resourceId);
             return resource;
         }
