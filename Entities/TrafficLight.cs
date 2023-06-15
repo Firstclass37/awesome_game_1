@@ -1,12 +1,15 @@
 using Godot;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
+using My_awesome_character.Core.Game.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public partial class TrafficLight : Node2D
 {
 	private readonly Dictionary<Direction, Polygon2D> _directions = new();
+	private readonly Dictionary<Direction, Area2D> _areas = new();
 	private readonly Dictionary<Direction, MapCell> _trackingCells = new();
 	private readonly HashSet<int> _skippedPlayers = new();
 
@@ -17,13 +20,31 @@ public partial class TrafficLight : Node2D
 		_directions.Add(Direction.Right, GetNode<Polygon2D>("TextureRect/Right_polygon"));
 		_directions.Add(Direction.Bottom, GetNode<Polygon2D>("TextureRect/Bottom_polygon"));
 
-		foreach (var node in _directions.Values)
+		_areas.Add(Direction.Left, GetNode<Area2D>("TextureRect/Left_Area2D"));
+        _areas.Add(Direction.Top, GetNode<Area2D>("TextureRect/Top_Area2D2"));
+        _areas.Add(Direction.Right, GetNode<Area2D>("TextureRect/Right_Area2D3"));
+        _areas.Add(Direction.Bottom, GetNode<Area2D>("TextureRect/Bottom_Area2D4"));
+
+        foreach (var node in _directions.Values)
 			node.Visible = false;
+
+		foreach (var area in _areas)
+		{
+            area.Value.InputEvent += (vp, e, sid) => OnDirectionInputEvent(vp, e, sid, area.Key);
+			area.Value.MouseEntered += () => OnDirectionAreaMouseEnter(area.Key);
+			area.Value.MouseExited += () => OnDirectionAreaMouseExit(area.Key);
+        }
 	}
 
-	public override void _Process(double delta)
+    public event Action<Direction> OnRightClick;
+
+    public event Action<Direction> OnLeftClick;
+
+    public override void _Process(double delta)
 	{
 	}
+
+	public int Id { get; set; }
 
 	public Coordiante MapPosition { get; set; }
 
@@ -99,4 +120,32 @@ public partial class TrafficLight : Node2D
 	public bool WasSkipped(int characterId) => _skippedPlayers.Contains(characterId);
 
 	public void ClearSkip(int characterId) => _skippedPlayers.Remove(characterId);
+
+
+    private void OnDirectionInputEvent(Node viewport, InputEvent @event, long shapeIdx, Direction direction)
+    {
+		//var mouseEvent = @event as InputEventMouseButton;
+        if (Input.IsActionJustReleased("left-click"))
+            OnLeftClick?.Invoke(direction);
+        else if (Input.IsActionJustReleased("right-click"))
+            OnRightClick?.Invoke(direction);
+    }
+
+    private void OnDirectionAreaMouseEnter(Direction direction)
+    {
+        var polygon = _directions[direction];
+        if (!polygon.Visible)
+            return;
+
+        polygon.Modulate = new Color("4cff21");
+    }
+
+    private void OnDirectionAreaMouseExit(Direction direction)
+    {
+        var polygon = _directions[direction];
+        if (!polygon.Visible)
+            return;
+
+        polygon.Modulate = new Color("ffffff");
+    }
 }

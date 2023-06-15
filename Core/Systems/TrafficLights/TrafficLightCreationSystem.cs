@@ -1,17 +1,13 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Buildings;
-using My_awesome_character.Core.Game.Buildings.Build;
-using My_awesome_character.Core.Game.Buildings.Requirements;
 using My_awesome_character.Core.Game.Constants;
+using My_awesome_character.Core.Game.Events;
 using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace My_awesome_character.Core.Systems.TrafficLights
 {
@@ -70,6 +66,8 @@ namespace My_awesome_character.Core.Systems.TrafficLights
                     {
                         var trafficLight = Create(candidate, map);
                         AddDirections(trafficLight, neighboursRoads);
+
+                        _eventAggregator.GetEvent<GameEvent<TrafficLightsCreatedEvent>>().Publish(new TrafficLightsCreatedEvent { Id = trafficLight.Id });
                     }
                 }
             }
@@ -83,6 +81,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             game.AddChild(trafficLight, forceReadableName: true);
 
+            trafficLight.Id = id;
             trafficLight.MapPosition = new Game.Coordiante(cell.X, cell.Y);
             trafficLight.Scale = new Godot.Vector2(0.2f, 0.2f);
             trafficLight.GlobalPosition = map.GetGlobalPositionOf(cell);
