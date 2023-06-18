@@ -18,6 +18,7 @@ namespace My_awesome_character.Core.Systems.Character
             _eventAggregator = eventAggregator;
 
             _eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Subscribe(Move);
+            _eventAggregator.GetEvent<GameEvent<StopMovingRequest>>().Subscribe(OnStop);
         }
 
         public void OnStart()
@@ -27,6 +28,12 @@ namespace My_awesome_character.Core.Systems.Character
         public void Process(double gameTime)
         {
 
+        }
+
+        private void OnStop(StopMovingRequest request)
+        {
+            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(request.CharacterId));
+            character.StopMoving();
         }
 
         private void Move(MovementCharacterPathEvent @event)

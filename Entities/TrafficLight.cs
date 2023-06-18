@@ -1,7 +1,6 @@
 using Godot;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
-using My_awesome_character.Core.Game.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
