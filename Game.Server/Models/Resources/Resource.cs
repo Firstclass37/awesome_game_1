@@ -2,7 +2,14 @@
 {
     internal class Resource: IEntityObject
     {
-        public int Id { get; internal set; }
+        public Resource()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public Guid Id { get; internal set; }
+
+        public int ResourceType { get; set; }
 
         public string Name { get; internal set; }
 

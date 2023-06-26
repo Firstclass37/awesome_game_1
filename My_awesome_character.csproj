@@ -4,6 +4,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Game.Server\**" />
+    <EmbeddedResource Remove="Game.Server\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Sources\boy-right.png" />
     <Content Include="Sources\boy_left.png" />
   </ItemGroup>

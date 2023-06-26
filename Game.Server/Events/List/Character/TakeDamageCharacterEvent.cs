@@ -2,7 +2,7 @@
 {
     internal class TakeDamageCharacterEvent
     {
-        public int CharacterId { get; set; }
+        public Guid CharacterId { get; set; }
 
         public double Damage { get; set; }
     }

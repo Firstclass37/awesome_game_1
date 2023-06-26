@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Common\" />
+    <PackageReference Include="Autofac" Version="7.0.1" />
   </ItemGroup>
 
 </Project>

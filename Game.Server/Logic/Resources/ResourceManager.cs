@@ -1,5 +1,6 @@
 ﻿using Game.Server.Events.Core;
 using Game.Server.Events.List.Resource;
+using Game.Server.Models.Constants;
 using Game.Server.Models.Resources;
 using Game.Server.Storage;
 
@@ -14,48 +15,52 @@ namespace Game.Server.Logic.Resources
         {
             _eventAggregator = eventAggregator;
             _storage = storage;
+
+            AddifNotExists(ResourceType.Money, "K$", 0);
+            AddifNotExists(ResourceType.Water, "Water", 0);
+            AddifNotExists(ResourceType.Food, "Food", 0);
+            AddifNotExists(ResourceType.Electricity, "Electricity", 0);
+            AddifNotExists(ResourceType.Steel, "Steel", 0);
+            AddifNotExists(ResourceType.Uranus, "Uranus", 0);
+            AddifNotExists(ResourceType.Microchip, "Microchip", 100);
         }
 
-        public int GetAmount(int resourceId) => _storage.Get<Resource>(resourceId).Value;
+        public int GetAmount(int resourceType) => _storage.Get<Resource>(resourceType).Value;
 
-        public Resource Get(int resourceId) => _storage.Get<Resource>(resourceId);
-
-        public bool TrySpend(int resourceId, int count)
+        public bool TrySpend(int resourceType, int count)
         {
-            var resource = _storage.Get<Resource>(resourceId);
+            var resource = _storage.Get<Resource>(resourceType);
             if (resource == null)
-                throw new ArgumentOutOfRangeException($"unknown resource with id {resourceId}");
+                throw new ArgumentOutOfRangeException($"unknown resource with id {resourceType}");
 
             if (resource.Value < count)
                 return false;
 
             resource.Value = resource.Value - count;
             _storage.Update(resource);
-            _eventAggregator.GetEvent<GameEvent<ResourceDecreaseEvent>>().Publish(new ResourceDecreaseEvent { ResourceTypeId = resourceId, Amount = count });
+            _eventAggregator.GetEvent<GameEvent<ResourceDecreaseEvent>>().Publish(new ResourceDecreaseEvent { ResourceTypeId = resourceType, Amount = count });
             return true;
         }
 
-        public void Increase(int resourceId, int count)
+        public void Increase(int resourceType, int count)
         {
-            var resource = _storage.Get<Resource>(resourceId);
+            var resource = _storage.Get<Resource>(resourceType);
             if (resource == null)
-                throw new ArgumentOutOfRangeException($"unknown resource with id {resourceId}");
+                throw new ArgumentOutOfRangeException($"unknown resource with id {resourceType}");
 
             resource.Value += count;
             _storage.Update(resource);
-            _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { ResourceTypeId = resourceId, Amount = count });
+            _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { ResourceTypeId = resourceType, Amount = count });
         }
 
-        public void AddResource(int resourceId, int initialValue)
+        private void AddifNotExists(int resourceType, string name, int initialValue)
         {
-            var exists = _storage.Exists<Resource>(r => r.Id == resourceId);
+            var exists = _storage.Exists<Resource>(r => r.ResourceType == resourceType);
             if (exists)
                 return;
-
-            var resources = _storage.Find<Resource>(r => true).ToArray();
-            var nextId = resources.Any() ? resources.Max(r => r.Id) + 1 : 1;
-            _storage.Add(new Resource { Id = resourceId, Value = initialValue });
-            _eventAggregator.GetEvent<GameEvent<ResourceAddedEvent>>().Publish(new ResourceAddedEvent { ResourceType = resourceId, Value = initialValue });
+            
+            _storage.Add(new Resource { ResourceType = resourceType, Value = initialValue, Name = name });
+            _eventAggregator.GetEvent<GameEvent<ResourceAddedEvent>>().Publish(new ResourceAddedEvent { ResourceType = resourceType, Value = initialValue });
         }
     }
 }

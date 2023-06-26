@@ -2,6 +2,6 @@
 {
     public interface IEntityObject
     {
-        public int Id { get; }
+        public Guid Id { get; }
     }
 }

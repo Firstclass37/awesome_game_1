@@ -3,7 +3,7 @@ using Game.Server.Models.Maps;
 
 namespace Game.Server.Models.Buildings
 {
-    internal class TrafficLight : IBuilding
+    internal class TrafficLight : IBuilding, IEntityObject
     {
         public int Id { get; internal set; }
 
