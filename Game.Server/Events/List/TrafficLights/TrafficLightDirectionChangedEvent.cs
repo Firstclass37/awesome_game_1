@@ -4,7 +4,7 @@ namespace Game.Server.Events.List.TrafficLights
 {
     internal class TrafficLightDirectionChangedEvent
     {
-        public int TrafficLightId { get; set; }
+        public Guid TrafficLightId { get; set; }
 
         public Direction Direction { get; set; }
 

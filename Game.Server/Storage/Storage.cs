@@ -5,7 +5,7 @@ namespace Game.Server.Storage
 {
     internal class Storage : IStorage
     {
-        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, object>> _dataBase = new();
+        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<Guid, object>> _dataBase = new();
 
         public void Add<T>(T obj) where T : IEntityObject
         {
@@ -13,7 +13,7 @@ namespace Game.Server.Storage
             _dataBase[key].TryAdd(obj.Id, obj);
         }
 
-        public T Get<T>(int id) where T : IEntityObject
+        public T Get<T>(Guid id) where T : IEntityObject
         {
             var key = GetKey<T>();
             return _dataBase[key].ContainsKey(id) ? (T)_dataBase[key][id] : default;

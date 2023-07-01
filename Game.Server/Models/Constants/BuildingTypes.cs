@@ -1,11 +1,16 @@
 ﻿namespace Game.Server.Models.Constants
 {
-    public enum BuildingTypes
+    public static class BuildingTypes
     {
-        HomeType1,
-        MineUranus,
-        PowerStation,
-        Road,
-        TrafficLight
+        public const string HomeType1 = nameof(HomeType1);
+        public const string MineUranus = nameof(MineUranus);
+        public const string PowerStation = nameof(PowerStation);
+        public const string Road = nameof(Road);
+        public const string Ground = nameof(Ground);
+        public const string TrafficLigh = nameof(TrafficLigh);
+
+
+
+        public const string ResourceResource = nameof(ResourceResource);
     }
 }

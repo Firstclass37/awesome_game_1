@@ -25,11 +25,11 @@ namespace Game.Server.Logic.Resources
             AddifNotExists(ResourceType.Microchip, "Microchip", 100);
         }
 
-        public int GetAmount(int resourceType) => _storage.Get<Resource>(resourceType).Value;
+        public int GetAmount(int resourceType) => _storage.Find<Resource>(r => r.ResourceType == resourceType).First().Value;
 
         public bool TrySpend(int resourceType, int count)
         {
-            var resource = _storage.Get<Resource>(resourceType);
+            var resource = _storage.Find<Resource>(r => r.ResourceType == resourceType).FirstOrDefault();
             if (resource == null)
                 throw new ArgumentOutOfRangeException($"unknown resource with id {resourceType}");
 
@@ -44,7 +44,7 @@ namespace Game.Server.Logic.Resources
 
         public void Increase(int resourceType, int count)
         {
-            var resource = _storage.Get<Resource>(resourceType);
+            var resource = _storage.Find<Resource>(r => r.ResourceType == resourceType).FirstOrDefault();
             if (resource == null)
                 throw new ArgumentOutOfRangeException($"unknown resource with id {resourceType}");
 

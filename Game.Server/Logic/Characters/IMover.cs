@@ -1,11 +1,12 @@
-﻿using Game.Server.Models.Maps;
-using Game.Server.Models.Temp;
+﻿using Game.Server.Models.GamesObjectList;
+using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Characters
 {
     internal interface IMover
     {
-        void MoveTo(GameObjectAggregator gameObject, Coordiante coordiante);
-        void StopMoving(GameObjectAggregator gameObject);
+        CharacterMovement GetCurrentMovement(Character character);
+        void MoveTo(Character gameObject, Coordiante coordiante, Guid? initiator = null);
+        void StopMoving(Character gameObject);
     }
 }

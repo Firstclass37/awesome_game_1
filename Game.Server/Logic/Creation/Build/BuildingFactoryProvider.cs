@@ -1,8 +1,10 @@
 ﻿using Autofac;
-using Game.Server.Logic.Building.Build.Factories;
+using Game.Server.Logic.Objects.Home.Creation;
+using Game.Server.Logic.Objects.PowerStations.Creation;
+using Game.Server.Logic.Objects.Roads.Createtion;
+using Game.Server.Logic.Objects.UranusMine.Creation;
 using Game.Server.Models.Constants;
 using My_awesome_character.Core.Game.Buildings.Build;
-using My_awesome_character.Core.Game.Buildings.Build.Factories;
 
 namespace Game.Server.Logic.Building.Build
 {

@@ -1,37 +1,58 @@
-﻿using Game.Server.Events.Core;
-using Game.Server.Logic.Characters.Movement.PathSearching;
+﻿using Game.Server.Logic.Characters.Movement.PathSearching;
 using Game.Server.Logic.Characters.Movement.PathSearching.Base;
+using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
-using Game.Server.Models.Temp;
+using Game.Server.Storage;
 
 namespace Game.Server.Logic.Characters
 {
     internal class Mover : IMover
     {
-        private readonly IEventAggregator _eventAggregator;
         private readonly IPathSearcher _pathSearcher;
         private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
         private readonly INeighboursAccessor _neighboursAccessor;
+        private readonly IStorage _storage;
 
-        public Mover(IEventAggregator eventAggregator, IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, INeighboursAccessor neighboursAccessor)
+        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, INeighboursAccessor neighboursAccessor, IStorage storage)
         {
-            _eventAggregator = eventAggregator;
             _pathSearcher = pathSearcher;
             _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
             _neighboursAccessor = neighboursAccessor;
+            _storage = storage;
         }
 
-        public void MoveTo(GameObjectAggregator gameObject, Coordiante coordiante)
+        public CharacterMovement GetCurrentMovement(Character character)
         {
-            var root = gameObject.Area.First(p => p.IsRoot).Coordiante;
+            return _storage.Find<CharacterMovement>(c => c.CharacterId == character.Id && c.Active).FirstOrDefault();
+        }
+
+        public void MoveTo(Character character, Coordiante coordiante, Guid? initiator)
+        {
+            var root = character.Position;
             var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(SelectSelector(root, coordiante)));
             if (!path.Any())
                 throw new ArgumentException();
+
+            StopMoving(character);
+
+            var movement = new CharacterMovement
+            {
+                CharacterId = character.Id,
+                LastMovement = 0,
+                MovementIniciator = initiator,
+                Path = path
+            };
+            _storage.Add(movement);
         }
 
-        public void StopMoving(GameObjectAggregator gameObject)
+        public void StopMoving(Character character)
         {
+            var activeMovement = GetCurrentMovement(character);
+            if (activeMovement == null)
+                return;
 
+            activeMovement.Active = false;
+            _storage.Update(activeMovement);
         }
 
         private INieighborsSearchStrategy<Coordiante> SelectSelector(Coordiante currentPosition, Coordiante targetPosition)

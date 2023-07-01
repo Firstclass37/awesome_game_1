@@ -11,10 +11,8 @@ namespace Game.Server.Models.Maps
 
         public Guid Id { get; set; }
 
-        public int X { get; set; }
+        public Coordiante Coordiante { get; set; }
 
-        public int Y { get; set; }
-
-        public Dictionary<Direction, IsometricMapCell> Neighbors { get; set; }
+        public Dictionary<IsometricMapCell, Direction> Neighbors { get; set; }
     }
 }
