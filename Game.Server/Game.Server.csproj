@@ -10,4 +10,8 @@
     <PackageReference Include="Autofac" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logic\Maps\Preset\" />
+  </ItemGroup>
+
 </Project>

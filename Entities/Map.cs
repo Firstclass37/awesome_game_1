@@ -115,6 +115,7 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
             { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopRightSide), Direction.Top },
             { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopLeftSide), Direction.Left }
         }
+        .Where(v => _activeCells.Value.Keys.Any(c => c.X == v.Key.X && c.Y == v.Key.Y))
         .ToDictionary(v => _activeCells.Value.Keys.First(c => c.X == v.Key.X && c.Y == v.Key.Y), v => v.Value);
     }
 
