@@ -1,7 +1,7 @@
 ﻿using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 
-namespace Game.Server.Logic.Characters
+namespace Game.Server.Logic.Objects.Characters
 {
     internal interface IMover
     {

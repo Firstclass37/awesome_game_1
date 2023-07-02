@@ -1,6 +1,6 @@
-﻿using Game.Server.Logic.Characters;
-using Game.Server.Logic.Maps;
+﻿using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Interactions;
+using Game.Server.Logic.Objects.Characters;
 using Game.Server.Models.Buildings;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;

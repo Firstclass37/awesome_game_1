@@ -1,10 +1,10 @@
-﻿using Game.Server.Logic.Characters.Movement.PathSearching;
-using Game.Server.Logic.Characters.Movement.PathSearching.Base;
+﻿using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
+using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
 
-namespace Game.Server.Logic.Characters
+namespace Game.Server.Logic.Objects.Characters
 {
     internal class Mover : IMover
     {

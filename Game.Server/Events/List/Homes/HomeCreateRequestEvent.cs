@@ -5,7 +5,7 @@ namespace Game.Server.Events.List.Homes
 {
     public class HomeCreateRequestEvent
     {
-        public BuildingTypes BuildingType { get; set; }
+        public string BuildingType { get; set; }
 
         public Coordiante TargetCell { get; set; }
     }

@@ -1,7 +1,7 @@
-﻿using Game.Server.Logic.Characters.Movement.PathSearching.Base;
+﻿using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
 using Game.Server.Models.Maps;
 
-namespace Game.Server.Logic.Characters.Movement.PathSearching
+namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching
 {
     internal class HScoreStrategy : IHScoreStrategy<Coordiante>
     {

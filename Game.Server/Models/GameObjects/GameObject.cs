@@ -42,6 +42,7 @@ namespace Game.Server.Models.GameObjects
         public GameObjectPosition(Guid entityId, Coordiante coordiante, bool isRoot = false, bool isBlock = true)
         {
             Id = Guid.NewGuid();
+            CreatedDate = DateTime.UtcNow;
             EntityId = entityId;
             IsRoot = isRoot;
             IsBlock = isBlock;
@@ -57,5 +58,7 @@ namespace Game.Server.Models.GameObjects
         public bool IsBlock { get; }
 
         public Coordiante Coordiante { get; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }

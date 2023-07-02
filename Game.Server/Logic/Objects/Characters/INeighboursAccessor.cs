@@ -1,7 +1,7 @@
 ﻿using Game.Server.Models.Constants;
 using Game.Server.Models.Maps;
 
-namespace Game.Server.Logic.Characters
+namespace Game.Server.Logic.Objects.Characters
 {
     internal interface INeighboursAccessor
     {

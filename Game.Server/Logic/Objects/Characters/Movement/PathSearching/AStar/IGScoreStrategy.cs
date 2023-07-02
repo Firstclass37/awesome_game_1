@@ -1,4 +1,4 @@
-﻿namespace Game.Server.Logic.Characters.Movement.PathSearching.Base
+﻿namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar
 {
     internal interface IGScoreStrategy<T>
     {
