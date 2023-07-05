@@ -13,6 +13,12 @@ namespace Game.Server.Storage
             _dataBase[key].TryAdd(obj.Id, obj);
         }
 
+        public void AddRange<T>(IEnumerable<T> obj) where T : IEntityObject
+        {
+            foreach(var item in obj)
+                Add<T>(item);
+        }
+
         public T Get<T>(Guid id) where T : IEntityObject
         {
             var key = GetKey<T>();

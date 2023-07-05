@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Core;
+﻿using Game.Server.DataAccess;
+using Game.Server.Logic.Objects._Core;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 
@@ -7,10 +8,12 @@ namespace Game.Server.Logic.Objects._Buidling
     internal class GameObjectCreator : IGameObjectCreator
     {
         private readonly IGameObjectMetadata[] _metadatas;
+        private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
 
-        public GameObjectCreator(IGameObjectMetadata[] metadatas)
+        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository)
         {
             _metadatas = metadatas;
+            _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
         }
 
         public GameObjectAggregator Create(string objectType, Coordiante point, object args)
@@ -24,9 +27,7 @@ namespace Game.Server.Logic.Objects._Buidling
                 return null;
 
             var createdObject = metadata.GameObjectFactory.CreateNew(point, area);
-
-            //save
-
+            _gameObjectAgregatorRepository.Add(createdObject);
             return createdObject;
         }
     }

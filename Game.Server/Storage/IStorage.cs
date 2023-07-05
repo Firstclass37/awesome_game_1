@@ -6,6 +6,8 @@ namespace Game.Server.Storage
     {
         void Add<T>(T obj) where T: IEntityObject;
 
+        void AddRange<T>(IEnumerable<T> obj) where T : IEntityObject;
+
         T Get<T>(Guid id) where T : IEntityObject;
 
         bool Exists<T>(Func<T, bool> predicate) where T : IEntityObject;
