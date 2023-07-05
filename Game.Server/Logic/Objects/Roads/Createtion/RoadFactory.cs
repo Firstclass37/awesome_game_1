@@ -10,7 +10,7 @@ namespace Game.Server.Logic.Objects.Roads.Createtion
         public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
         {
             var gameObject = new GameObject(BuildingTypes.Road);
-            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToArray();
+            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToList();
 
             return new GameObjectAggregator
             {

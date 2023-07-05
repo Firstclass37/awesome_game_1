@@ -19,7 +19,15 @@ namespace Game.Server.Logic.Objects._Buidling
             if (metadata == null)
                 throw new ArgumentException($"metadata for object {objectType} was not found");
 
-            throw new NotImplementedException();
+            var area = metadata.AreaGetter.GetArea(point);
+            if (!metadata.CreationRequirement.Satisfy(area))
+                return null;
+
+            var createdObject = metadata.GameObjectFactory.CreateNew(point, area);
+
+            //save
+
+            return createdObject;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Game.Server.Logic.Objects._Buidling
             _areaCalculator = areaCalculator;
         }
 
-        public IAreaGetter Get1x1() => new Area1x1Getter();
+        public IAreaGetter Get1x1() => new AreaGetter();
 
         public IAreaGetter Get2x2() => new Area2x2Getter(_areaCalculator);
 
@@ -50,8 +50,8 @@ namespace Game.Server.Logic.Objects._Buidling
         public Coordiante[] GetArea(Coordiante root) => _areaCalculator.Get2x2Area(root);
     }
 
-    internal class Area1x1Getter : IAreaGetter
+    internal class AreaGetter : IAreaGetter
     {
-        public Coordiante[] GetArea(Coordiante root) => new Coordiante[] { root
+        public Coordiante[] GetArea(Coordiante root) => new Coordiante[] { root };
     }
 }

@@ -12,7 +12,7 @@ namespace Game.Server.Logic.Objects.UranusMine.Creation
         public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
         {
             var gameObject = new GameObject(BuildingTypes.MineUranus);
-            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToArray();
+            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToList();
             var interactions = new List<GameObjectInteraction>()
             {
                 new GameObjectInteraction(gameObject.Id, typeof(UranusMineInteraction).FullName)

@@ -15,7 +15,7 @@ namespace Game.Server.Logic.Objects.Home.Creation
             var spawnCell = new Coordiante(rootCell.X, rootCell.Y + 3);
 
             var gameObject = new GameObject(BuildingTypes.HomeType1);
-            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(rootCell))).ToArray();
+            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(rootCell))).ToList();
             var attributes = new List<GameObjectToAttribute>
             {
                 new GameObjectToAttribute(gameObject.Id, AttributeType.SpawnCell, spawnCell)

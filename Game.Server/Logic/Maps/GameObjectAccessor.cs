@@ -25,8 +25,8 @@ namespace Game.Server.Logic.Maps
 
             var agregator = new GameObjectAggregator();
             agregator.GameObject = gameObject;
-            agregator.Attributes = _storage.Find<GameObjectToAttribute>(a => a.GameObjectId == gameObject.Id).ToArray();
-            agregator.Area = _storage.Find<GameObjectPosition>(p => p.EntityId == gameObject.Id).ToArray();
+            agregator.Attributes = _storage.Find<GameObjectToAttribute>(a => a.GameObjectId == gameObject.Id).ToList();
+            agregator.Area = _storage.Find<GameObjectPosition>(p => p.EntityId == gameObject.Id).ToList();
 
             return agregator;
         }
