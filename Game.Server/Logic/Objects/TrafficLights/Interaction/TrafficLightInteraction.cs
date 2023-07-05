@@ -32,6 +32,8 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
                 return;
 
             var trafficLight = new TrafficLight(gameObject);
+            if (trafficLight.RootCell.Equals(interactionPoint))
+                return;
 
             _characterMovement.StopMoving(character);
 
