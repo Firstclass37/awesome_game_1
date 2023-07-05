@@ -6,7 +6,7 @@ using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Storage;
 
-namespace Game.Server.Logic.Objects.TrafficLights
+namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
 {
     internal class TrafficLightManager : ITrafficLightManager
     {

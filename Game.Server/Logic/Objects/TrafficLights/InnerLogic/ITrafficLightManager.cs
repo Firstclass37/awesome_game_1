@@ -1,7 +1,7 @@
 ﻿using Game.Server.Models.Buildings;
 using Game.Server.Models.Constants;
 
-namespace Game.Server.Logic.Objects.TrafficLights
+namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
 {
     internal interface ITrafficLightManager
     {

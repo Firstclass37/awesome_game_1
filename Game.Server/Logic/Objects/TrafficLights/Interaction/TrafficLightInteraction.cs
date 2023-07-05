@@ -1,6 +1,7 @@
 ﻿using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Interactions;
 using Game.Server.Logic.Objects.Characters;
+using Game.Server.Logic.Objects.TrafficLights.InnerLogic;
 using Game.Server.Models.Buildings;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
