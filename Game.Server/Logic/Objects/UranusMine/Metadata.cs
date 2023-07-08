@@ -22,10 +22,14 @@ namespace Game.Server.Logic.Objects.UranusMine
 
         public string ObjectType => BuildingTypes.MineUranus;
 
+        public string Description => "Uranus mine";
+
         public IAreaGetter AreaGetter => _defaultAreaGetterFactory.Get2x2();
 
         public ICreationRequirement CreationRequirement => _uranusMineRequirement;
 
         public IGameObjectFactory GameObjectFactory => _uranusMineFactory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int>();
     }
 }

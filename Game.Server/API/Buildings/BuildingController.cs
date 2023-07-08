@@ -1,20 +1,33 @@
-﻿using Game.Server.Models.Constants;
+﻿using Game.Server.Logic.Objects._Core;
+using Game.Server.Models.Constants;
 
 namespace Game.Server.API.Buildings
 {
-    public record BuildingInfo(string Name, string Description);
+    public record BuildingInfo(string Name, string Description, Price[] Prices);
+
+    public record Price(int resourceType, int count);
 
     internal class BuildingController : IBuildingController
     {
-        public IReadOnlyCollection<BuildingInfo> GetList()
+        private IGameObjectMetadataCollection _gameObjectMetadataCollection;
+
+        public BuildingController(IGameObjectMetadataCollection gameObjectMetadataCollection)
         {
-            return new BuildingInfo[]
+            _gameObjectMetadataCollection = gameObjectMetadataCollection;
+        }
+
+        public IReadOnlyCollection<BuildingInfo> GetBuildableList()
+        {
+            return new string[]
             {
-                new BuildingInfo(BuildingTypes.HomeType1, "Super home"),
-                new BuildingInfo(BuildingTypes.PowerStation, "Power station"),
-                new BuildingInfo(BuildingTypes.MineUranus, "Uranus mine"),
-                new BuildingInfo(BuildingTypes.Road, "Road"),
-            };
+                BuildingTypes.HomeType1,
+                BuildingTypes.PowerStation,
+                BuildingTypes.MineUranus,
+                BuildingTypes.Road,
+            }
+            .Select(t => _gameObjectMetadataCollection.Get(t))
+            .Select(m => new BuildingInfo(m.ObjectType, m.Description, m.BasePrice.Select(p => new Price(p.Key, p.Value)).ToArray()))
+            .ToArray();
         }
     }
 }

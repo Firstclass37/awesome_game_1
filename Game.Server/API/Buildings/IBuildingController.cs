@@ -2,6 +2,6 @@
 {
     internal interface IBuildingController
     {
-        IReadOnlyCollection<BuildingInfo> GetList();
+        IReadOnlyCollection<BuildingInfo> GetBuildableList();
     }
 }

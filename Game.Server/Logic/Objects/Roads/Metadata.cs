@@ -22,10 +22,17 @@ namespace Game.Server.Logic.Objects.Roads
 
         public string ObjectType => BuildingTypes.Road;
 
+        public string Description => "Road";
+
         public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
 
         public ICreationRequirement CreationRequirement => _requirement;
 
         public IGameObjectFactory GameObjectFactory => _roadFactory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int> 
+        {
+            { ResourceType.Money, 10 }
+        };
     }
 }

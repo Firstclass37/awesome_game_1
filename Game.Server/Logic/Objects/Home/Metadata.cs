@@ -21,10 +21,17 @@ namespace Game.Server.Logic.Objects.Home
 
         public string ObjectType => BuildingTypes.HomeType1;
 
+        public string Description => "Super home";
+
         public IAreaGetter AreaGetter => _areFactory.Get2x2();
 
         public ICreationRequirement CreationRequirement => _onlyGroundRequirement;
 
         public IGameObjectFactory GameObjectFactory => _homeFactory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int> 
+        {
+            { ResourceType.Money, 100 }
+        };
     }
 }

@@ -21,10 +21,18 @@ namespace Game.Server.Logic.Objects.PowerStations
 
         public string ObjectType => BuildingTypes.PowerStation;
 
+        public string Description => "Power station";
+
         public IAreaGetter AreaGetter => _areFactory.Get2x2();
 
         public ICreationRequirement CreationRequirement => _onlyGroundRequirement;
 
         public IGameObjectFactory GameObjectFactory => _factory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int>
+        {
+            { ResourceType.Aluminum, 100 },
+            { ResourceType.Steel, 40 },
+        };
     }
 }

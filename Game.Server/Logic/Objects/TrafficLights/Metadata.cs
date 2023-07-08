@@ -22,10 +22,14 @@ namespace Game.Server.Logic.Objects.TrafficLights
 
         public string ObjectType => BuildingTypes.TrafficLigh;
 
+        public string Description => "Traffic light!";
+
         public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
 
         public ICreationRequirement CreationRequirement => _trafficLightBuildRequirement;
 
         public IGameObjectFactory GameObjectFactory => _trafficLightFactory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int>();
     }
 }

@@ -9,6 +9,10 @@ namespace Game.Server.Logic.Objects._Core
 
         public string ObjectType { get; }
 
+        public string Description { get; }
+
+        public Dictionary<int, int> BasePrice { get; }
+
         public IAreaGetter AreaGetter { get; }
 
         public ICreationRequirement CreationRequirement { get; }

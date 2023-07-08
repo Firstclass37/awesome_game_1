@@ -19,10 +19,14 @@ namespace Game.Server.Logic.Objects.Characters
 
         public string ObjectType => CharacterTypes.Default;
 
+        public string Description => "Default character";
+
         public IAreaGetter AreaGetter => _defaultAreaGetterFactory.Get1x1();
 
         public ICreationRequirement CreationRequirement => null;
 
         public IGameObjectFactory GameObjectFactory => _characterFactory;
+
+        public Dictionary<int, int> BasePrice => new Dictionary<int, int>(0);
     }
 }
