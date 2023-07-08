@@ -8,9 +8,5 @@
         public const string Road = nameof(Road);
         public const string Ground = nameof(Ground);
         public const string TrafficLigh = nameof(TrafficLigh);
-
-        public const string Character = nameof(Character);
-
-        public const string ResourceResource = nameof(ResourceResource);
     }
 }

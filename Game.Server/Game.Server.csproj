@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Logic\Maps\Preset\" />
+    <Folder Include="API\" />
   </ItemGroup>
 
 </Project>

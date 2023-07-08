@@ -17,7 +17,7 @@ namespace Game.Server.Logic.Objects.Characters
             _characterFactory = characterFactory;
         }
 
-        public string ObjectType => BuildingTypes.Character;
+        public string ObjectType => CharacterTypes.Default;
 
         public IAreaGetter AreaGetter => _defaultAreaGetterFactory.Get1x1();
 

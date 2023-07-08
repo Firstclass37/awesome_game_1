@@ -12,7 +12,7 @@ namespace Game.Server.Logic.Objects.Characters.Creation
             var rootCell = root;
             var spawnCell = new Coordiante(rootCell.X, rootCell.Y + 3);
 
-            var gameObject = new GameObject(BuildingTypes.Character);
+            var gameObject = new GameObject(CharacterTypes.Default);
             var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(rootCell))).ToList();
 
             return new GameObjectAggregator
