@@ -22,7 +22,8 @@ namespace Game.Server.Logic.Objects.PowerStations.Interaction
 
         public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
-            _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = gameObject.Id, Damage = 1000 });
+            // kill plaery
+            //_eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = gameObject.Id, Damage = 1000 });
             if (_resourceManager.TrySpend(ResourceType.Uranus, _uranusResourceRequiredCount))
                 _resourceManager.Increase(ResourceType.Electricity, _electrociryResourceProfit);
         }

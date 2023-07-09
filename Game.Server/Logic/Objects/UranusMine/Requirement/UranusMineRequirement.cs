@@ -24,7 +24,7 @@ namespace Game.Server.Logic.Objects.UranusMine.Requirement
             var gameObjectsHere = gameObjectsIdHere.Select(g => _gameObjectAccessor.Get(g)).ToArray();
 
             var resources = gameObjectsHere
-                .Where(o => o.GameObject.ObjectType == BuildingTypes.ResourceResource && o.Attributes.Any(a => a.AttributeType == AttributeType.ResourceType && a.Value.Equals(ResourceType.Uranus)));
+                .Where(o => o.GameObject.ObjectType == ResourceResourceTypes.ResourceResource && o.Attributes.Any(a => a.AttributeType == AttributeType.ResourceType && a.Value.Equals(ResourceType.Uranus)));
 
             if (!resources.Any())
                 return false;

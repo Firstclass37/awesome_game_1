@@ -30,3 +30,9 @@ z_index = 99
 offset_right = 1156.0
 offset_bottom = 42.0
 alignment = 1
+
+[node name="BuildingsContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(130, 0)
+offset_right = 100.0
+offset_bottom = 649.0
+alignment = 1

@@ -14,22 +14,22 @@ namespace Game.Server.Logic.Objects.UranusMine.Interaction
     {
         public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
-            return new CommonInteractionAction(c =>
-            {
-                _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
-                _resourceManager.Increase(ResourceType.Uranus, 2);
-            });
+            //return new CommonInteractionAction(c =>
+            //{
+            //    _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
+            //    _resourceManager.Increase(ResourceType.Uranus, 2);
+            //});
 
-            return new CommonInteractionAction(c =>
-            {
-                _eventAggregator.PublishGameEvent(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
-                _eventAggregator.PublishGameEvent(new BuildingDelayedActionEvent
-                {
-                    BuidlingId = buildingId,
-                    DelaySec = 5,
-                    Event = () => _resourceManager.Increase(ResourceType.Uranus, 2)
-                });
-            });
+            //return new CommonInteractionAction(c =>
+            //{
+            //    _eventAggregator.PublishGameEvent(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
+            //    _eventAggregator.PublishGameEvent(new BuildingDelayedActionEvent
+            //    {
+            //        BuidlingId = buildingId,
+            //        DelaySec = 5,
+            //        Event = () => _resourceManager.Increase(ResourceType.Uranus, 2)
+            //    });
+            //});
         }
     }
 }

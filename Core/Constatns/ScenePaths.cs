@@ -5,6 +5,7 @@
         public const string Character = "C:\\Projects\\Mine\\My_awesome_character\\character.tscn";
         public const string HomeFactory = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\home_factory.tscn";
         public const string ResourceInfo = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Resource.tscn";
+        public const string BuidlingPreviewInfo = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\BuildingsPreview.tscn";
 
         public const string Player_Front = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\character_front.tscn";
         public const string Player_Back = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\player_back.tscn";

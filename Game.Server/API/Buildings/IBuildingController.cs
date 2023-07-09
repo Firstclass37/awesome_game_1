@@ -1,6 +1,6 @@
 ﻿namespace Game.Server.API.Buildings
 {
-    internal interface IBuildingController
+    public interface IBuildingController
     {
         IReadOnlyCollection<BuildingInfo> GetBuildableList();
     }

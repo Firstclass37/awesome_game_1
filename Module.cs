@@ -67,6 +67,15 @@ namespace My_awesome_character
             builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<TrafficLightLogicSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<TrafficLightInputsHandlerSystem>().As<ISystem>().SingleInstance();
+
+
+            builder.RegisterType<ListSystem>().As<ISystem>().SingleInstance();
+
+
+
+
+
+            builder.RegisterModule(new Game.Server.GameServerModule());
         }
     }
 }

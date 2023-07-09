@@ -20,7 +20,7 @@ namespace My_awesome_character.Core.Systems.Resources
 
         public void OnStart()
         {
-            var resourceContainer = _sceneAccessor.GetScene<Node2D>(SceneNames.Game).GetNode<HBoxContainer>("ResourceContainer");
+            var resourceContainer = _sceneAccessor.GetScene<Node2D>(SceneNames.Game).GetNode<Container>("ResourceContainer");
 
             var textureSelector = new ResourcePreviewTextureSelector();
             foreach(var resource in _resourceManager.GetList())

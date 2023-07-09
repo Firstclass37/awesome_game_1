@@ -3,7 +3,7 @@ using Game.Server.Models.Constants;
 
 namespace Game.Server.API.Buildings
 {
-    public record BuildingInfo(string Name, string Description, Price[] Prices);
+    public record BuildingInfo(string BuildingType, string Description, Price[] Prices);
 
     public record Price(int resourceType, int count);
 

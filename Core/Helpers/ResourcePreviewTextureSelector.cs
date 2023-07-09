@@ -18,8 +18,9 @@ namespace My_awesome_character.Core.Helpers
             { ResourceType.Microchip, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Resources\\microchip_preview.png") },
         };
 
+        private static Texture2D Default => ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\unknown_preview.png");
 
         public Texture2D Select(int from) =>
-             _textures.ContainsKey(from) ? _textures[from] : throw new ArgumentOutOfRangeException($"no textures for resource type {from}");
+             _textures.ContainsKey(from) ? _textures[from] : Default;
     }
 }

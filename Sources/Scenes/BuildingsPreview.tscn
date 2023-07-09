@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://ygoq4c2xsqv1"]
+
+[ext_resource type="Script" path="res://Entities/BuildingsPreview.cs" id="1_jetsl"]
+[ext_resource type="Texture2D" uid="uid://du1x2avdkmdy3" path="res://Assets/Map/Building/unknown_preview.png" id="2_sg4y5"]
+
+[node name="ColorRect" type="ColorRect"]
+custom_minimum_size = Vector2(130, 130)
+offset_right = 140.0
+offset_bottom = 140.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.309804, 0.309804, 0.309804, 1)
+script = ExtResource("1_jetsl")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(140, 140)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_sg4y5")
+expand_mode = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+offset_top = 104.0
+offset_right = 280.0
+offset_bottom = 176.0
+scale = Vector2(0.5, 0.5)
+alignment = 1
