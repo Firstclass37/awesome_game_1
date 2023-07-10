@@ -8,18 +8,6 @@ public partial class character : Node2D
 
 	public int Id { get; set; }
 
-	private readonly System.Collections.Generic.Dictionary<string, Key[]> _keyToDirectionMap = new System.Collections.Generic.Dictionary<string, Key[]> 
-	{
-		{ "back-left", new Key[] { Key.Left, Key.Up } },
-		{ "back-right", new Key[] { Key.Right, Key.Up } },
-		{ "front-left", new Key[] { Key.Left, Key.Down } },
-		{ "front-right", new Key[] { Key.Right, Key.Down } },
-        { "left", new Key[] { Key.Left } },
-        { "right", new Key[] { Key.Right } },
-        { "back", new Key[] { Key.Up } },
-        { "front", new Key[] { Key.Down } },
-    };
-
 	private AnimationPlayer _currentAnimation;
 	private string _currentDirection;
 
@@ -107,22 +95,6 @@ public partial class character : Node2D
 		throw new Exception($"cant detect direction for vector {vector}");
 	}
 
-
-	public override void _UnhandledKeyInput(InputEvent @event)
-	{
-		var keyEvent = @event as InputEventKey;
-		if (keyEvent == null)
-			return;
-
-		var newDirection = _keyToDirectionMap
-			.Where(kv => kv.Value.All(IsKeyPressed))
-			.Select(k => k.Key)
-			.FirstOrDefault();
-
-		if (newDirection != null && newDirection != _currentDirection)
-            ActivateDirection(newDirection);
-    }
-
     private void ActivateDirection(string name)
 	{
 		if (string.IsNullOrEmpty(name)) 
@@ -150,19 +122,4 @@ public partial class character : Node2D
         if (IsMoving && !_currentAnimation.IsPlaying())
             _currentAnimation.Play("move");
     }
-
-	private void Move()
-	{
-		if (_currentAnimation == null)
-			return;
-
-		var allKeyPressed = _keyToDirectionMap[_currentDirection].All(IsKeyPressed);
-
-		if (!allKeyPressed && _currentAnimation.IsPlaying())
-			_currentAnimation?.Stop();
-		if (allKeyPressed && !_currentAnimation.IsPlaying())
-            _currentAnimation?.Play("move");
-	}
-
-	private bool IsKeyPressed(Key key) => Input.IsActionPressed("ui_" + key.ToString().ToLower());
 }

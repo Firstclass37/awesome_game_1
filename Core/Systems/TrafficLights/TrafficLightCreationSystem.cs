@@ -78,13 +78,12 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             var id = new Random().Next(0, 100000);
             //todo: это должно быть в HomeCreatingSystem
             var trafficLight = SceneFactory.Create<TrafficLight>(SceneNames.TrafficLight(id), ScenePaths.TrafficLight);
-            var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
-            game.AddChild(trafficLight, forceReadableName: true);
+            map.AddChild(trafficLight, forceReadableName: true);
 
             trafficLight.Id = id;
             trafficLight.MapPosition = new Game.Coordiante(cell.X, cell.Y);
-            trafficLight.Scale = new Godot.Vector2(0.2f, 0.2f);
-            trafficLight.GlobalPosition = map.GetGlobalPositionOf(cell);
+            trafficLight.Scale = new Vector2(0.2f, 0.2f);
+            trafficLight.Position = map.GetLocalPosition(cell);
             return trafficLight;
         }
 

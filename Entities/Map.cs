@@ -59,6 +59,12 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
 		return ToGlobal(cell);
 	}
 
+    public Godot.Vector2 GetLocalPosition(MapCell mapCell)
+    {
+        return TileMap.MapToLocal(new Vector2I { X = mapCell.X, Y = mapCell.Y });
+    }
+
+
     public Map()
     {
         _activeCells = new Lazy<Dictionary<MapCell, int>>(GetInitialState);

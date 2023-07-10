@@ -25,7 +25,6 @@ namespace My_awesome_character.Core.Systems.Character
         {
             GD.Print("InitCharacterSystem");
 
-            var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
             for (int i = 0; i < _characterCount; i++)
@@ -36,11 +35,11 @@ namespace My_awesome_character.Core.Systems.Character
 
                 var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
                 var character = SceneFactory.Create<character>(SceneNames.Character(id), ScenePaths.Character);
-                game.AddChild(character, forceReadableName: true);
+                map.AddChild(character, forceReadableName: true);
                 character.Id = id;
                 character.ZIndex = i + 10;
                 character.MapPosition = randomPoint;
-                character.GlobalPosition = map.GetGlobalPositionOf(randomPoint);
+                character.GlobalPosition = map.GetLocalPosition(randomPoint);
                 character.Scale = new Vector2(0.8f, 0.8f);
 
                 _eventAggregator.GetEvent<GameEvent<CharacterCreatedEvent>>().Publish(new CharacterCreatedEvent { CharacterId = id });

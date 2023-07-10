@@ -49,11 +49,11 @@ namespace My_awesome_character.Core.Systems.Builidngs
                 return;
             }
 
-            var buidlingPosition = map.GetGlobalPositionOf(building.RootCell);
+            var buidlingPosition = map.GetLocalPosition(building.RootCell);
 
             var loadingBar = SceneFactory.Create<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId), ScenePaths.LoadingBar);
             loadingBar.Duration = @event.DelaySec;
-            loadingBar.GlobalPosition = new Godot.Vector2(buidlingPosition.X, buidlingPosition.Y - 100);
+            loadingBar.Position = new Godot.Vector2(buidlingPosition.X, buidlingPosition.Y - 100);
             loadingBar.Scale = new Godot.Vector2(2, 2);
             loadingBar.WhenEnd = (b) => WhenEnd(@event.BuidlingId, @event.Event, b);
 

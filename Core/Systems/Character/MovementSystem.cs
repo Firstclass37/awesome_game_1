@@ -44,7 +44,7 @@ namespace My_awesome_character.Core.Systems.Character
 
             character.IsMoving = true;
             character.MoveTo(@event.Path, 
-                mc => game.ToLocal(map.GetGlobalPositionOf(mc)),
+                mc => map.GetLocalPosition(mc),
                 mc => _eventAggregator.GetEvent<GameEvent<CharacterPositionChangedEvent>>().Publish(new CharacterPositionChangedEvent { CharacterId = character.Id, NewPosition = mc }),
                 () => OnMovementEnd(character));
         }

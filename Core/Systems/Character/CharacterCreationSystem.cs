@@ -25,18 +25,17 @@ namespace My_awesome_character.Core.Systems.Character
 
         private void OnCreaterionRequest(CharacterCreationRequestEvent obj)
         {
-            var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
             var otherCharacters = _sceneAccessor.FindAll<character>();
             var newCharacterId = otherCharacters.Any() ? otherCharacters.Max(h => h.Id) + 1 : 1;
 
             var character = SceneFactory.Create<character>(SceneNames.Character(newCharacterId), ScenePaths.Character);
-            game.AddChild(character, forceReadableName: true);
+            map.AddChild(character, forceReadableName: true);
             character.Id = newCharacterId;
             character.ZIndex = newCharacterId + 10;
             character.MapPosition = obj.InitPosition;
-            character.GlobalPosition = map.GetGlobalPositionOf(obj.InitPosition);
+            character.Position = map.GetLocalPosition(obj.InitPosition);
             character.Scale = new Vector2(0.8f, 0.8f);
 
             GD.Print($"character create {character.Id}");
