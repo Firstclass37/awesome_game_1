@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2rjwxyf3ba8u"]
+[gd_scene load_steps=5 format=3 uid="uid://d2rjwxyf3ba8u"]
 
 [ext_resource type="Script" path="res://Entities/FpsMeter.cs" id="2_bqtc4"]
 [ext_resource type="PackedScene" uid="uid://cmpbjqg7ku10m" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
+[ext_resource type="Script" path="res://Entities/Camera2D.cs" id="2_l4n5e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5c161"]
 font_size = 27
@@ -9,9 +10,6 @@ font_color = Color(1, 0, 1, 1)
 
 [node name="Game" type="Node2D"]
 rotation = 0.00258588
-
-[node name="map" parent="." instance=ExtResource("2_gxlwo")]
-position = Vector2(-25.956, 17.0672)
 
 [node name="Label" type="Label" parent="."]
 z_index = 999
@@ -32,7 +30,22 @@ offset_bottom = 42.0
 alignment = 1
 
 [node name="BuildingsContainer" type="VBoxContainer" parent="."]
+z_index = 99
 custom_minimum_size = Vector2(130, 0)
 offset_right = 100.0
 offset_bottom = 649.0
 alignment = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+size = Vector2i(1150, 650)
+size_2d_override_stretch = true
+
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport"]
+script = ExtResource("2_l4n5e")
+
+[node name="map" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_gxlwo")]
+position = Vector2(-25.956, 17.0672)
