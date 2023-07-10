@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmpbjqg7ku10m"]
+[gd_scene load_steps=21 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://x7ooimht313g" path="res://Assets/Map/Building/PowerStation.png" id="2_0l4og"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://clehlocqjol7p" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N_128_64.png" id="4_1acxk"]
 [ext_resource type="Texture2D" uid="uid://8t8yflvhrb0g" path="res://Assets/Map/kenney_isometric-miniature-dungeon/stone_N_128_64.png" id="5_5wxiu"]
 [ext_resource type="Texture2D" uid="uid://b6dn2sgjhnce1" path="res://Assets/Map/Building/Mine.png" id="6_3p2xd"]
+[ext_resource type="Script" path="res://Entities/MapCamera/CameraAnchor.cs" id="10_ymviw"]
+[ext_resource type="Script" path="res://Entities/MapCamera/Camera2D.cs" id="11_wtnxy"]
 [ext_resource type="Texture2D" uid="uid://8cfv74esusys" path="res://Assets/Map/Building/home_test_2x2.png" id="14_2v5tu"]
 [ext_resource type="Texture2D" uid="uid://1cltjv0gv0xp" path="res://Assets/Map/Ground/uranus.png" id="15_svoh3"]
 
@@ -190,3 +192,18 @@ layer_4/y_sort_enabled = true
 layer_4/y_sort_origin = 10
 layer_4/z_index = 0
 layer_4/tile_data = PackedInt32Array()
+
+[node name="CameraAnchor" type="ColorRect" parent="."]
+offset_left = 570.0
+offset_top = 287.0
+offset_right = 610.0
+offset_bottom = 327.0
+script = ExtResource("10_ymviw")
+
+[node name="Camera2D" type="Camera2D" parent="CameraAnchor"]
+limit_left = -100
+limit_top = -100
+limit_right = 2000
+limit_bottom = 1000
+limit_smoothed = true
+script = ExtResource("11_wtnxy")
