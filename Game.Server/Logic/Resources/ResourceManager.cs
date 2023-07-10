@@ -22,6 +22,7 @@ namespace Game.Server.Logic.Resources
             AddifNotExists(ResourceType.Electricity, "Electricity", 0);
             AddifNotExists(ResourceType.Steel, "Steel", 0);
             AddifNotExists(ResourceType.Uranus, "Uranus", 0);
+            AddifNotExists(ResourceType.Aluminum, "Aluminum", 0);
             AddifNotExists(ResourceType.Microchip, "Microchip", 100);
         }
 
@@ -61,6 +62,11 @@ namespace Game.Server.Logic.Resources
             
             _storage.Add(new Resource { ResourceType = resourceType, Value = initialValue, Name = name });
             _eventAggregator.GetEvent<GameEvent<ResourceAddedEvent>>().Publish(new ResourceAddedEvent { ResourceType = resourceType, Value = initialValue });
+        }
+
+        public IReadOnlyCollection<Resource> GetList()
+        {
+            return _storage.Find<Resource>(r => true).ToArray();
         }
     }
 }
