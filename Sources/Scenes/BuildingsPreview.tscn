@@ -9,17 +9,19 @@ offset_right = 140.0
 offset_bottom = 140.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-color = Color(0.309804, 0.309804, 0.309804, 1)
+color = Color(0.027451, 0.372549, 0.215686, 0.231373)
 script = ExtResource("1_jetsl")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(140, 140)
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_sg4y5")
 expand_mode = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 0
 offset_top = 104.0
 offset_right = 280.0
 offset_bottom = 176.0

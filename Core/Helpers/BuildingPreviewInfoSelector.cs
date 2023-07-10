@@ -8,10 +8,10 @@ namespace My_awesome_character.Core.Helpers
     {
         private readonly Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>
         {
-            { BuildingTypesTrue.HomeType1, Default },
-            { BuildingTypesTrue.MineUranus, Default },
-            { BuildingTypesTrue.Road, Default },
-            { BuildingTypesTrue.PowerStation, Default },
+            { BuildingTypesTrue.HomeType1, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\home_test_2x2.png") },
+            { BuildingTypesTrue.MineUranus, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\Mine.png") },
+            { BuildingTypesTrue.Road, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Ground\\road_asphalt_pewviewinfo.png") },
+            { BuildingTypesTrue.PowerStation, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\PowerStation.png") },
         };
 
         private static Texture2D Default => ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\unknown_preview.png");
