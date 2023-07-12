@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace My_awesome_character.Core.Systems
 {
@@ -75,10 +74,8 @@ namespace My_awesome_character.Core.Systems
             
             var filePath = Path.Combine(@"C:\Projects\Mine\My_awesome_character.Tests\bin\Debug\net6.0", "map.json");
 
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(info));
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(grid));
             GD.Print(filePath);
-
-
         }
 
         private class Neightbor

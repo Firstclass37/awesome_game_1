@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="7.0.1" />
+    <None Remove="Logic\Maps\Preset\map-1.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\Maps\Preset\" />
+    <Content Include="Logic\Maps\Preset\map-1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

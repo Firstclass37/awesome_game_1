@@ -35,13 +35,13 @@ namespace Game.Server.Storage
         public bool Exists<T>(Func<T, bool> predicate) where T : IEntityObject
         {
             var key = GetKey<T>();
-            return _dataBase[key].Keys.Cast<T>().Any(predicate);
+            return _dataBase[key].Values.Cast<T>().Any(predicate);
         }
 
         public IEnumerable<T> Find<T>(Func<T, bool> predicate) where T : IEntityObject
         {
             var key = GetKey<T>();
-            return _dataBase[key].Keys.Cast<T>().Where(predicate);
+            return _dataBase[key].Values.Cast<T>().Where(predicate);
         }
 
         public void Remove<T>(T obj) where T : IEntityObject
