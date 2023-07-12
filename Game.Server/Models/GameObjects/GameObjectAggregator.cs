@@ -2,6 +2,14 @@
 {
     internal class GameObjectAggregator
     {
+        public GameObjectAggregator()
+        {
+            Attributes = new List<GameObjectToAttribute>(0);
+            Area = new List<GameObjectPosition>(0);
+            PeriodicActions = new List<PeriodicAction>(0);
+            Interactions = new List<GameObjectInteraction>(0);
+        }
+
         public GameObject GameObject { get; set; }
 
         public List<GameObjectToAttribute> Attributes { get; set; }

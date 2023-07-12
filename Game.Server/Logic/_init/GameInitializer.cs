@@ -1,4 +1,6 @@
 ﻿using Game.Server.Logic.Maps.Preset;
+using Game.Server.Logic.Objects._Buidling;
+using Game.Server.Models.Constants;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
 
@@ -6,15 +8,25 @@ namespace Game.Server.Logic._init
 {
     internal class GameInitializer
     {
+        private readonly IGameObjectCreator _gameObjectCreator;
         private readonly IPresetLoader _presetLoader;
         private readonly IStorage _storage;
 
-        public GameInitializer(IPresetLoader presetLoader, IStorage storage)
+        public GameInitializer(IPresetLoader presetLoader, IStorage storage, IGameObjectCreator gameObjectCreator)
         {
             _presetLoader = presetLoader;
             _storage = storage;
+            _gameObjectCreator = gameObjectCreator;
 
             PopulateMapGrid();
+            PopulateGround();
+        }
+
+        private void PopulateGround()
+        {
+            var cells = _storage.Find<IsometricMapCell>(c => true);
+            foreach(var cell in cells)
+                _gameObjectCreator.Create(GroundTypes.Ground, cell.Coordiante, null);
         }
 
         private void PopulateMapGrid()
@@ -31,8 +43,6 @@ namespace Game.Server.Logic._init
                 var newCell = new IsometricMapCell(dbValue.Coordiante, neighbors) { Id = dbValue.Id };
                 _storage.Update(newCell);
             }
-
-            Console.WriteLine("ALL COMPLETED");
         }
     }
 }
