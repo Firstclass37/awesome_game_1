@@ -20,6 +20,15 @@ namespace Game.Server.Logic._init
 
             PopulateMapGrid();
             PopulateGround();
+            PopulateHome();
+        }
+
+        private void PopulateHome()
+        {
+            var coordinate = new Coordiante(7, 21);
+            var home = _gameObjectCreator.Create(BuildingTypes.HomeType1, coordinate, null);
+            if (home == null)
+                throw new Exception($"cant create home at [{coordinate.X} {coordinate.Y}]");
         }
 
         private void PopulateGround()

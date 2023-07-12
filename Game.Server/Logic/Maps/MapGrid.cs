@@ -20,6 +20,6 @@ namespace Game.Server.Logic.Maps
         }
 
         public IReadOnlyDictionary<Coordiante, Direction> GetNeightborsOf(Coordiante coordiante) => 
-            _storage.Find<IsometricMapCell>(c => c.Equals(coordiante)).First().Neighbors.ToDictionary(k => k.Key.Coordiante, k => k.Value);
+            _storage.Find<IsometricMapCell>(c => c.Coordiante.Equals(coordiante)).First().Neighbors.ToDictionary(k => k.Key.Coordiante, k => k.Value);
     }
 }
