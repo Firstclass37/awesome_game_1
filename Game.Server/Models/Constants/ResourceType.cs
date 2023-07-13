@@ -10,5 +10,28 @@
         public const int Uranus = 6;
         public const int Microchip = 7;
         public const int Aluminum = 8;
+
+        public const int Energy = 9;
+        public const int Iron = 10;
+
+        /// <summary>
+        /// Уголь
+        /// </summary>
+        public const int Coal = 11;
+
+        /// <summary>
+        /// Кремний
+        /// </summary>
+        public const int Silicon = 12;
+
+        /// <summary>
+        /// Химикаты
+        /// </summary>
+        public const int Chemicals = 13;
+
+        /// <summary>
+        /// Стекло
+        /// </summary>
+        public const int Glass = 14;
     }
 }
