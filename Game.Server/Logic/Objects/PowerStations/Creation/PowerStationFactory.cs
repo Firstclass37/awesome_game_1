@@ -11,7 +11,7 @@ namespace Game.Server.Logic.Objects.PowerStations.Creation
     {
         public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
         {
-            var gameObject = new GameObject(BuildingTypes.PowerStation);
+            var gameObject = new GameObject(BuildingTypes.GeothermalStation);
             var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToList();
             var interactions = new List<GameObjectInteraction>()
             {

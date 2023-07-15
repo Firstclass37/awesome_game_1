@@ -19,7 +19,7 @@ namespace Game.Server.Logic.Objects.PowerStations
             _onlyGroundRequirement = onlyGroundRequirement;
         }
 
-        public string ObjectType => BuildingTypes.PowerStation;
+        public string ObjectType => BuildingTypes.GeothermalStation;
 
         public string Description => "Power station";
 

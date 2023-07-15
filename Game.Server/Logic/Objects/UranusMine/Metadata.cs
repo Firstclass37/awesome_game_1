@@ -20,7 +20,7 @@ namespace Game.Server.Logic.Objects.UranusMine
             _uranusMineRequirement = uranusMineRequirement;
         }
 
-        public string ObjectType => BuildingTypes.MineUranus;
+        public string ObjectType => BuildingTypes.UranusMine;
 
         public string Description => "Uranus mine";
 

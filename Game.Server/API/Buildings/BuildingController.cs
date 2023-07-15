@@ -18,13 +18,13 @@ namespace Game.Server.API.Buildings
 
         public IReadOnlyCollection<BuildingInfo> GetBuildableList()
         {
-            return new string[]
-            {
-                BuildingTypes.HomeType1,
-                BuildingTypes.PowerStation,
-                BuildingTypes.MineUranus,
-                BuildingTypes.Road,
-            }
+            return BuildingTypes.List
+                .Except(new string[]
+                {
+                    BuildingTypes.Road,
+                    BuildingTypes.Ground,
+                    BuildingTypes.TrafficLigh
+                })
             .Select(t => _gameObjectMetadataCollection.Get(t))
             .Select(m => new BuildingInfo(m.ObjectType, m.Description, m.BasePrice.Select(p => new Price(p.Key, p.Value)).ToArray()))
             .ToArray();

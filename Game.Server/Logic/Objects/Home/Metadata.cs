@@ -19,7 +19,7 @@ namespace Game.Server.Logic.Objects.Home
             _onlyGroundRequirement = onlyGroundRequirement;
         }
 
-        public string ObjectType => BuildingTypes.HomeType1;
+        public string ObjectType => BuildingTypes.Home;
 
         public string Description => "Super home";
 
