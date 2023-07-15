@@ -26,7 +26,9 @@ namespace Game.Server.Logic.Objects._Buidling
         public IAreaGetter Get3x3() => new Area3x3Getter(_areaCalculator);
     }
 
-    internal class Area3x3Getter : IAreaGetter
+    internal interface IArea3x3Getter: IAreaGetter { }
+
+    internal class Area3x3Getter : IArea3x3Getter
     {
         private readonly IAreaCalculator _areaCalculator;
 
@@ -38,7 +40,9 @@ namespace Game.Server.Logic.Objects._Buidling
         public Coordiante[] GetArea(Coordiante root) => _areaCalculator.Get3X3Area(root);
     }
 
-    internal class Area2x2Getter : IAreaGetter
+    internal interface IArea2x2Getter : IAreaGetter { }
+
+    internal class Area2x2Getter : IArea2x2Getter
     {
         private readonly IAreaCalculator _areaCalculator;
 
@@ -50,7 +54,9 @@ namespace Game.Server.Logic.Objects._Buidling
         public Coordiante[] GetArea(Coordiante root) => _areaCalculator.Get2x2Area(root);
     }
 
-    internal class AreaGetter : IAreaGetter
+    internal interface IArea1x1Getter : IAreaGetter { }
+
+    internal class AreaGetter : IArea1x1Getter
     {
         public Coordiante[] GetArea(Coordiante root) => new Coordiante[] { root };
     }
