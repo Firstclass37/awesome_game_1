@@ -24,6 +24,11 @@ namespace Game.Server.Logic.Resources
             AddifNotExists(ResourceType.Uranus, "Uranus", 0);
             AddifNotExists(ResourceType.Aluminum, "Aluminum", 0);
             AddifNotExists(ResourceType.Microchip, "Microchip", 100);
+            AddifNotExists(ResourceType.Coal, "Coal", 0);
+            AddifNotExists(ResourceType.Chemicals, "Chemicals", 0);
+            AddifNotExists(ResourceType.Glass, "Glass", 0);
+            AddifNotExists(ResourceType.Silicon, "Silicon", 0);
+            AddifNotExists(ResourceType.Energy, "Energy", 0);
         }
 
         public float GetAmount(int resourceType) => _storage.Find<Resource>(r => r.ResourceType == resourceType).First().Value;
