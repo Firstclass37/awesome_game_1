@@ -2,12 +2,15 @@
 {
     internal interface IWeatherService
     {
-        bool IsRainy();
+        WeatheState GetCurrent();
+    }
 
-        bool IsWindy();
 
-        bool IsNight();
-
-        bool IsSunny();
+    public enum WeatheState
+    {
+        Rainy,
+        Windy,
+        Night,
+        Sunny
     }
 }
