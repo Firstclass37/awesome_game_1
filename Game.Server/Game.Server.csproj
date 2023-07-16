@@ -24,7 +24,6 @@
   <ItemGroup>
     <Folder Include="Logic\Objects\WaterPump\" />
     <Folder Include="Logic\Objects\WindTurbine\" />
-    <Folder Include="Logic\Objects\SolarBattery\" />
   </ItemGroup>
 
 </Project>
