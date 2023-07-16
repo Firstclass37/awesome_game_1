@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\Objects\SiliconQuarry\" />
     <Folder Include="Logic\Objects\SteelPlant\" />
     <Folder Include="Logic\Objects\UraniumProcessingPlant\" />
     <Folder Include="Logic\Objects\WaterPump\" />
