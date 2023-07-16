@@ -4,6 +4,6 @@
     {
         public int ResourceType { get; set; }
 
-        public int Value { get; set; }
+        public float Value { get; set; }
     }
 }

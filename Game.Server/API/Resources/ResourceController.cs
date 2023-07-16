@@ -2,7 +2,7 @@
 
 namespace Game.Server.API.Resources
 {
-    public record ResourceInfo(int id, string name, double amout);
+    public record ResourceInfo(int id, string name, float amout);
 
     internal class ResourceController : IResourceController
     {
@@ -20,7 +20,7 @@ namespace Game.Server.API.Resources
 
         public int GetAmount(int resourceType)
         {
-            return _resourceManager.GetAmount(resourceType);
+            return (int)_resourceManager.GetAmount(resourceType);
         }
     }
 }

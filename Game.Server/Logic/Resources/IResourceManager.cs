@@ -4,9 +4,9 @@ namespace Game.Server.Logic.Resources
 {
     internal interface IResourceManager
     {
-        int GetAmount(int resourceType);
+        float GetAmount(int resourceType);
         IReadOnlyCollection<Resource> GetList();
-        void Increase(int resourceType, int count);
-        bool TrySpend(int resourceType, int count);
+        void Increase(int resourceType, float count);
+        bool TrySpend(int resourceType, float count);
     }
 }

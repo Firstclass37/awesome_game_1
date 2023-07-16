@@ -16,7 +16,7 @@ namespace Game.Server.Logic.Resources
             _eventAggregator = eventAggregator;
             _storage = storage;
 
-            AddifNotExists(ResourceType.Money, "K$", 0);
+            AddifNotExists(ResourceType.Money, "K$", 100);
             AddifNotExists(ResourceType.Water, "Water", 0);
             AddifNotExists(ResourceType.Food, "Food", 0);
             AddifNotExists(ResourceType.Electricity, "Electricity", 0);
@@ -26,9 +26,9 @@ namespace Game.Server.Logic.Resources
             AddifNotExists(ResourceType.Microchip, "Microchip", 100);
         }
 
-        public int GetAmount(int resourceType) => _storage.Find<Resource>(r => r.ResourceType == resourceType).First().Value;
+        public float GetAmount(int resourceType) => _storage.Find<Resource>(r => r.ResourceType == resourceType).First().Value;
 
-        public bool TrySpend(int resourceType, int count)
+        public bool TrySpend(int resourceType, float count)
         {
             var resource = _storage.Find<Resource>(r => r.ResourceType == resourceType).FirstOrDefault();
             if (resource == null)
@@ -43,7 +43,7 @@ namespace Game.Server.Logic.Resources
             return true;
         }
 
-        public void Increase(int resourceType, int count)
+        public void Increase(int resourceType, float count)
         {
             var resource = _storage.Find<Resource>(r => r.ResourceType == resourceType).FirstOrDefault();
             if (resource == null)
@@ -54,7 +54,7 @@ namespace Game.Server.Logic.Resources
             _eventAggregator.GetEvent<GameEvent<ResourceIncreaseEvent>>().Publish(new ResourceIncreaseEvent { ResourceTypeId = resourceType, Amount = count });
         }
 
-        private void AddifNotExists(int resourceType, string name, int initialValue)
+        private void AddifNotExists(int resourceType, string name, float initialValue)
         {
             var exists = _storage.Exists<Resource>(r => r.ResourceType == resourceType);
             if (exists)
