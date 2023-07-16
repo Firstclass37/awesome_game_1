@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Logic\Objects\MoistureTrap\" />
-    <Folder Include="Logic\Objects\IndustrialFarm\" />
     <Folder Include="Logic\Objects\IronMine\" />
     <Folder Include="Logic\Objects\SiliconQuarry\" />
     <Folder Include="Logic\Objects\SteelPlant\" />
