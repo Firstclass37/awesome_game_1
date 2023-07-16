@@ -37,5 +37,10 @@
         /// Стекло
         /// </summary>
         public const int Glass = 14;
+
+        /// <summary>
+        /// Топливо
+        /// </summary>
+        public const int Fuel = 15;
     }
 }
