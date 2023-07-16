@@ -1,18 +1,21 @@
 ﻿using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
+using Game.Server.Logic.Objects.AluminumMine.Creation;
 using Game.Server.Models.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.Server.Logic.Objects.AluminumMine
 {
     internal class Metadata : IGameObjectMetadata
     {
         private readonly IArea2x2Getter _area2X2Getter;
+        private readonly AluminumMineFactory _aluminumMineFactory;
+
+        public Metadata(IArea2x2Getter area2X2Getter, AluminumMineFactory aluminumMineFactory)
+        {
+            _area2X2Getter = area2X2Getter;
+            _aluminumMineFactory = aluminumMineFactory;
+        }
 
         public string ObjectType => BuildingTypes.AluminumMine;
 
@@ -25,8 +28,8 @@ namespace Game.Server.Logic.Objects.AluminumMine
 
         public IAreaGetter AreaGetter => _area2X2Getter;
 
-        public ICreationRequirement CreationRequirement => throw new NotImplementedException();
+        public ICreationRequirement CreationRequirement => new OnlyTypeRequirement(ResourceResourceTypes.Bauxite);
 
-        public IGameObjectFactory GameObjectFactory => throw new NotImplementedException();
+        public IGameObjectFactory GameObjectFactory => _aluminumMineFactory;
     }
 }
