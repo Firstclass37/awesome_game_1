@@ -12,12 +12,12 @@ namespace Game.Server.Logic.Objects._Core
 
         public string Description { get; }
 
-        public Price BasePrice { get; }
-
         public IAreaGetter AreaGetter { get; }
 
         public ICreationRequirement CreationRequirement { get; }
 
         public IGameObjectFactory GameObjectFactory { get; }
+
+        public Price BasePrice { get; }
     }
 }
