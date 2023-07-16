@@ -4,6 +4,10 @@
     {
         public const int Money = 1;
         public const int Water = 2;
+
+        /// <summary>
+        /// Продовольствие
+        /// </summary>
         public const int Food = 3;
         public const int Electricity = 4;
 
