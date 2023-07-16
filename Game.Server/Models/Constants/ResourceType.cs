@@ -6,6 +6,10 @@
         public const int Water = 2;
         public const int Food = 3;
         public const int Electricity = 4;
+
+        /// <summary>
+        /// Сталь
+        /// </summary>
         public const int Steel = 5;
         public const int Uranus = 6;
         public const int Microchip = 7;

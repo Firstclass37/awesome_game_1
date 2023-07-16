@@ -10,13 +10,11 @@ namespace Game.Server.Logic.Objects.PowerStations
     {
         private readonly IDefaultAreaGetterFactory _areFactory;
         private readonly PowerStationFactory _factory;
-        private readonly OnlyGroundRequirement _onlyGroundRequirement;
 
-        public Metadata(IDefaultAreaGetterFactory areFactory, PowerStationFactory homeFactory, OnlyGroundRequirement onlyGroundRequirement)
+        public Metadata(IDefaultAreaGetterFactory areFactory, PowerStationFactory homeFactory)
         {
             _areFactory = areFactory;
             _factory = homeFactory;
-            _onlyGroundRequirement = onlyGroundRequirement;
         }
 
         public string ObjectType => BuildingTypes.GeothermalStation;
@@ -25,7 +23,7 @@ namespace Game.Server.Logic.Objects.PowerStations
 
         public IAreaGetter AreaGetter => _areFactory.Get2x2();
 
-        public ICreationRequirement CreationRequirement => _onlyGroundRequirement;
+        public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 
         public IGameObjectFactory GameObjectFactory => _factory;
 

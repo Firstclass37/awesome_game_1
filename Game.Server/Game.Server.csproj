@@ -21,4 +21,24 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logic\Objects\MoistureTrap\" />
+    <Folder Include="Logic\Objects\GreenhouseFarm\" />
+    <Folder Include="Logic\Objects\IndustrialFarm\" />
+    <Folder Include="Logic\Objects\ElectrolysisReactor\" />
+    <Folder Include="Logic\Objects\IronMine\" />
+    <Folder Include="Logic\Objects\CoalMine\" />
+    <Folder Include="Logic\Objects\ChemicalFactory\" />
+    <Folder Include="Logic\Objects\GlassFactory\" />
+    <Folder Include="Logic\Objects\ElectronicPlant\" />
+    <Folder Include="Logic\Objects\SiliconQuarry\" />
+    <Folder Include="Logic\Objects\SteelPlant\" />
+    <Folder Include="Logic\Objects\UraniumProcessingPlant\" />
+    <Folder Include="Logic\Objects\WaterPump\" />
+    <Folder Include="Logic\Objects\Storage\" />
+    <Folder Include="Logic\Objects\NuclearReactor\" />
+    <Folder Include="Logic\Objects\WindTurbine\" />
+    <Folder Include="Logic\Objects\SolarBattery\" />
+  </ItemGroup>
+
 </Project>

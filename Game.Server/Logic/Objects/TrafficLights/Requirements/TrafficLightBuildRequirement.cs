@@ -18,9 +18,9 @@ namespace Game.Server.Logic.Objects.TrafficLights.Requirements
             _storage = storage;
         }
 
-        public bool Satisfy(Coordiante[] area)
+        public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
         {
-            var root = area[0];
+            var root = area.First().Key;
 
             var neigtborsCoordinates = _mapGrid.GetNeightborsOf(root).Select(c => c.Key).ToArray();
             var neigtbors = _storage.Find<GameObjectPosition>(p => neigtborsCoordinates.Contains(p.Coordiante)).Select(e => e.EntityId).ToArray();
