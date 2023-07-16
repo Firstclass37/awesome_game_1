@@ -4,6 +4,7 @@ using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.TrafficLights.Creation;
 using Game.Server.Logic.Objects.TrafficLights.Requirements;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.TrafficLights
 {
@@ -30,6 +31,6 @@ namespace Game.Server.Logic.Objects.TrafficLights
 
         public IGameObjectFactory GameObjectFactory => _trafficLightFactory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int>();
+        public Price BasePrice => Price.Free;
     }
 }

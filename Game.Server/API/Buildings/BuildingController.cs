@@ -5,7 +5,7 @@ namespace Game.Server.API.Buildings
 {
     public record BuildingInfo(string BuildingType, string Description, Price[] Prices);
 
-    public record Price(int resourceType, int count);
+    public record Price(int resourceType, float count);
 
     internal class BuildingController : IBuildingController
     {
@@ -26,7 +26,7 @@ namespace Game.Server.API.Buildings
                     BuildingTypes.TrafficLigh
                 })
             .Select(t => _gameObjectMetadataCollection.Get(t))
-            .Select(m => new BuildingInfo(m.ObjectType, m.Description, m.BasePrice.Select(p => new Price(p.Key, p.Value)).ToArray()))
+            .Select(m => new BuildingInfo(m.ObjectType, m.Description, m.BasePrice.Chunks.Select(p => new Price(p.ResourceId, p.Amout)).ToArray()))
             .ToArray();
         }
     }

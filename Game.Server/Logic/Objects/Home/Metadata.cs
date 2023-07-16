@@ -3,6 +3,7 @@ using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Home.Creation;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.Home
 {
@@ -29,9 +30,6 @@ namespace Game.Server.Logic.Objects.Home
 
         public IGameObjectFactory GameObjectFactory => _homeFactory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int> 
-        {
-            { ResourceType.Money, 100 }
-        };
+        public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Money, 100));
     }
 }

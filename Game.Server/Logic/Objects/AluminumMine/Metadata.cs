@@ -3,6 +3,7 @@ using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.AluminumMine.Creation;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.AluminumMine
 {
@@ -21,10 +22,7 @@ namespace Game.Server.Logic.Objects.AluminumMine
 
         public string Description => "Aluminum Mine";
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int> 
-        {
-            { ResourceType.Steel, 45 }
-        };
+        public Price BasePrice => new Price(new ResourceChunk(ResourceType.Steel, 45));
 
         public IAreaGetter AreaGetter => _area2X2Getter;
 

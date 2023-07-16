@@ -25,7 +25,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
             var container = _sceneAccessor.GetScene<Node2D>(SceneNames.Game).GetNode<Container>("BuildingsContainer");
             foreach(var building in buildings) 
             {
-                var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, p.count)).ToArray();
+                var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
 
                 var buildingPreviewInfo = SceneFactory.Create<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType), ScenePaths.BuidlingPreviewInfo);
                 buildingPreviewInfo.BuildingTexture = new BuildingPreviewInfoSelector().Select(building.BuildingType);

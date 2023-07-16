@@ -4,6 +4,7 @@ using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.UranusMine.Creation;
 using Game.Server.Logic.Objects.UranusMine.Requirement;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.UranusMine
 {
@@ -30,6 +31,6 @@ namespace Game.Server.Logic.Objects.UranusMine
 
         public IGameObjectFactory GameObjectFactory => _uranusMineFactory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int>();
+        public Price BasePrice => Price.Free;
     }
 }

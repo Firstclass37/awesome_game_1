@@ -4,6 +4,7 @@ using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Roads.Createtion;
 using Game.Server.Logic.Objects.Roads.Reuirements;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.Roads
 {
@@ -30,9 +31,6 @@ namespace Game.Server.Logic.Objects.Roads
 
         public IGameObjectFactory GameObjectFactory => _roadFactory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int> 
-        {
-            { ResourceType.Money, 10 }
-        };
+        public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Money, 10));
     }
 }

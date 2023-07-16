@@ -3,6 +3,7 @@ using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Characters.Creation;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.Characters
 {
@@ -27,6 +28,6 @@ namespace Game.Server.Logic.Objects.Characters
 
         public IGameObjectFactory GameObjectFactory => _characterFactory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int>(0);
+        public Price BasePrice => Price.Free;
     }
 }

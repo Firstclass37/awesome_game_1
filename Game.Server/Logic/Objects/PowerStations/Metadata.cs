@@ -3,6 +3,7 @@ using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.PowerStations.Creation;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.PowerStations
 {
@@ -27,10 +28,8 @@ namespace Game.Server.Logic.Objects.PowerStations
 
         public IGameObjectFactory GameObjectFactory => _factory;
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int>
-        {
-            { ResourceType.Aluminum, 100 },
-            { ResourceType.Steel, 40 },
-        };
+        public Price BasePrice => Price.Create(
+            new ResourceChunk(ResourceType.Aluminum, 100), 
+            new ResourceChunk(ResourceType.Steel, 40));
     }
 }

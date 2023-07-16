@@ -4,6 +4,7 @@ using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Gorund.Creation;
 using Game.Server.Logic.Objects.Gorund.Requirements;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.Gorund
 {
@@ -22,7 +23,7 @@ namespace Game.Server.Logic.Objects.Gorund
 
         public string Description => "Default ground";
 
-        public Dictionary<int, int> BasePrice => new Dictionary<int, int>();
+        public Price BasePrice => Price.Free;
 
         public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
 

@@ -1,5 +1,6 @@
 ﻿using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Requirements;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects._Core
 {
@@ -11,7 +12,7 @@ namespace Game.Server.Logic.Objects._Core
 
         public string Description { get; }
 
-        public Dictionary<int, int> BasePrice { get; }
+        public Price BasePrice { get; }
 
         public IAreaGetter AreaGetter { get; }
 
