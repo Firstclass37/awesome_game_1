@@ -28,6 +28,10 @@
         public const int Aluminum = 8;
 
         public const int Energy = 9;
+
+        /// <summary>
+        /// Железо
+        /// </summary>
         public const int Iron = 10;
 
         /// <summary>
