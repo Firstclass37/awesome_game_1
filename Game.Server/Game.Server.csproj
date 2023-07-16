@@ -28,7 +28,6 @@
     <Folder Include="Logic\Objects\ElectrolysisReactor\" />
     <Folder Include="Logic\Objects\IronMine\" />
     <Folder Include="Logic\Objects\CoalMine\" />
-    <Folder Include="Logic\Objects\ChemicalFactory\" />
     <Folder Include="Logic\Objects\GlassFactory\" />
     <Folder Include="Logic\Objects\ElectronicPlant\" />
     <Folder Include="Logic\Objects\SiliconQuarry\" />
