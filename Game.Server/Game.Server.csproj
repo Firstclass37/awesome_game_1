@@ -27,7 +27,6 @@
     <Folder Include="Logic\Objects\UraniumProcessingPlant\" />
     <Folder Include="Logic\Objects\WaterPump\" />
     <Folder Include="Logic\Objects\Storage\" />
-    <Folder Include="Logic\Objects\NuclearReactor\" />
     <Folder Include="Logic\Objects\WindTurbine\" />
     <Folder Include="Logic\Objects\SolarBattery\" />
   </ItemGroup>

@@ -15,6 +15,10 @@
         /// Сталь
         /// </summary>
         public const int Steel = 5;
+
+        /// <summary>
+        /// Уран
+        /// </summary>
         public const int Uranus = 6;
 
         /// <summary>
