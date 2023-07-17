@@ -2,7 +2,10 @@
 {
     public static class BuildingTypes
     {
-        public static string[] List => typeof(BuildingTypes).GetProperties().Select(p => (string)p.GetValue(null)).ToArray();
+        public static string[] List => typeof(BuildingTypes)
+            .GetFields()
+            .Select(p => (string)(p.GetValue(null) ?? string.Empty))
+            .ToArray();
 
         public const string Road = nameof(Road);
 

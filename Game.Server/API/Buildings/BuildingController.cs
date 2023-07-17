@@ -18,7 +18,8 @@ namespace Game.Server.API.Buildings
 
         public IReadOnlyCollection<BuildingInfo> GetBuildableList()
         {
-            return BuildingTypes.List
+            var all = BuildingTypes.List;
+            return all
                 .Except(new string[]
                 {
                     BuildingTypes.Road,
