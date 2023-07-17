@@ -1,21 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2rjwxyf3ba8u"]
+[gd_scene load_steps=5 format=3 uid="uid://d2rjwxyf3ba8u"]
 
 [ext_resource type="Script" path="res://Entities/FpsMeter.cs" id="2_bqtc4"]
 [ext_resource type="PackedScene" uid="uid://cmpbjqg7ku10m" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
+[ext_resource type="PackedScene" uid="uid://txey8fkr32bo" path="res://Sources/Scenes/BuildingCollection.tscn" id="3_xt6oh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5c161"]
 font_size = 27
 font_color = Color(1, 0, 1, 1)
 
 [node name="Game" type="Node2D"]
+position = Vector2(0, -3)
 rotation = 0.00258588
 
 [node name="Label" type="Label" parent="."]
 z_index = 999
-offset_left = 4.0
-offset_top = 11.0
-offset_right = 83.0
-offset_bottom = 58.0
+offset_left = 119.0
+offset_top = -0.307719
+offset_right = 184.0
+offset_bottom = 47.6923
 text = "12"
 label_settings = SubResource("LabelSettings_5c161")
 horizontal_alignment = 1
@@ -28,16 +30,11 @@ offset_right = 1156.0
 offset_bottom = 42.0
 alignment = 1
 
-[node name="BuildingsContainer" type="VBoxContainer" parent="."]
-z_index = 99
-custom_minimum_size = Vector2(130, 0)
-offset_right = 100.0
-offset_bottom = 649.0
-alignment = 1
-
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 116.01
+offset_top = 3.70002
+offset_right = 1266.01
+offset_bottom = 653.7
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -47,3 +44,11 @@ render_target_update_mode = 4
 
 [node name="map" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_gxlwo")]
 position = Vector2(-25.956, 17.0672)
+
+[node name="building_collection" parent="." instance=ExtResource("3_xt6oh")]
+z_index = 99
+y_sort_enabled = true
+offset_left = 0.999997
+offset_top = -0.00258636
+offset_right = 109.0
+offset_bottom = 641.997

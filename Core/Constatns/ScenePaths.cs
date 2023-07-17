@@ -16,5 +16,6 @@
         public const string TrafficLight = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\TrafficLight.tscn";
 
         public const string LoadingBar = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Components\\loading_bar.tscn";
+        public const string BuildingList = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\BuildingsList.tscn";
     }
 }

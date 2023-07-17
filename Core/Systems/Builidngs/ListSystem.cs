@@ -22,7 +22,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
         {
             var buildings = _buildingController.GetBuildableList();
 
-            var container = _sceneAccessor.GetScene<Node2D>(SceneNames.Game).GetNode<Container>("BuildingsContainer");
+            var container = _sceneAccessor.FindFirst<Container>(SceneNames.BuildingCollection).GetNode<Container>("BuildingsContainer");
             foreach(var building in buildings) 
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();

@@ -22,6 +22,8 @@ namespace My_awesome_character.Core.Constatns
 
 
 
+        public static string BuildingCollection => "building_collection";
+
         public static string LoadingBar(int id) => $"loading_bar_{id}";
     }
 }
