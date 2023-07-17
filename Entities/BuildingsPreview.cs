@@ -4,11 +4,12 @@ public partial class BuildingsPreview : ColorRect
 {
 	private HBoxContainer PriceContainer => GetNode<HBoxContainer>("HBoxContainer2");
 	private TextureRect Texture => GetNode<TextureRect>("TextureRect");
+	private Label Label => GetNode<Label>("Label");
 
 
 	public Texture2D BuildingTexture { set { Texture.Texture = value; } }
 
-	public string Description { get; set; }
+	public string Description { set { Label.Text = value; } }
 
 	public void AddPrices(params Resource[] resource) 
 	{

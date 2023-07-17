@@ -22,7 +22,6 @@ namespace Game.Server.API.Buildings
             return all
                 .Except(new string[]
                 {
-                    BuildingTypes.Road,
                     BuildingTypes.Ground,
                     BuildingTypes.TrafficLigh
                 })

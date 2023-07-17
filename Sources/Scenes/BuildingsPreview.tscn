@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://ygoq4c2xsqv1"]
+[gd_scene load_steps=4 format=3 uid="uid://ygoq4c2xsqv1"]
 
 [ext_resource type="Script" path="res://Entities/BuildingsPreview.cs" id="1_jetsl"]
 [ext_resource type="Texture2D" uid="uid://du1x2avdkmdy3" path="res://Assets/Map/Building/unknown_preview.png" id="2_sg4y5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1k255"]
+font_size = 14
+font_color = Color(0.113725, 1, 1, 1)
 
 [node name="ColorRect" type="ColorRect"]
 custom_minimum_size = Vector2(130, 130)
@@ -15,8 +19,8 @@ script = ExtResource("1_jetsl")
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(140, 140)
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 140.0
+offset_bottom = 140.0
 texture = ExtResource("2_sg4y5")
 expand_mode = 1
 
@@ -27,3 +31,11 @@ offset_right = 280.0
 offset_bottom = 176.0
 scale = Vector2(0.5, 0.5)
 alignment = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 61.0
+offset_right = 140.0
+offset_bottom = 93.0
+label_settings = SubResource("LabelSettings_1k255")
+horizontal_alignment = 1
