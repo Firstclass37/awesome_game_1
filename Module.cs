@@ -70,12 +70,6 @@ namespace My_awesome_character
 
 
             builder.RegisterType<ListSystem>().As<ISystem>().SingleInstance();
-
-
-
-
-
-            builder.RegisterModule(new Game.Server.GameServerModule());
         }
     }
 }

@@ -15,8 +15,8 @@ namespace Game.Server.Logic.Maps
 
         public GameObjectAggregator Find(Coordiante position)
         {
-            var positionInfo = _storage.Find<GameObjectPosition>(p => p.Coordiante.Equals(position)).OrderByDescending(p => p.CreatedDate).First();
-            return Get(positionInfo.EntityId);
+            var positionInfo = _storage.Find<GameObjectPosition>(p => p.Coordiante.Equals(position)).OrderByDescending(p => p.CreatedDate).FirstOrDefault();
+            return positionInfo != null ? Get(positionInfo.EntityId) : null;
         }
 
         public GameObjectAggregator Get(Guid id)
