@@ -2,6 +2,6 @@
 {
     internal class CharacterCreatedEvent
     {
-        public int CharacterId { get; set; }
+        public Guid CharacterId { get; set; }
     }
 }

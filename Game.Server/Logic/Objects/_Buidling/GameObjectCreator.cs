@@ -1,8 +1,10 @@
 ﻿using Game.Server.DataAccess;
 using Game.Server.Events.Core;
+using Game.Server.Events.List;
 using Game.Server.Events.List.Homes;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Core;
+using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 
@@ -35,9 +37,22 @@ namespace Game.Server.Logic.Objects._Buidling
 
             var createdObject = metadata.GameObjectFactory.CreateNew(point, area.Keys.ToArray());
             _gameObjectAgregatorRepository.Add(createdObject);
-            _eventAggregator.GetEvent<GameEvent<ObjectCreatedEvent>>()
-                .Publish(new ObjectCreatedEvent { Id = createdObject.GameObject.Id, ObjectType = objectType, Area = area.Keys.ToArray(), Root = point });
+            PublishEvent(createdObject, objectType, point, area.Keys.ToArray());
             return createdObject;
+        }
+
+        private void PublishEvent(GameObjectAggregator gameObject, string objectType, Coordiante point, Coordiante[] area)
+        {
+            if (gameObject.GameObject.ObjectType == CharacterTypes.Default)
+            {
+                _eventAggregator.GetEvent<GameEvent<CharacterCreatedEvent>>()
+                    .Publish(new CharacterCreatedEvent { CharacterId = gameObject.GameObject.Id });
+            }
+            else
+            {
+                _eventAggregator.GetEvent<GameEvent<ObjectCreatedEvent>>()
+                    .Publish(new ObjectCreatedEvent { Id = gameObject.GameObject.Id, ObjectType = objectType, Area = area.ToArray(), Root = point });
+            }
         }
     }
 }
