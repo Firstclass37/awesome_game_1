@@ -15,7 +15,7 @@ namespace Game.Server.Logic.Objects.Home.Creation
            return new GameObjectAggregatorBuilder(BuildingTypes.Home)
                 .AddArea(root, area)
                 .AddAttribute(AttributeType.SpawnCell, spawnCell)
-                .AddPeriodicAction<CreateCharacterPeriodicAction>(5000)
+                .AddPeriodicAction<CreateCharacterPeriodicAction>(5)
                 .Build();
         }
     }

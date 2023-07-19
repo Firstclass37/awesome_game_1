@@ -1,7 +1,9 @@
-﻿using Game.Server.Logic.Maps;
+﻿using Game.Server.Logger;
+using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._PeriodicAction;
 using Game.Server.Models;
 using Game.Server.Storage;
+using System;
 
 namespace Game.Server.Logic.Systems
 {
@@ -10,23 +12,24 @@ namespace Game.Server.Logic.Systems
         private readonly IStorage _storage;
         private readonly IPeriodicAction[] _periodicActions;
         private readonly IGameObjectAccessor _gameObjectAccessor;
+        private readonly ILogger _logger;
 
-        public PeriodicActionSystem(IStorage storage, IPeriodicAction[] periodicActions, IGameObjectAccessor gameObjectAccessor)
+        public PeriodicActionSystem(IStorage storage, IPeriodicAction[] periodicActions, IGameObjectAccessor gameObjectAccessor, ILogger logger)
         {
             _storage = storage;
             _periodicActions = periodicActions;
             _gameObjectAccessor = gameObjectAccessor;
+            _logger = logger;
         }
 
         public void Process(double gameTime)
         {
             var actions = _storage.Find<PeriodicAction>(a => true);
-
             var actionToTrigger = actions.Where(a => NeedTrigger(a, gameTime)).ToArray();
 
             foreach (var action in actionToTrigger)
             {
-                if (action.LastTriggerTimeMs != 0) // если 0 - значит только что созданный, необходимо пропустить
+                if (action.LastTriggerTimeSeconds != 0) // если 0 - значит только что созданный, необходимо пропустить
                 {
                     var instance = _periodicActions.FirstOrDefault(a => a.GetType().FullName == action.ActionType);
                     if (instance == null)
@@ -35,16 +38,14 @@ namespace Game.Server.Logic.Systems
 
                     var gameObject = _gameObjectAccessor.Get(action.GameObjectId);
                     instance.Trigger(gameObject);
-
-                    throw new Exception("WORK!");
                 }
 
-                action.LastTriggerTimeMs = gameTime;
+                action.LastTriggerTimeSeconds = gameTime;
                 _storage.Update(action);
             }
         }
 
 
-        private bool NeedTrigger(PeriodicAction action, double gameTime) => gameTime - action.LastTriggerTimeMs > action.PeriodMs;
+        private bool NeedTrigger(PeriodicAction action, double gameTime) => gameTime - action.LastTriggerTimeSeconds > action.PeriodSeconds;
     }
 }
