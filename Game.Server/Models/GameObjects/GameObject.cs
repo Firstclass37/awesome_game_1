@@ -37,7 +37,7 @@ namespace Game.Server.Models.GameObjects
         public object Value { get; }
     }
 
-    internal class GameObjectPosition : IEntityObject
+    internal record GameObjectPosition : IEntityObject
     {
         public GameObjectPosition(Guid entityId, Coordiante coordiante, bool isRoot = false, bool isBlock = true)
         {
@@ -57,7 +57,7 @@ namespace Game.Server.Models.GameObjects
 
         public bool IsBlock { get; }
 
-        public Coordiante Coordiante { get; }
+        public Coordiante Coordiante { get; init; }
 
         public DateTime CreatedDate { get; set; }
     }

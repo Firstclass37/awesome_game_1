@@ -1,6 +1,6 @@
 ﻿namespace Game.Server.Models.Maps
 {
-    public struct Coordiante
+    public record Coordiante
     {
         public Coordiante(int x, int y)
         {
