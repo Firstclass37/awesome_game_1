@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Game.Server.Logger;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings.Build;
 using My_awesome_character.Core.Game.Buildings.Build.Factories;
@@ -17,6 +18,7 @@ using My_awesome_character.Core.Systems.Homes;
 using My_awesome_character.Core.Systems.Resources;
 using My_awesome_character.Core.Systems.TrafficLights;
 using My_awesome_character.Core.Ui;
+using My_awesome_character.Logger;
 
 namespace My_awesome_character
 {
@@ -74,6 +76,8 @@ namespace My_awesome_character
 
 
             builder.RegisterType<GameObjectCreationSystem>().As<ISystem>();
+
+            builder.RegisterType<GodotLogger>().As<ILogger>();
         }
     }
 }
