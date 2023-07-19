@@ -203,7 +203,7 @@ script = ExtResource("10_ymviw")
 [node name="Camera2D" type="Camera2D" parent="CameraAnchor"]
 limit_left = -100
 limit_top = -100
-limit_right = 2000
-limit_bottom = 1000
+limit_right = 3000
+limit_bottom = 1300
 limit_smoothed = true
 script = ExtResource("11_wtnxy")

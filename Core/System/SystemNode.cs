@@ -1,6 +1,5 @@
-﻿using Godot;
-using My_awesome_character.Core.Game.Events;
-using My_awesome_character.Core.Infrastructure.Events;
+﻿using Game.Server.API.GameInit;
+using Godot;
 using My_awesome_character.Core.Ioc;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Ui;
@@ -13,7 +12,8 @@ namespace My_awesome_character.Core.System
         public static double GameTime = 0;
 
         private ISystem[] _systems = Application.GetAll<ISystem>();
-        private IEventAggregator _eventAggregator = Application.Get<IEventAggregator>();
+        private IGameController _gameController = Application.Get<IGameController>();
+
 
         public override void _EnterTree()
         {
@@ -26,6 +26,8 @@ namespace My_awesome_character.Core.System
 
             foreach (var system in _systems)
                 system.OnStart();
+
+            _gameController.StartNewGame();
         }
 
         public override void _Process(double delta)

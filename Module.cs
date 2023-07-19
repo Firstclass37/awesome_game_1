@@ -70,6 +70,10 @@ namespace My_awesome_character
 
 
             builder.RegisterType<ListSystem>().As<ISystem>().SingleInstance();
+
+
+
+            builder.RegisterType<GameObjectCreationSystem>().As<ISystem>();
         }
     }
 }

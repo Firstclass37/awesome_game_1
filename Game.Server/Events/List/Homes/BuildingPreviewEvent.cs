@@ -1,10 +1,10 @@
 ﻿namespace Game.Server.Events.List.Homes
 {
-    public class BuildingPreviewEvent : HomeCreateRequestEvent
+    public class BuildingPreviewEvent : ObjectCreatedEvent
     {
     }
 
-    public class BuildingPreviewCanceledEvent : HomeCreateRequestEvent
+    public class BuildingPreviewCanceledEvent : ObjectCreatedEvent
     {
     }
 }

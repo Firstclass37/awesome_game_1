@@ -6,7 +6,7 @@ using Game.Server.Storage;
 
 namespace Game.Server.Logic._init
 {
-    internal class GameInitializer
+    internal class GameInitializer : IGameInitializer
     {
         private readonly IGameObjectCreator _gameObjectCreator;
         private readonly IPresetLoader _presetLoader;
@@ -17,7 +17,10 @@ namespace Game.Server.Logic._init
             _presetLoader = presetLoader;
             _storage = storage;
             _gameObjectCreator = gameObjectCreator;
+        }
 
+        public void StartNewGame()
+        {
             PopulateMapGrid();
             PopulateGround();
             PopulateHome();
@@ -34,7 +37,7 @@ namespace Game.Server.Logic._init
         private void PopulateGround()
         {
             var cells = _storage.Find<IsometricMapCell>(c => true);
-            foreach(var cell in cells)
+            foreach (var cell in cells)
                 _gameObjectCreator.Create(GroundTypes.Ground, cell.Coordiante, null);
         }
 

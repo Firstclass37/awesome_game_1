@@ -7,11 +7,11 @@ using My_awesome_character.Core.Game.Movement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 
 
 public static class Tiles
 {
+    public const int Ground = 1;
     public const int RoadAshpalt = 9;
     public const int HomeType1 = 5;
     public const int MineUranus = 8;
@@ -92,6 +92,11 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
             _activeCells.Value.Remove(c);
             _activeCells.Value.Add(c, _layersToTags.First(g => g.Value == c.CellType).Key);
         }
+    }
+
+    public void SetCell(Guid objectId, Coordiante cell, Coordiante[] size, int layer, int sourceId, int alternativeTile = 0)
+    {
+        TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
 
     public void SetCellPreview(MapCell cell, int sourceId, int alternativeTile = 0)
