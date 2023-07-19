@@ -21,13 +21,13 @@ namespace Game.Server.DataBuilding
 
         public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area)
         {
-            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, root, a.Equals(root))).ToList();
+            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, root, a.Equals(root), false)).ToList();
             return this;
         }
 
-        public GameObjectAggregatorBuilder AddAttribute(GameObjectToAttribute attribute)
+        public GameObjectAggregatorBuilder AddAttribute(string attributeType, object value)
         {
-            _attributes.Add(attribute);
+            _attributes.Add(new GameObjectToAttribute(_gameObject.Id, attributeType, value));
             return this;
         }
 
