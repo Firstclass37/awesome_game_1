@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Game.Server.Events.Core;
-using Game.Server.Logic._init;
+using Game.Server.Logic;
 using Game.Server.Storage;
 
 namespace Game.Server
@@ -13,6 +13,7 @@ namespace Game.Server
 
             builder.RegisterType<Storage.Storage>().As<IStorage>().SingleInstance();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<GameCycle>().As<IGameCycle>().SingleInstance();
 
             builder.RegisterTypes(types).AsSelf().AsImplementedInterfaces();
         }

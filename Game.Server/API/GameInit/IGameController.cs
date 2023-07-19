@@ -3,5 +3,6 @@
     public interface IGameController
     {
         void StartNewGame();
+        void Tick(double gameTime);
     }
 }

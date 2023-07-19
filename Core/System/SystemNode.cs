@@ -34,7 +34,10 @@ namespace My_awesome_character.Core.System
         {
             GameTime += delta;
             foreach (var system in _systems)
+            {
                 system.Process(GameTime);
+                _gameController.Tick(GameTime);
+            }
         }
     }
 }

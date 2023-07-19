@@ -2,12 +2,12 @@
 {
     internal class PeriodicAction: IEntityObject
     {
-        public PeriodicAction(Guid gameObjectId, string actionType, double periodSeconds, double lastTriggerTimeSeconds)
+        public PeriodicAction(Guid gameObjectId, string actionType, double periodMs, double lastTriggerTimeMs)
         {
             GameObjectId = gameObjectId;
             ActionType = actionType;
-            LastTriggerTimeSeconds = lastTriggerTimeSeconds;
-            PeriodSeconds = periodSeconds;
+            LastTriggerTimeMs = lastTriggerTimeMs;
+            PeriodMs = periodMs;
         }
 
         public Guid Id { get; }
@@ -16,8 +16,8 @@
 
         public string ActionType { get; }
 
-        public double PeriodSeconds { get; }
+        public double PeriodMs { get; }
 
-        public double LastTriggerTimeSeconds { get; }
+        public double LastTriggerTimeMs { get; set; }
     }
 }
