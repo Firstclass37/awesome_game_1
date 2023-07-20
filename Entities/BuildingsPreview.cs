@@ -10,6 +10,8 @@ public partial class BuildingsPreview : ColorRect
 
 	public Texture2D BuildingTexture { set { Texture.Texture = value; } }
 
+	public string BuildingType { get; set; }
+
 	public string Description { set { Label.Text = value; } }
 
 	public bool IsSelected { get; set; }

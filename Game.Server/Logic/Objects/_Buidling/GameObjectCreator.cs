@@ -25,8 +25,24 @@ namespace Game.Server.Logic.Objects._Buidling
             _eventAggregator = eventAggregator;
         }
 
+        public bool CanCreate(string objectType, Coordiante point, object args)
+        {
+            if (string.IsNullOrWhiteSpace(objectType)) 
+                throw new ArgumentNullException(nameof(objectType));
+
+            var metadata = _metadatas.FirstOrDefault(m => m.ObjectType == objectType);
+            if (metadata == null)
+                throw new ArgumentException($"metadata for object {objectType} was not found");
+
+            var area = metadata.AreaGetter.GetArea(point).ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
+            return metadata.CreationRequirement.Satisfy(area);
+        }
+
         public GameObjectAggregator Create(string objectType, Coordiante point, object args)
         {
+            if (string.IsNullOrWhiteSpace(objectType))
+                throw new ArgumentNullException(nameof(objectType));
+
             var metadata = _metadatas.FirstOrDefault(m => m.ObjectType == objectType);
             if (metadata == null)
                 throw new ArgumentException($"metadata for object {objectType} was not found");

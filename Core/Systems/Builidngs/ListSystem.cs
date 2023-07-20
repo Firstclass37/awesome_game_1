@@ -28,6 +28,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
                 var buildingPreviewInfo = SceneFactory.Create<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType), ScenePaths.BuidlingPreviewInfo);
                 buildingPreviewInfo.BuildingTexture = new BuildingPreviewInfoSelector().Select(building.BuildingType);
+                buildingPreviewInfo.BuildingType = building.BuildingType;
                 buildingPreviewInfo.Description = building.Description;
                 buildingPreviewInfo.AddPrices(resources);
                 buildingPreviewInfo.OnClick += BuildingPreviewInfo_OnClick;
