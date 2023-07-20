@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://txey8fkr32bo"]
+[gd_scene load_steps=2 format=3 uid="uid://txey8fkr32bo"]
+
+[ext_resource type="Script" path="res://Entities/BuildingCollection.cs" id="1_io42p"]
 
 [node name="Node2D" type="ScrollContainer" node_paths=PackedStringArray("shortcut_context")]
 offset_right = 58.0
@@ -6,6 +8,7 @@ offset_bottom = 135.0
 shortcut_context = NodePath(".")
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
+script = ExtResource("1_io42p")
 
 [node name="BuildingsContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

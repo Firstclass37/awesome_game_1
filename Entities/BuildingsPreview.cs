@@ -1,4 +1,6 @@
 using Godot;
+using My_awesome_character.Helpers;
+using System;
 
 public partial class BuildingsPreview : ColorRect
 {
@@ -6,15 +8,42 @@ public partial class BuildingsPreview : ColorRect
 	private TextureRect Texture => GetNode<TextureRect>("TextureRect");
 	private Label Label => GetNode<Label>("Label");
 
-
 	public Texture2D BuildingTexture { set { Texture.Texture = value; } }
 
 	public string Description { set { Label.Text = value; } }
 
-	public void AddPrices(params Resource[] resource) 
+	public bool IsSelected { get; set; }
+
+	public bool Hovered 
+	{ 
+		set 
+		{ 
+			Color = value ? new Color("7d4082", 183) : new Color("4e624c", 183); 
+		} 
+	}
+
+    public override void _Ready()
+    {
+		MouseEntered += () => OnMouseEnter(this);
+		MouseExited += () => OnMouseLeave(this);
+    }
+
+    public event Action<BuildingsPreview> OnMouseEnter;
+
+	public event Action<BuildingsPreview> OnMouseLeave;
+
+    public event Action<BuildingsPreview> OnClick;
+
+    public void AddPrices(params Resource[] resource) 
 	{
 		//clear children before add
 		foreach(var resourceItem in resource)
 			PriceContainer.AddChild(resourceItem);
 	}
+
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (@event.IsLeftClick())
+            OnClick?.Invoke(this);
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using Game.Server.API.Buildings;
-using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
@@ -22,7 +21,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
         {
             var buildings = _buildingController.GetBuildableList();
 
-            var container = _sceneAccessor.FindFirst<Container>(SceneNames.BuildingCollection).GetNode<Container>("BuildingsContainer");
+            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
             foreach(var building in buildings) 
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
@@ -31,9 +30,31 @@ namespace My_awesome_character.Core.Systems.Builidngs
                 buildingPreviewInfo.BuildingTexture = new BuildingPreviewInfoSelector().Select(building.BuildingType);
                 buildingPreviewInfo.Description = building.Description;
                 buildingPreviewInfo.AddPrices(resources);
+                buildingPreviewInfo.OnClick += BuildingPreviewInfo_OnClick;
+                buildingPreviewInfo.OnMouseEnter += BuildingPreviewInfo_OnMouseEnter;
+                buildingPreviewInfo.OnMouseLeave += BuildingPreviewInfo_OnMouseLeave;
 
-                container.AddChild(buildingPreviewInfo);
+                buildingCollection.AddBuilding(buildingPreviewInfo);
             }
+        }
+
+        private void BuildingPreviewInfo_OnMouseLeave(BuildingsPreview obj)
+        {
+            obj.Hovered = false;
+        }
+
+        private void BuildingPreviewInfo_OnMouseEnter(BuildingsPreview obj)
+        {
+            obj.Hovered = true;
+        }
+
+        private void BuildingPreviewInfo_OnClick(BuildingsPreview obj)
+        {
+            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
+            foreach(var building in buildingCollection.GetList())
+                building.IsSelected = false;
+
+            obj.IsSelected = true;
         }
 
         public void Process(double gameTime)

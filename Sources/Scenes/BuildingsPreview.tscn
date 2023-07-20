@@ -13,7 +13,7 @@ offset_right = 140.0
 offset_bottom = 140.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-color = Color(0.027451, 0.372549, 0.215686, 0.231373)
+color = Color(0.305882, 0.384314, 0.298039, 1)
 script = ExtResource("1_jetsl")
 
 [node name="TextureRect" type="TextureRect" parent="."]
