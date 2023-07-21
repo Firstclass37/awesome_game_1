@@ -45,6 +45,14 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
                 map.SetCell(@event.Id, root, area, MapLayers.RoadLayer, Tiles.RoadAshpalt);
             }
+            if (@event.ObjectType == BuildingTypesTrue.Home)
+            {
+                var root = new Coordiante(@event.Root.X, @event.Root.Y);
+                var area = @event.Area.Select(c => new Coordiante(c.X, c.Y)).ToArray();
+
+                map.SetCell(@event.Id, root, area, MapLayers.Buildings, Tiles.HomeType1);
+            }
+
         }
 
         public void Process(double gameTime)
