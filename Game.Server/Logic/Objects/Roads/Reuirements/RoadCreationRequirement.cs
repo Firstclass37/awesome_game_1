@@ -34,7 +34,7 @@ namespace Game.Server.Logic.Objects.Roads.Reuirements
                 .ToArray();
             var roadNeigtborsDirection = roadNeigtbors.Select(n => _mapGrid.GetDirectionOfNeightbor(root, n.Area.First().Coordiante)).ToArray();
 
-            return roadNeigtbors.Length == 1 ||
+            return roadNeigtbors.Length <= 1 || 
                 roadNeigtbors.Length == 2 && roadNeigtborsDirection.All(d => d == Direction.Left || d == Direction.Right) ||
                 roadNeigtbors.Length == 2 && roadNeigtborsDirection.All(d => d == Direction.Top || d == Direction.Bottom);
         }

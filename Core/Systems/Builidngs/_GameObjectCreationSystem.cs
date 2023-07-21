@@ -31,13 +31,19 @@ namespace My_awesome_character.Core.Systems.Builidngs
         {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
-
             if (@event.ObjectType == GroundTypes.Ground)
             {
                 var root = new Coordiante(@event.Root.X, @event.Root.Y);
                 var area = @event.Area.Select(c => new Coordiante(c.X, c.Y)).ToArray();
 
                 map.SetCell(@event.Id, root, area, MapLayers.GroundLayer, Tiles.Ground);
+            }
+            if (@event.ObjectType == BuildingTypesTrue.Road)
+            {
+                var root = new Coordiante(@event.Root.X, @event.Root.Y);
+                var area = @event.Area.Select(c => new Coordiante(c.X, c.Y)).ToArray();
+
+                map.SetCell(@event.Id, root, area, MapLayers.RoadLayer, Tiles.RoadAshpalt);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using Game.Server.API.Buildings;
+using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
@@ -39,6 +40,12 @@ namespace My_awesome_character.Core.Systems.Builidngs
             }
         }
 
+        public void Process(double gameTime)
+        {
+            if (Input.IsActionJustPressed("Esc"))
+                UnselectAll();
+        }
+
         private void BuildingPreviewInfo_OnMouseLeave(BuildingsPreview obj)
         {
             obj.Hovered = false;
@@ -51,15 +58,15 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void BuildingPreviewInfo_OnClick(BuildingsPreview obj)
         {
-            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
-            foreach(var building in buildingCollection.GetList())
-                building.IsSelected = false;
-
-            obj.IsSelected = true;
+            UnselectAll();
+            obj.IsSelected = !obj.IsSelected;
         }
 
-        public void Process(double gameTime)
+        private void UnselectAll()
         {
+            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
+            foreach (var building in buildingCollection.GetList())
+                building.IsSelected = false;
         }
 
         private Resource Create(string objecyType, int resourceId, int amount)

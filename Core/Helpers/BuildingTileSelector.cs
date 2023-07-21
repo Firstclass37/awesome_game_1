@@ -19,4 +19,20 @@ namespace My_awesome_character.Core.Helpers
             return _tiles.ContainsKey(from) ? _tiles[from] : throw new ArgumentOutOfRangeException($"no tiles for type {from}");
         }
     }
+
+    internal class NewBuildingTileSelector : ISelector<string, int>
+    {
+        private static readonly Dictionary<string, int> _tiles = new Dictionary<string, int>()
+        {
+            { BuildingTypesTrue.Home, Tiles.HomeType1 },
+            { BuildingTypesTrue.MineUranus, Tiles.MineUranus },
+            { BuildingTypesTrue.PowerStation, Tiles.PowerStation },
+            { BuildingTypesTrue.Road, Tiles.RoadAshpalt },
+        };
+
+        public int Select(string from)
+        {
+            return _tiles.ContainsKey(from) ? _tiles[from] : throw new ArgumentOutOfRangeException($"no tiles for type {from}");
+        }
+    }
 }

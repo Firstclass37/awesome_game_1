@@ -99,7 +99,7 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
 
-    public void SetCellPreview(MapCell cell, int sourceId, int alternativeTile = 0)
+    public void SetCellPreview(Coordiante cell, int sourceId, int alternativeTile = 0)
     {
         TileMap.SetCell(MapLayers.Preview, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
@@ -107,6 +107,12 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
     public void ClearPreview(MapCell cell)
     {
         TileMap.SetCell(MapLayers.Preview, new Vector2I(cell.X, cell.Y), -1);
+    }
+
+    public void ClearLayer(int layer) 
+    {
+        foreach(var cell in TileMap.GetUsedCells(layer))
+            TileMap.SetCell(MapLayers.Preview, cell, -1);
     }
 
     public MapCell[] GetNeighboursOf(MapCell mapCell)
@@ -140,6 +146,16 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
 		return mapCell != default;
     }
 
+    public bool IsMouseExistsNew(Godot.Vector2 mousePosition, out Coordiante coordiante)
+    {
+        var localPos = TileMap.ToLocal(mousePosition);
+        var tilePos = TileMap.LocalToMap(localPos);
+        coordiante = new Coordiante(tilePos.X, tilePos.Y);
+
+        return tilePos != Vector2.Zero;
+    }
+
+
     public MapCell[] Get2x2Area(MapCell root)
     {
         var vector = new Vector2I(root.X, root.Y);
@@ -166,7 +182,11 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         var localPos = TileMap.ToLocal(pos);
         var tilePos = TileMap.LocalToMap(localPos);
         if (Input.IsActionPressed("left-click"))
+        {
+            GD.Print($"Clicked on {tilePos.X} {tilePos.Y}");
             OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
+        }
+            
     }
 
 	private Dictionary<MapCell, int> GetInitialState()

@@ -2,6 +2,7 @@
 using Game.Server.Events.Core;
 using Game.Server.Events.List;
 using Game.Server.Events.List.Homes;
+using Game.Server.Logger;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Models.Constants;
@@ -16,13 +17,15 @@ namespace Game.Server.Logic.Objects._Buidling
         private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
         private readonly IGameObjectAccessor _gameObjectAccessor;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ILogger _logger;
 
-        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator)
+        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator, ILogger logger)
         {
             _metadatas = metadatas;
             _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
             _gameObjectAccessor = gameObjectAccessor;
             _eventAggregator = eventAggregator;
+            _logger = logger;
         }
 
         public bool CanCreate(string objectType, Coordiante point, object args)
@@ -69,6 +72,8 @@ namespace Game.Server.Logic.Objects._Buidling
                 _eventAggregator.GetEvent<GameEvent<ObjectCreatedEvent>>()
                     .Publish(new ObjectCreatedEvent { Id = gameObject.GameObject.Id, ObjectType = objectType, Area = area.ToArray(), Root = point });
             }
+
+            _logger.Info($"object created at {point}");
         }
     }
 }

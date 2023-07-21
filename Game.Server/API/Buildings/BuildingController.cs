@@ -39,5 +39,17 @@ namespace Game.Server.API.Buildings
         {
             return _gameObjectCreator.CanCreate(buildingType, point, null);
         }
+
+        public void Build(string buildingType, Coordiante point) 
+        {
+            try
+            {
+                _gameObjectCreator.Create(buildingType, point, null);
+            }
+            catch (Exception e)
+            {
+                //
+            }
+        }
     }
 }

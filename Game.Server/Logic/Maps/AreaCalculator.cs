@@ -15,13 +15,15 @@ namespace Game.Server.Logic.Maps
         {
             var neigbors = _mapGrid.GetNeightborsOf(root);
             var rightNeighbor = neigbors.First(n => n.Value == Models.Constants.Direction.Right).Key;
+            var bottomNeighbor = neigbors.First(n => n.Value == Models.Constants.Direction.Bottom).Key;
+            var bottomOfRightNeighbor = _mapGrid.GetNeightborsOf(rightNeighbor).First(n => n.Value == Models.Constants.Direction.Bottom).Key;
 
             return new Coordiante[]
             {
                 root,
                 rightNeighbor,
-                neigbors.First(n => n.Value == Models.Constants.Direction.Bottom).Key,
-                _mapGrid.GetNeightborsOf(rightNeighbor).First(n => n.Value == Models.Constants.Direction.Bottom).Key
+                bottomNeighbor,
+                bottomOfRightNeighbor
             };
         }
 

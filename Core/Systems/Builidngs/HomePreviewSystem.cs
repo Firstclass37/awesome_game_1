@@ -1,73 +1,99 @@
-﻿using Godot;
+﻿using Game.Server.API.Buildings;
+using Game.Server.Models.Maps;
+using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Buildings.Build;
-using My_awesome_character.Core.Game.Buildings.Requirements;
-using My_awesome_character.Core.Game.Events.Homes;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Helpers;
-using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
-using My_awesome_character.Entities;
 using System.Linq;
+using Coordiante = Game.Server.Models.Maps.Coordiante;
 
 namespace My_awesome_character.Core.Systems.Homes
 {
     internal class HomePreviewSystem : ISystem
     {
-        private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
-        private readonly IBuildRequirementProvider _buildRequirementProvider;
-        private readonly IBuildingFactoryProvider _buildingFactoryProvider;
+        private readonly IBuildingController _buildingController;
 
-        public HomePreviewSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor, IBuildRequirementProvider buildRequirementProvider, IBuildingFactoryProvider buildingFactoryProvider)
+        public HomePreviewSystem(ISceneAccessor sceneAccessor, IBuildingController buildingController)
         {
-            _eventAggregator = eventAggregator;
             _sceneAccessor = sceneAccessor;
-            _buildRequirementProvider = buildRequirementProvider;
-            _buildingFactoryProvider = buildingFactoryProvider;
+            _buildingController = buildingController;
         }
 
         public void OnStart()
         {
-            _eventAggregator.GetEvent<GameEvent<BuildingPreviewEvent>>().Subscribe(OnCreated);
-            _eventAggregator.GetEvent<GameEvent<BuildingPreviewCanceledEvent>>().Subscribe(OnCenceled);
         }
 
         public void Process(double gameTime)
         {
+            if (Input.IsActionJustPressed("Esc"))
+            {
+                ClearPreview();
+            }
+            else if (Input.IsActionJustPressed("left-click"))
+            {
+                var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+                var globalMousePos = map.GetGlobalMousePosition();
+                if (map.IsMouseExistsNew(globalMousePos, out var cell))
+                {
+                    ClearPreview();
+                    CreateBuildingOn(cell);
+                }
+            }
+            else
+            {
+                var selected = FindSelectedBuilding();
+                if (selected == null)
+                    return;
+
+                var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+                var globalMousePos = map.GetGlobalMousePosition();
+                if (map.IsMouseExistsNew(globalMousePos, out var cell))
+                {
+                    ClearPreview();
+                    ShowPreview(cell, map);
+                }
+                else
+                {
+                    ClearPreview();
+                }
+            }
         }
 
-        private void OnCenceled(BuildingPreviewCanceledEvent obj)
+        private void CreateBuildingOn(Game.Coordiante mapCoordinate)
         {
-            var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var existingPreview = _sceneAccessor.FindFirst<Home>(SceneNames.Builidng_preview(typeof(Home)));
-            if (existingPreview == null)
+            var selected = FindSelectedBuilding();
+            if (selected == null)
                 return;
 
-            map.ClearPreview(existingPreview.RootCell);
-            game.RemoveChild(existingPreview);
+            var coordinate = new Coordiante(mapCoordinate.X, mapCoordinate.Y);
+            _buildingController.Build(selected.BuildingType, coordinate);
         }
 
-        private void OnCreated(BuildingPreviewEvent homePreviewEvent)
+        private void ShowPreview(Game.Coordiante mapCoordinate, Map map)
         {
-            OnCenceled(new BuildingPreviewCanceledEvent());
+            var selected = FindSelectedBuilding();
+            if (selected == null)
+                return;
 
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var building = _buildingFactoryProvider.GetFor(homePreviewEvent.BuildingType).Create(homePreviewEvent.TargetCell, map, map);
+            var canBuild = _buildingController.CanBuild(selected.BuildingType, new Coordiante(mapCoordinate.X, mapCoordinate.Y));
+            var selectStyle = canBuild ? 1 : 2;
+            var tile = new NewBuildingTileSelector().Select(selected.BuildingType);
 
-            var whereWantToBuild = map.GetCells().Where(c => building.Cells.Contains(c)).ToArray();
-            var otherHomes = _sceneAccessor.FindAll<Home>();
-            var canBuildHere = _buildRequirementProvider.GetRequirementFor(homePreviewEvent.BuildingType).CanBuild(whereWantToBuild);
-            var selectStyle = otherHomes.Any(h => h.Cells.Intersect(building.Cells).Any()) || !canBuildHere ? 2 : 1;
-            var tile = new BuildingTileSelector().Select(homePreviewEvent.BuildingType);
+            map.SetCellPreview(mapCoordinate, tile, selectStyle);
+        }
 
-            var home = SceneFactory.Create<Home>(SceneNames.Builidng_preview(typeof(Home)), ScenePaths.HomeFactory);
-            home.Cells = building.Cells;
-            home.RootCell = building.RootCell;
+        private BuildingsPreview FindSelectedBuilding()
+        {
+            var buidlingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
+            var selected = buidlingCollection.GetList().FirstOrDefault(b => b.IsSelected);
+            return selected;
+        }
 
-            var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
-            game.AddChild(home);
-            map.SetCellPreview(home.RootCell, tile, selectStyle);
+        private void ClearPreview()
+        {
+            _sceneAccessor.FindFirst<Map>(SceneNames.Map).ClearLayer(MapLayers.Preview);
         }
     }
 }
