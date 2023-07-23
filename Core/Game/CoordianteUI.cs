@@ -1,8 +1,8 @@
 ﻿namespace My_awesome_character.Core.Game
 {
-    public struct Coordiante
+    public struct CoordianteUI
     {
-        public Coordiante(int x, int y)
+        public CoordianteUI(int x, int y)
         {
             X = x;
             Y = y;

@@ -4,6 +4,7 @@
     {
         public PeriodicAction(Guid gameObjectId, string actionType, double periodSeconds, double lastTriggerSeconds)
         {
+            Id = Guid.NewGuid();
             GameObjectId = gameObjectId;
             ActionType = actionType;
             LastTriggerTimeSeconds = lastTriggerSeconds;

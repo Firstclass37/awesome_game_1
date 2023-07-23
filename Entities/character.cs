@@ -1,4 +1,5 @@
 using Godot;
+using My_awesome_character.Core.Game;
 using System;
 using System.Linq;
 
@@ -6,7 +7,7 @@ public partial class character : Node2D
 {
 	private Tween _movingTween;
 
-	public int Id { get; set; }
+	public Guid Id { get; set; }
 
 	private AnimationPlayer _currentAnimation;
 	private string _currentDirection;
@@ -15,7 +16,7 @@ public partial class character : Node2D
 
 	public bool IsMoving { get; set; }
 
-    public MapCell MapPosition { get; set; }
+    public CoordianteUI MapPosition { get; set; }
 
 	public override void _Ready()
 	{
@@ -29,26 +30,26 @@ public partial class character : Node2D
 
 	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider, Action<MapCell> onPositionChanged, Action onEnd)
 	{
-		if (_movingTween != null)
-			_movingTween.Kill();
+		//if (_movingTween != null)
+		//	_movingTween.Kill();
 
-        _movingTween = CreateTween();
-        for (int i = 0; i < path.Length; i++)
-		{
-			var current = i == 0 ? MapPosition : path[i - 1];
-			var to = path[i];
+  //      _movingTween = CreateTween();
+  //      for (int i = 0; i < path.Length; i++)
+		//{
+		//	var current = i == 0 ? MapPosition : path[i - 1];
+		//	var to = path[i];
 
-			var currentPosition = positionProvider(current);
-            var targetPosition = positionProvider(to);
-            _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
-            _movingTween.TweenProperty(this, "position", targetPosition, 1F);
-            _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
-			if (onPositionChanged != null)
-				_movingTween.TweenCallback(Callable.From( () => onPositionChanged(to)));
-        }
-        _movingTween.TweenCallback(Callable.From(onEnd));
+		//	var currentPosition = positionProvider(current);
+  //          var targetPosition = positionProvider(to);
+  //          _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
+  //          _movingTween.TweenProperty(this, "position", targetPosition, 1F);
+  //          _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
+		//	if (onPositionChanged != null)
+		//		_movingTween.TweenCallback(Callable.From( () => onPositionChanged(to)));
+  //      }
+  //      _movingTween.TweenCallback(Callable.From(onEnd));
 
-        _movingTween.Play();
+  //      _movingTween.Play();
 	}
 
 	public void StopMoving()
@@ -60,7 +61,7 @@ public partial class character : Node2D
 
 	private void SetNewPosition(MapCell newCell)
 	{
-		MapPosition = newCell;
+		//MapPosition = newCell;
 	}
 
 	private string SelectDirection(Vector2 vector, string currentDirection)

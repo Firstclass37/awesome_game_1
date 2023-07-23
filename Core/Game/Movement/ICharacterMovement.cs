@@ -2,7 +2,7 @@
 {
     internal interface ICharacterMovement
     {
-        void MoveTo(character character, Coordiante coordiante);
+        void MoveTo(character character, CoordianteUI coordiante);
         void StopMoving(character character);
     }
 }

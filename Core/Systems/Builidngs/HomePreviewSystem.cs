@@ -59,7 +59,7 @@ namespace My_awesome_character.Core.Systems.Homes
             }
         }
 
-        private void CreateBuildingOn(Game.Coordiante mapCoordinate)
+        private void CreateBuildingOn(Game.CoordianteUI mapCoordinate)
         {
             var selected = FindSelectedBuilding();
             if (selected == null)
@@ -69,7 +69,7 @@ namespace My_awesome_character.Core.Systems.Homes
             _buildingController.Build(selected.BuildingType, coordinate);
         }
 
-        private void ShowPreview(Game.Coordiante mapCoordinate, Map map)
+        private void ShowPreview(Game.CoordianteUI mapCoordinate, Map map)
         {
             var selected = FindSelectedBuilding();
             if (selected == null)

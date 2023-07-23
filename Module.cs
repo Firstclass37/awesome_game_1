@@ -47,7 +47,6 @@ namespace My_awesome_character
             builder.RegisterType<GameInitSystem>().As<ISystem>();
 
             builder.RegisterType<BuildingFactoryProvider>().As<IBuildingFactoryProvider>().SingleInstance();
-            builder.RegisterType<HomeFactory>().AsSelf();
             builder.RegisterType<RoadFactory>().AsSelf();
             builder.RegisterType<PowerStationFactory>().AsSelf();
             builder.RegisterType<UranusMineFactory>().AsSelf();

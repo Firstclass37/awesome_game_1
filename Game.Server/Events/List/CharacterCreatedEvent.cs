@@ -1,7 +1,11 @@
-﻿namespace Game.Server.Events.List
+﻿using Game.Server.Models.Maps;
+
+namespace Game.Server.Events.List
 {
-    internal class CharacterCreatedEvent
+    public class CharacterCreatedEvent
     {
-        public Guid CharacterId { get; set; }
+        public Guid CharacterId { get; init; }
+
+        public Coordiante Position { get; init; }
     }
 }

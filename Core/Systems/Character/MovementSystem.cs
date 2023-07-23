@@ -51,13 +51,13 @@ namespace My_awesome_character.Core.Systems.Character
 
         private void OnMovementEnd(character character)
         {
-            character.IsMoving = false;
-            _eventAggregator.GetEvent<GameEvent<MovementEndEvent>>().Publish(new MovementEndEvent
-            {
-                MovementId = 0,
-                ObjectId = character.Id,
-                ObjectType = typeof(character)
-            });
+            //character.IsMoving = false;
+            //_eventAggregator.GetEvent<GameEvent<MovementEndEvent>>().Publish(new MovementEndEvent
+            //{
+            //    MovementId = 0,
+            //    ObjectId = character.Id,
+            //    ObjectType = typeof(character)
+            //});
         }
     }
 }

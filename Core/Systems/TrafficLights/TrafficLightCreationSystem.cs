@@ -36,7 +36,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
             var targetCell = @event.TargetCell;
 
-            var actualCell = map.GetActualCell(new Game.Coordiante(targetCell.X, targetCell.Y));
+            var actualCell = map.GetActualCell(new Game.CoordianteUI(targetCell.X, targetCell.Y));
             var candidates = map.GetNeighboursOf(targetCell).Union(new[] { actualCell })
                 .Where(n => n.CellType == MapCellType.Road)
                 .ToArray();
@@ -51,7 +51,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
                 if (neighboursRoads.Any() && neighboursRoads.Count > 2)
                 {
                     var exists = _sceneAccessor
-                        .FindAll<TrafficLight>(t => t.MapPosition.Equals(new Game.Coordiante(candidate.X, candidate.Y)))
+                        .FindAll<TrafficLight>(t => t.MapPosition.Equals(new Game.CoordianteUI(candidate.X, candidate.Y)))
                         .FirstOrDefault();
 
                     if (exists != null)
@@ -81,7 +81,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             map.AddChild(trafficLight, forceReadableName: true);
 
             trafficLight.Id = id;
-            trafficLight.MapPosition = new Game.Coordiante(cell.X, cell.Y);
+            trafficLight.MapPosition = new Game.CoordianteUI(cell.X, cell.Y);
             trafficLight.Scale = new Vector2(0.2f, 0.2f);
             trafficLight.Position = map.GetLocalPosition(cell);
             return trafficLight;

@@ -16,14 +16,10 @@ namespace My_awesome_character.Core.Systems
     internal class GameInitSystem : ISystem
     {
         private readonly ISceneAccessor _sceneAccessor;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IBuildRequirementProvider _buildRequirementProvider;
 
-        public GameInitSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator, IBuildRequirementProvider buildRequirementProvider)
+        public GameInitSystem(ISceneAccessor sceneAccessor)
         {
             _sceneAccessor = sceneAccessor;
-            _eventAggregator = eventAggregator;
-            _buildRequirementProvider = buildRequirementProvider;
         }
 
         public void OnStart()
@@ -39,17 +35,6 @@ namespace My_awesome_character.Core.Systems
                 return;
 
             ExportMapToJson();
-
-            var game = _sceneAccessor.GetScene<Node2D>(SceneNames.Game);
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
-
-            var requirement = _buildRequirementProvider.GetRequirementFor(BuildingTypes.HomeType1);
-            while (!requirement.CanBuild(map.Get2x2Area(randomPoint)))
-                randomPoint = map.GetCells().OrderBy(g => Guid.NewGuid()).First();
-
-            _eventAggregator.GetEvent<GameEvent<HomeCreateRequestEvent>>().Publish(new HomeCreateRequestEvent { BuildingType = BuildingTypes.HomeType1, TargetCell = randomPoint });
-
             _isInitialized = true;
         }
 
@@ -61,8 +46,8 @@ namespace My_awesome_character.Core.Systems
             var grid = map.GetCells()
                 .Select(c => new 
                 {
-                    Coordinate = new Coordiante(c.X, c.Y),
-                    Neightbors = map.GetDirectedNeighboursOf(c).Select(n => new Neightbor(new Coordiante(n.Key.X, n.Key.Y), n.Value)).ToArray()
+                    Coordinate = new CoordianteUI(c.X, c.Y),
+                    Neightbors = map.GetDirectedNeighboursOf(c).Select(n => new Neightbor(new CoordianteUI(n.Key.X, n.Key.Y), n.Value)).ToArray()
                 })
                 .ToArray();
 
@@ -80,13 +65,13 @@ namespace My_awesome_character.Core.Systems
 
         private class Neightbor
         {
-            public Neightbor(Coordiante coordinate, Direction direction)
+            public Neightbor(CoordianteUI coordinate, Direction direction)
             {
                 Coordinate = coordinate;
                 Direction = direction;
             }
 
-            public Coordiante Coordinate { get; set; }
+            public CoordianteUI Coordinate { get; set; }
 
             public Direction Direction { get; set; }
         }

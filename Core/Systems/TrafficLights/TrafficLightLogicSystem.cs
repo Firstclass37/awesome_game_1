@@ -36,7 +36,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             if (skippedTrafficLight == null)
                 return;
 
-            var characterPosition = new Coordiante(@event.NewPosition.X, @event.NewPosition.Y);
+            var characterPosition = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
             if (!skippedTrafficLight.GetTrackingCells().Contains(@event.NewPosition) && !characterPosition.Equals(skippedTrafficLight.MapPosition))
                 skippedTrafficLight.ClearSkip(@event.CharacterId);
         }

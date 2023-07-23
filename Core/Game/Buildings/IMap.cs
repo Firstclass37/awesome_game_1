@@ -2,6 +2,6 @@
 {
     public interface IMap
     {
-        MapCell GetActualCell(Coordiante coordiante);
+        MapCell GetActualCell(CoordianteUI coordiante);
     }
 }

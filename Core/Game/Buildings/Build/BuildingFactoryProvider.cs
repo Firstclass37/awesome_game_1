@@ -12,7 +12,6 @@ namespace My_awesome_character.Core.Game.Buildings.Build
         {
             { BuildingTypes.Road, typeof(RoadFactory) },
             { BuildingTypes.MineUranus, typeof(UranusMineFactory) },
-            { BuildingTypes.HomeType1, typeof(HomeFactory) },
             { BuildingTypes.PowerStation, typeof(PowerStationFactory) }
         };
 

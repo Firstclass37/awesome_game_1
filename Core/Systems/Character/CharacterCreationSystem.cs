@@ -1,9 +1,9 @@
-﻿using Godot;
+﻿using Game.Server.Events.Core;
+using Game.Server.Events.List;
+using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Events;
-using My_awesome_character.Core.Infrastructure.Events;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Ui;
-using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Character
 {
@@ -20,22 +20,18 @@ namespace My_awesome_character.Core.Systems.Character
 
         public void OnStart()
         {
-            _eventAggregator.GetEvent<GameEvent<CharacterCreationRequestEvent>>().Subscribe(OnCreaterionRequest);
+            _eventAggregator.GetEvent<GameEvent<CharacterCreatedEvent>>().Subscribe(OnCreaterionRequest);
         }
 
-        private void OnCreaterionRequest(CharacterCreationRequestEvent obj)
+        private void OnCreaterionRequest(CharacterCreatedEvent obj)
         {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
-            var otherCharacters = _sceneAccessor.FindAll<character>();
-            var newCharacterId = otherCharacters.Any() ? otherCharacters.Max(h => h.Id) + 1 : 1;
-
-            var character = SceneFactory.Create<character>(SceneNames.Character(newCharacterId), ScenePaths.Character);
+            var character = SceneFactory.Create<character>(SceneNames.Character(obj.CharacterId), ScenePaths.Character);
             map.AddChild(character, forceReadableName: true);
-            character.Id = newCharacterId;
-            character.ZIndex = newCharacterId + 10;
-            character.MapPosition = obj.InitPosition;
-            character.Position = map.GetLocalPosition(obj.InitPosition);
+            character.Id = obj.CharacterId;
+            character.MapPosition = new CoordianteUI(obj.Position.X, obj.Position.Y);
+            character.Position = map.GetLocalPosition(character.MapPosition);
             character.Scale = new Vector2(0.8f, 0.8f);
 
             GD.Print($"character create {character.Id}");

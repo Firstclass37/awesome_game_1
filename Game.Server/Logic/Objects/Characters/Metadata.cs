@@ -24,7 +24,7 @@ namespace Game.Server.Logic.Objects.Characters
 
         public IAreaGetter AreaGetter => _defaultAreaGetterFactory.Get1x1();
 
-        public ICreationRequirement CreationRequirement => null;
+        public ICreationRequirement CreationRequirement => new OnlyTypeRequirement(new string[] { GroundTypes.Ground, BuildingTypes.Road });
 
         public IGameObjectFactory GameObjectFactory => _characterFactory;
 

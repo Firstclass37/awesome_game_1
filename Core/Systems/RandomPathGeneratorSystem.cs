@@ -47,16 +47,16 @@ namespace My_awesome_character.Core.Systems
 
         public void Process(double gameTime)
         {
-            var ready = (int)gameTime % 3 == 0;
-            if (!ready)
-                return;
+            //var ready = (int)gameTime % 3 == 0;
+            //if (!ready)
+            //    return;
 
-            Characters = _sceneAccessor.FindAll<character>().ToDictionary(c => c.Id, c => c);
+            //Characters = _sceneAccessor.FindAll<character>().ToDictionary(c => c.Id, c => c);
 
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var characters = Characters.Values.Where(c => c.IsMoving == false).Take(20).ToArray();
-            foreach (var character in characters)
-                MoveToRandomPoint(character, map);
+            //var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            //var characters = Characters.Values.Where(c => c.IsMoving == false).Take(20).ToArray();
+            //foreach (var character in characters)
+            //    MoveToRandomPoint(character, map);
         }
 
         private void GenerateRandomPath(int characterId)
@@ -67,27 +67,27 @@ namespace My_awesome_character.Core.Systems
 
         private void MoveToRandomPoint(character character, Map map)
         {
-            var randomPoint = map.GetCells()
-                .Where(p => p != character.MapPosition && IsRoad(p))
-                .OrderBy(g => Guid.NewGuid())
-                .First();
-            MoveTo(character, map, randomPoint);
+            //var randomPoint = map.GetCells()
+            //    .Where(p => p != character.MapPosition && IsRoad(p))
+            //    .OrderBy(g => Guid.NewGuid())
+            //    .First();
+            //MoveTo(character, map, randomPoint);
         }
 
         private void MoveTo(character character, Map map, MapCell targetCell)
         {
-            var path = _pathSearcher.Search(character.MapPosition, targetCell, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, targetCell, map)));
-            if (!path.Any())
-            {
-                GD.Print($"PATH WAS NOT FOUND FROM {character.MapPosition} to {targetCell}");
-                return;
-            }
+            //var path = _pathSearcher.Search(character.MapPosition, targetCell, _pathSearcherSettingsFactory.Create(SelectSelector(character.MapPosition, targetCell, map)));
+            //if (!path.Any())
+            //{
+            //    GD.Print($"PATH WAS NOT FOUND FROM {character.MapPosition} to {targetCell}");
+            //    return;
+            //}
 
-            _eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Publish(new MovementCharacterPathEvent
-            {
-                CharacterId = character.Id,
-                Path = path
-            });
+            //_eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Publish(new MovementCharacterPathEvent
+            //{
+            //    CharacterId = character.Id,
+            //    Path = path
+            //});
         }
 
         private INieighborsSearchStrategy<MapCell> SelectSelector(MapCell currentPosition, MapCell targetPosition, Map map)
@@ -107,8 +107,8 @@ namespace My_awesome_character.Core.Systems
 
         private void OnMoveRequest(MoveToRequestEvent @event)
         {
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            MoveTo(Characters[@event.CharacterId], map, @event.TargetCell);
+            //var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            //MoveTo(Characters[@event.CharacterId], map, @event.TargetCell);
         }
 
         private bool IsRoad(MapCell cell) => cell.CellType == MapCellType.Road || cell.Tags.Contains(MapCellTags.Trap);

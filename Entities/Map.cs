@@ -64,6 +64,11 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         return TileMap.MapToLocal(new Vector2I { X = mapCell.X, Y = mapCell.Y });
     }
 
+    public Godot.Vector2 GetLocalPosition(CoordianteUI coordiante)
+    {
+        return TileMap.MapToLocal(new Vector2I { X = coordiante.X, Y = coordiante.Y });
+    }
+
 
     public Map()
     {
@@ -94,12 +99,12 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         }
     }
 
-    public void SetCell(Guid objectId, Coordiante cell, Coordiante[] size, int layer, int sourceId, int alternativeTile = 0)
+    public void SetCell(Guid objectId, CoordianteUI cell, CoordianteUI[] size, int layer, int sourceId, int alternativeTile = 0)
     {
         TileMap.SetCell(layer, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
 
-    public void SetCellPreview(Coordiante cell, int sourceId, int alternativeTile = 0)
+    public void SetCellPreview(CoordianteUI cell, int sourceId, int alternativeTile = 0)
     {
         TileMap.SetCell(MapLayers.Preview, new Vector2I(cell.X, cell.Y), sourceId, new Vector2I(0, 0), alternativeTile);
     }
@@ -146,11 +151,11 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
 		return mapCell != default;
     }
 
-    public bool IsMouseExistsNew(Godot.Vector2 mousePosition, out Coordiante coordiante)
+    public bool IsMouseExistsNew(Godot.Vector2 mousePosition, out CoordianteUI coordiante)
     {
         var localPos = TileMap.ToLocal(mousePosition);
         var tilePos = TileMap.LocalToMap(localPos);
-        coordiante = new Coordiante(tilePos.X, tilePos.Y);
+        coordiante = new CoordianteUI(tilePos.X, tilePos.Y);
 
         return tilePos != Vector2.Zero;
     }
@@ -206,7 +211,7 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         return cells;
     }
 
-    public MapCell GetActualCell(Coordiante coordiante)
+    public MapCell GetActualCell(CoordianteUI coordiante)
     {
         return _activeCells.Value.First(k => k.Key.X == coordiante.X && k.Key.Y == coordiante.Y).Key;
     }

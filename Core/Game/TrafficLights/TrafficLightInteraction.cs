@@ -23,7 +23,7 @@ namespace My_awesome_character.Core.Game.TrafficLights
 
             _characterMovement.StopMoving(character);
 
-            var characterCoordinates = new Coordiante(character.MapPosition.X, character.MapPosition.Y);
+            var characterCoordinates = new CoordianteUI(character.MapPosition.X, character.MapPosition.Y);
             var characterDirection = trafficLight.Tracking.First(t => t.Value.Equals(characterCoordinates)).Key;
 
             var direction = _pointsman.SelectDirection(trafficLight, characterDirection);
@@ -37,7 +37,7 @@ namespace My_awesome_character.Core.Game.TrafficLights
             if (wantMoveTo == default)
                 throw new ArgumentOutOfRangeException();
 
-            _characterMovement.MoveTo(character, new Coordiante(wantMoveTo.X, wantMoveTo.Y));
+            _characterMovement.MoveTo(character, new CoordianteUI(wantMoveTo.X, wantMoveTo.Y));
             trafficLight.AlreadySkipped.Add(character.Id);
         }
     }

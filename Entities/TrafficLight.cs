@@ -10,7 +10,7 @@ public partial class TrafficLight : Node2D
 	private readonly Dictionary<Direction, Polygon2D> _directions = new();
 	private readonly Dictionary<Direction, Area2D> _areas = new();
 	private readonly Dictionary<Direction, MapCell> _trackingCells = new();
-	private readonly HashSet<int> _skippedPlayers = new();
+	private readonly HashSet<Guid> _skippedPlayers = new();
 
 	public override void _Ready()
 	{
@@ -45,7 +45,7 @@ public partial class TrafficLight : Node2D
 
 	public int Id { get; set; }
 
-	public Coordiante MapPosition { get; set; }
+	public CoordianteUI MapPosition { get; set; }
 
 	public Direction[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
 
@@ -114,11 +114,11 @@ public partial class TrafficLight : Node2D
 		SetValue(direction, GetSize(direction));
 	}
 
-	public void SkipCharacter(int characterId) => _skippedPlayers.Add(characterId);
+	public void SkipCharacter(Guid characterId) => _skippedPlayers.Add(characterId);
 
-	public bool WasSkipped(int characterId) => _skippedPlayers.Contains(characterId);
+	public bool WasSkipped(Guid characterId) => _skippedPlayers.Contains(characterId);
 
-	public void ClearSkip(int characterId) => _skippedPlayers.Remove(characterId);
+	public void ClearSkip(Guid characterId) => _skippedPlayers.Remove(characterId);
 
 
     private void OnDirectionInputEvent(Node viewport, InputEvent @event, long shapeIdx, Direction direction)
