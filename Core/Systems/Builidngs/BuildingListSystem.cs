@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace My_awesome_character.Core.Systems.Builidngs
 {
-    internal class ListSystem : ISystem
+    internal class BuildingListSystem : ISystem
     {
         private readonly IBuildingController _buildingController;
         private readonly ISceneAccessor _sceneAccessor;
 
-        public ListSystem(IBuildingController buildingController, ISceneAccessor sceneAccessor)
+        public BuildingListSystem(IBuildingController buildingController, ISceneAccessor sceneAccessor)
         {
             _buildingController = buildingController;
             _sceneAccessor = sceneAccessor;

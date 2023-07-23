@@ -59,7 +59,6 @@ namespace My_awesome_character
             builder.RegisterType<PeriodicActionsSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomePreviewSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<HomeBuildingPreviewConditionSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<BuildingLoadingCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<InitResourcesInfoSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<IncreaseSourceSystem>().As<ISystem>().SingleInstance();
@@ -71,7 +70,7 @@ namespace My_awesome_character
             builder.RegisterType<TrafficLightInputsHandlerSystem>().As<ISystem>().SingleInstance();
 
 
-            builder.RegisterType<ListSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<BuildingListSystem>().As<ISystem>().SingleInstance();
 
 
 
