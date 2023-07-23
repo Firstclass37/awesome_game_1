@@ -22,21 +22,17 @@ namespace Game.Server.Logic.Objects.Roads.Reuirements
 
         public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
         {
-            var root = area.First().Key;
-            var rootObject = _gameObjectAccessor.Find(root);
-            if (rootObject.GameObject.ObjectType != BuildingTypes.Ground)
+            var root = area.First();
+            if (root.Value == null || root.Value.GameObject.ObjectType != BuildingTypes.Ground)
                 return false;
 
-            var neigtborsCoordinates = _mapGrid.GetNeightborsOf(root).Select(c => c.Key).ToArray();
-            var roadNeigtbors = _storage.Find<GameObjectPosition>(p => neigtborsCoordinates.Contains(p.Coordiante))
-                .Select(n => _gameObjectAccessor.Find(n.Coordiante))
+            var neigtborsCoordinates = _mapGrid.GetNeightborsOf(root.Key).Select(c => c.Key).ToArray();
+            var roadNeigtbors = neigtborsCoordinates
+                .Select(n => _gameObjectAccessor.Find(n))
                 .Where(n => n.GameObject.ObjectType == BuildingTypes.Road)
                 .ToArray();
-            var roadNeigtborsDirection = roadNeigtbors.Select(n => _mapGrid.GetDirectionOfNeightbor(root, n.Area.First().Coordiante)).ToArray();
 
-            return roadNeigtbors.Length <= 1 || 
-                roadNeigtbors.Length == 2 && roadNeigtborsDirection.All(d => d == Direction.Left || d == Direction.Right) ||
-                roadNeigtbors.Length == 2 && roadNeigtborsDirection.All(d => d == Direction.Top || d == Direction.Bottom);
+            return roadNeigtbors.Length <= 2;
         }
     }
 }

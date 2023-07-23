@@ -178,15 +178,14 @@ public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
         if (mouseEvent == null)
             return;
 
-        var pos = mouseEvent.GlobalPosition;
+        var pos = GetGlobalMousePosition();
         var localPos = TileMap.ToLocal(pos);
         var tilePos = TileMap.LocalToMap(localPos);
-        if (Input.IsActionPressed("left-click"))
+        if (Input.IsActionPressed("left-click") || Input.IsActionPressed("right-click"))
         {
             GD.Print($"Clicked on {tilePos.X} {tilePos.Y}");
             OnCellClicked?.Invoke(GetCells().First(c => c.X == tilePos.X && c.Y == tilePos.Y));
         }
-            
     }
 
 	private Dictionary<MapCell, int> GetInitialState()
