@@ -73,7 +73,7 @@ namespace Game.Server.Logic.Objects._Buidling
                     .Publish(new ObjectCreatedEvent { Id = gameObject.GameObject.Id, ObjectType = objectType, Area = area.ToArray(), Root = point });
             }
 
-            _logger.Info($"object created at {point}");
+            _logger.Info($"object created at {point} with area: {string.Join(";", area.Select(a => a.ToString()).ToArray())}");
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Game.Server.DataBuilding
 
         public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area)
         {
-            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, root, a.Equals(root), false)).ToList();
+            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, a, a == root, false)).ToList();
             return this;
         }
 

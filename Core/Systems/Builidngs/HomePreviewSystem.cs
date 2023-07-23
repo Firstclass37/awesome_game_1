@@ -1,8 +1,6 @@
 ﻿using Game.Server.API.Buildings;
-using Game.Server.Models.Maps;
 using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
 using System.Linq;
@@ -31,7 +29,7 @@ namespace My_awesome_character.Core.Systems.Homes
             {
                 ClearPreview();
             }
-            else if (Input.IsActionJustPressed("left-click"))
+            else if (Input.IsActionPressed("left-click"))
             {
                 var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
                 var globalMousePos = map.GetGlobalMousePosition();
