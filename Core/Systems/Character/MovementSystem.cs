@@ -1,9 +1,8 @@
-﻿using Godot;
+﻿using Game.Server.Events.Core;
+using Game.Server.Events.List.Character;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Ui;
-using My_awesome_character.Core.Infrastructure.Events;
-using My_awesome_character.Core.Game.Events;
-using My_awesome_character.Core.Game.Events.Character;
 
 namespace My_awesome_character.Core.Systems.Character
 {
@@ -17,8 +16,7 @@ namespace My_awesome_character.Core.Systems.Character
             _sceneAccessor = sceneAccessor;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<GameEvent<MovementCharacterPathEvent>>().Subscribe(Move);
-            _eventAggregator.GetEvent<GameEvent<StopMovingRequest>>().Subscribe(OnStop);
+            _eventAggregator.GetEvent<GameEvent<CharacterMoveEvent>>().Subscribe(Move);
         }
 
         public void OnStart()
@@ -30,34 +28,13 @@ namespace My_awesome_character.Core.Systems.Character
 
         }
 
-        private void OnStop(StopMovingRequest request)
+        private void Move(CharacterMoveEvent @event)
         {
-            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(request.CharacterId));
-            character.StopMoving();
-        }
+            var target = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
 
-        private void Move(MovementCharacterPathEvent @event)
-        {
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var game = _sceneAccessor.FindFirst<Node2D>(SceneNames.Game);
             var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(@event.CharacterId));
-
-            character.IsMoving = true;
-            character.MoveTo(@event.Path, 
-                mc => map.GetLocalPosition(mc),
-                mc => _eventAggregator.GetEvent<GameEvent<CharacterPositionChangedEvent>>().Publish(new CharacterPositionChangedEvent { CharacterId = character.Id, NewPosition = mc }),
-                () => OnMovementEnd(character));
-        }
-
-        private void OnMovementEnd(character character)
-        {
-            //character.IsMoving = false;
-            //_eventAggregator.GetEvent<GameEvent<MovementEndEvent>>().Publish(new MovementEndEvent
-            //{
-            //    MovementId = 0,
-            //    ObjectId = character.Id,
-            //    ObjectType = typeof(character)
-            //});
+            character.MoveTo(target, @event.Speed, p => map.GetLocalPosition(p));
         }
     }
 }

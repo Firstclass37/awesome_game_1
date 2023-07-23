@@ -1,23 +1,32 @@
-﻿using Game.Server.Logic.Objects.Characters;
+﻿using Game.Server.Logic._Extentions;
+using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects.Characters;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
+using Game.Server.Models.Constants;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching
 {
     internal class OnlyRoadNeighboursSelector : INieighborsSearchStrategy<Coordiante>
     {
-        private readonly INeighboursAccessor _neighboursAccessor;
+        private readonly IMapGrid _mapGrid;
+        private readonly IGameObjectAccessor _gameObjectAccessor;
 
-        public OnlyRoadNeighboursSelector(INeighboursAccessor neighboursAccessor)
+        public OnlyRoadNeighboursSelector(IMapGrid mapGrid, IGameObjectAccessor gameObjectAccessor)
         {
-            _neighboursAccessor = neighboursAccessor;
+            _mapGrid = mapGrid;
+            _gameObjectAccessor = gameObjectAccessor;
         }
 
         public Coordiante[] Search(Coordiante element)
         {
-            return _neighboursAccessor.GetNeighboursOf(element).ToArray();
-            //.Where(c => c.CellType == MapCellType.Road || c.Tags.Contains(MapCellTags.Trap))
-            //.ToArray();
+            var neighbours = _mapGrid.GetNeightborsOf(element).Keys.ToArray();
+            return neighbours
+                .Select(n => new { Coordinate = n, Object =   _gameObjectAccessor.Find(n) })
+                .Where(n => n.Object != null)
+                .Where(c =>  c.Object.GameObject.ObjectType == BuildingTypes.Road || c.Object.Interactable())
+                .Select(n => n.Coordinate)
+                .ToArray();
         }
     }
 }

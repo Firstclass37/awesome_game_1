@@ -28,28 +28,24 @@ public partial class character : Node2D
 		MoveAnimation();
 	}
 
-	public void MoveTo(MapCell[] path, Func<MapCell, Vector2> positionProvider, Action<MapCell> onPositionChanged, Action onEnd)
+	public void MoveTo(CoordianteUI to, float speed, Func<CoordianteUI, Vector2> positionProvider)
 	{
-		//if (_movingTween != null)
-		//	_movingTween.Kill();
+		if (_movingTween != null)
+			_movingTween.Kill();
 
-  //      _movingTween = CreateTween();
-  //      for (int i = 0; i < path.Length; i++)
-		//{
-		//	var current = i == 0 ? MapPosition : path[i - 1];
-		//	var to = path[i];
+		_movingTween = CreateTween();
+		IsMoving = true;
 
-		//	var currentPosition = positionProvider(current);
-  //          var targetPosition = positionProvider(to);
-  //          _movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
-  //          _movingTween.TweenProperty(this, "position", targetPosition, 1F);
-  //          _movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
-		//	if (onPositionChanged != null)
-		//		_movingTween.TweenCallback(Callable.From( () => onPositionChanged(to)));
-  //      }
-  //      _movingTween.TweenCallback(Callable.From(onEnd));
+		var current = MapPosition;
 
-  //      _movingTween.Play();
+		var currentPosition = positionProvider(current);
+		var targetPosition = positionProvider(to);
+		_movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
+		_movingTween.TweenProperty(this, "position", targetPosition, speed);
+		_movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
+        _movingTween.TweenCallback(Callable.From(() => StopMovingInternal()));
+
+        _movingTween.Play();
 	}
 
 	public void StopMoving()
@@ -59,9 +55,14 @@ public partial class character : Node2D
 		_movingTween = null;
     }
 
-	private void SetNewPosition(MapCell newCell)
+	private void StopMovingInternal()
 	{
-		//MapPosition = newCell;
+		IsMoving = false;
+	}
+
+	private void SetNewPosition(CoordianteUI newCell)
+	{
+		MapPosition = newCell;
 	}
 
 	private string SelectDirection(Vector2 vector, string currentDirection)

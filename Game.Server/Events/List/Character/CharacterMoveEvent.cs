@@ -2,10 +2,12 @@
 
 namespace Game.Server.Events.List.Character
 {
-    internal class CharacterPositionChangedEvent
+    public class CharacterMoveEvent
     {
-        public int CharacterId { get; set; }
+        public Guid CharacterId { get; set; }
 
         public Coordiante NewPosition { get; set; }
+
+        public float Speed { get; set; }
     }
 }

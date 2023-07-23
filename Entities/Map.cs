@@ -3,7 +3,6 @@ using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Constants;
-using My_awesome_character.Core.Game.Movement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +27,7 @@ public class MapLayers
     public const int Preview = 4;
 }
 
-public partial class Map : Node2D, INeighboursAccessor, IAreaCalculator, IMap
+public partial class Map : Node2D, IAreaCalculator, IMap
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{

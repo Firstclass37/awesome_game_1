@@ -4,11 +4,7 @@ using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Buildings.Build;
 using My_awesome_character.Core.Game.Buildings.Build.Factories;
 using My_awesome_character.Core.Game.Buildings.Requirements;
-using My_awesome_character.Core.Game.Movement;
-using My_awesome_character.Core.Game.Movement.Path;
-using My_awesome_character.Core.Game.Movement.Path_1;
 using My_awesome_character.Core.Game.Resources;
-using My_awesome_character.Core.Game.TrafficLights;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Builidngs;
@@ -29,17 +25,8 @@ namespace My_awesome_character
             builder.RegisterType<Storage>().As<IStorage>().SingleInstance();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<SceneAccessor>().As<ISceneAccessor>().SingleInstance();
-            builder.RegisterType<PathSearcherSettingsFactory>().As<IPathSearcherSettingsFactory>().SingleInstance();
-            builder.RegisterType<PathSearcher>().As<IPathSearcher>().SingleInstance();
             builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
 
-            //character
-            builder.RegisterType<CharacterMovement>().As<ICharacterMovement>();
-
-            //traffic light
-            builder.RegisterType<Pointsman>().As<IPointsman>();
-            builder.RegisterType<TrafficLightInteraction>().As<ITrafficLightInteraction>();
-            builder.RegisterType<TrafficLightManager>().As<ITrafficLightManager>();
 
             //other
             builder.RegisterType<BuildRequirementProvider>().As<IBuildRequirementProvider>().SingleInstance();
@@ -52,7 +39,6 @@ namespace My_awesome_character
             builder.RegisterType<UranusMineFactory>().AsSelf();
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<RandomPathGeneratorSystem>().As<ISystem>().SingleInstance();
             //builder.RegisterType<InitCharacterSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomeCreatingSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<PeriodicActionsSystem>().As<ISystem>().SingleInstance();

@@ -57,7 +57,8 @@ namespace Game.Server.Logic.Objects.Characters
 
         private INieighborsSearchStrategy<Coordiante> SelectSelector(Coordiante currentPosition, Coordiante targetPosition)
         {
-            return new OnlyRoadNeighboursSelector(_neighboursAccessor);
+            return default;
+            //return new OnlyRoadNeighboursSelector(_neighboursAccessor);
 
             //if (IsRoad(currentPosition) && IsRoad(targetPosition))
             //    return new OnlyRoadNeighboursSelector(map);
