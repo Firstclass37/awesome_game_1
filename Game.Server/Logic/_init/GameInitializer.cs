@@ -23,7 +23,26 @@ namespace Game.Server.Logic._init
         {
             PopulateMapGrid();
             PopulateGround();
+            PopulateResources();
             PopulateHome();
+        }
+
+        private void PopulateResources()
+        {
+            var coordinates = new Coordiante[] {
+                new Coordiante(15, 0),
+                new Coordiante(15, 1),
+                new Coordiante(16, 0),
+                new Coordiante(16, 1),
+                new Coordiante(16, 2),
+                new Coordiante(16, 3),
+                new Coordiante(17, 0),
+                new Coordiante(17, 1),
+                new Coordiante(17, 2),
+            };
+
+            foreach(var coord in coordinates)
+                _gameObjectCreator.Create(ResourceResourceTypes.Uranium, coord, null);
         }
 
         private void PopulateHome()
@@ -56,5 +75,8 @@ namespace Game.Server.Logic._init
                 _storage.Update(newCell);
             }
         }
+
+
+
     }
 }
