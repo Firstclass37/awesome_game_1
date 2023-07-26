@@ -45,8 +45,11 @@ namespace Game.Server.Logic.Systems
                 var updatedMovement = _storage.Get<Movement>(movement.Id);
                 if ((gameTime - updatedMovement.LastMovementTime) > _speed)
                 {
+                    var active = movement.Path.Last() != nextPosition;
                     _storage.Update(currentSinglePosition with { Coordiante = nextPosition });
                     _storage.Update(updatedMovement with { LastMovementTime = gameTime, Active = movement.Path.Last() != nextPosition });
+                    if (active == false)
+                        _storage.Remove(updatedMovement);
                 }
             }
         }

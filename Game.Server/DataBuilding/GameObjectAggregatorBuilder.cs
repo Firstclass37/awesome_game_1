@@ -25,7 +25,9 @@ namespace Game.Server.DataBuilding
             return this;
         }
 
-        public GameObjectAggregatorBuilder AddAttribute(string attributeType, object value)
+
+
+        public GameObjectAggregatorBuilder AddAttribute(string attributeType, object value = null)
         {
             _attributes.Add(new GameObjectToAttribute(_gameObject.Id, attributeType, value));
             return this;

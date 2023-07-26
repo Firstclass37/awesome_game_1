@@ -12,6 +12,7 @@ namespace Game.Server.Logic.Objects.Characters.Creation
         {
             return new GameObjectAggregatorBuilder(CharacterTypes.Default)
                 .AddArea(root, area)
+                .AddAttribute(AttrituteTypes.Interactable)
                 .Build();
         }
     }
