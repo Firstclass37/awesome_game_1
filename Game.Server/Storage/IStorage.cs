@@ -16,6 +16,8 @@ namespace Game.Server.Storage
 
         void Remove<T>(T obj) where T : IEntityObject;
 
+        void RemoveRange<T>(IEnumerable<T> entities) where T : IEntityObject;
+
         void Update<T>(T obj) where T : IEntityObject;
     }
 }

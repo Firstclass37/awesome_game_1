@@ -7,6 +7,8 @@ namespace Game.Server.Logic.Maps
     {
         GameObjectAggregator Get(Guid id);
 
+        IEnumerable<GameObjectAggregator> FindAll(Coordiante position);
+
         GameObjectAggregator Find(Coordiante position);
 
         IReadOnlyCollection<GameObjectAggregator> FindAll(string gameObjectType);

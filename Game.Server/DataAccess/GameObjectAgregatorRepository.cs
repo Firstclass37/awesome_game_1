@@ -23,7 +23,11 @@ namespace Game.Server.DataAccess
 
         public void Remove(GameObjectAggregator gameObjectAggregator)
         {
-            throw new NotImplementedException();
+            _storage.Remove(gameObjectAggregator.GameObject);
+            _storage.RemoveRange(gameObjectAggregator.Attributes);
+            _storage.RemoveRange(gameObjectAggregator.Area);
+            _storage.RemoveRange(gameObjectAggregator.PeriodicActions);
+            _storage.RemoveRange(gameObjectAggregator.Interactions);
         }
 
         public void Update(GameObjectAggregator gameObjectAggregator)

@@ -1,5 +1,6 @@
 ﻿using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
+using Game.Server.Models;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
@@ -10,14 +11,12 @@ namespace Game.Server.Logic.Objects.Characters
     {
         private readonly IPathSearcher _pathSearcher;
         private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
-        private readonly INeighboursAccessor _neighboursAccessor;
         private readonly IStorage _storage;
 
-        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, INeighboursAccessor neighboursAccessor, IStorage storage)
+        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IStorage storage)
         {
             _pathSearcher = pathSearcher;
             _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
-            _neighboursAccessor = neighboursAccessor;
             _storage = storage;
         }
 
@@ -47,12 +46,12 @@ namespace Game.Server.Logic.Objects.Characters
 
         public void StopMoving(Character character)
         {
-            var activeMovement = GetCurrentMovement(character);
+            var characterId = character.GameObject.GameObject.Id;
+            var activeMovement = _storage.Find<Models.Movement>(c => c.GameObjectId == characterId && c.Active).FirstOrDefault();
             if (activeMovement == null)
                 return;
 
-            activeMovement.Active = false;
-            _storage.Update(activeMovement);
+            _storage.Remove(activeMovement);
         }
 
         private INieighborsSearchStrategy<Coordiante> SelectSelector(Coordiante currentPosition, Coordiante targetPosition)

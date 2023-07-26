@@ -1,6 +1,8 @@
-﻿using Game.Server.Models.GameObjects;
+﻿using Game.Server.Models;
+using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
+using System.Collections.Immutable;
 
 namespace Game.Server.Logic.Maps
 {
@@ -19,6 +21,13 @@ namespace Game.Server.Logic.Maps
             return positionInfo != null ? Get(positionInfo.EntityId) : null;
         }
 
+        public IEnumerable<GameObjectAggregator> FindAll(Coordiante position)
+        {
+            return _storage.Find<GameObjectPosition>(p => p.Coordiante == position)
+                .OrderByDescending(p => p.CreatedDate)
+                .Select(o => Get(o.EntityId));
+        }
+
         public GameObjectAggregator Get(Guid id)
         {
             var gameObject = _storage.Get<GameObject>(id);
@@ -27,6 +36,7 @@ namespace Game.Server.Logic.Maps
             agregator.GameObject = gameObject;
             agregator.Attributes = _storage.Find<GameObjectToAttribute>(a => a.GameObjectId == gameObject.Id).ToList();
             agregator.Area = _storage.Find<GameObjectPosition>(p => p.EntityId == gameObject.Id).ToList();
+            agregator.Interactions = _storage.Find<GameObjectInteraction>(i => i.GameObjectId == id).ToList();
 
             return agregator;
         }

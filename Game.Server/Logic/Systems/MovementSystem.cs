@@ -50,6 +50,9 @@ namespace Game.Server.Logic.Systems
                     _storage.Update(updatedMovement with { LastMovementTime = gameTime, Active = movement.Path.Last() != nextPosition });
                     if (active == false)
                         _storage.Remove(updatedMovement);
+
+                    _eventAggregator.GetEvent<GameEvent<CharacterPositionChanged>>()
+                        .Publish(new CharacterPositionChanged { CharacterId = movement.GameObjectId, Position = nextPosition });
                 }
             }
         }

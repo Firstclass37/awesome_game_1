@@ -1,35 +1,17 @@
 ﻿using Game.Server.Logic.Objects._Interactions;
-using Game.Server.Models.GameObjects;
-using Game.Server.Models.GamesObjectList;
-using Game.Server.Models.Maps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Game.Server.Logic.Objects.Characters;
+using Game.Server.Logic.Resources;
+using Game.Server.Models.Constants;
 
 namespace Game.Server.Logic.Objects.UranusMine.Interaction
 {
-    internal class UranusMineInteraction : ICharacterInteraction
+    internal class UranusMineInteraction : InteractableBuildingInteraction
     {
-        public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
+        public UranusMineInteraction(IResourceManager resourceManager, ICharacterDamageService characterDamageService) : base(resourceManager, characterDamageService)
         {
-            //return new CommonInteractionAction(c =>
-            //{
-            //    _eventAggregator.GetEvent<GameEvent<TakeDamageCharacterEvent>>().Publish(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
-            //    _resourceManager.Increase(ResourceType.Uranus, 2);
-            //});
+            AddRequiredResource(ResourceType.Energy, 0.1f);
 
-            //return new CommonInteractionAction(c =>
-            //{
-            //    _eventAggregator.PublishGameEvent(new TakeDamageCharacterEvent { CharacterId = c.Id, Damage = 1000 });
-            //    _eventAggregator.PublishGameEvent(new BuildingDelayedActionEvent
-            //    {
-            //        BuidlingId = buildingId,
-            //        DelaySec = 5,
-            //        Event = () => _resourceManager.Increase(ResourceType.Uranus, 2)
-            //    });
-            //});
+            AddTargetResource(ResourceType.Uranus, 1);
         }
     }
 }

@@ -50,6 +50,12 @@ namespace Game.Server.Storage
             _dataBase[key].Remove(obj.Id, out var _);
         }
 
+        public void RemoveRange<T>(IEnumerable<T> entities) where T : IEntityObject
+        {
+            foreach(var entity in entities)
+                Remove(entity);
+        }
+
         private string GetKey<T>() where T : IEntityObject
         {
             var key = typeof(T).Name;

@@ -28,7 +28,7 @@ namespace Game.Server.Logic.Resources
             AddifNotExists(ResourceType.Chemicals, "Chemicals", 0);
             AddifNotExists(ResourceType.Glass, "Glass", 0);
             AddifNotExists(ResourceType.Silicon, "Silicon", 0);
-            AddifNotExists(ResourceType.Energy, "Energy", 0);
+            AddifNotExists(ResourceType.Energy, "Energy", 100);
             AddifNotExists(ResourceType.Fuel, "Fuel", 0);
         }
 

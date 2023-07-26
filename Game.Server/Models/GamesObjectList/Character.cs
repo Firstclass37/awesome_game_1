@@ -5,6 +5,11 @@ namespace Game.Server.Models.GamesObjectList
 {
     internal class Character
     {
+        public Character(GameObjectAggregator gameObjectAggregator) 
+        {
+            GameObject = gameObjectAggregator;
+        }
+
         public Guid Id { get; set; }
 
         public GameObjectAggregator GameObject { get; }

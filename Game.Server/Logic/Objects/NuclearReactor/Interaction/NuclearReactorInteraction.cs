@@ -11,7 +11,7 @@ namespace Game.Server.Logic.Objects.NuclearReactor.Interaction
         {
             AddRequiredResource(ResourceType.Uranus, 1);
             AddRequiredResource(ResourceType.Coal, 0.5f);
-            AddRequiredResource(ResourceType.Uranus, 0.5f);
+            AddRequiredResource(ResourceType.Water, 0.5f);
 
             AddTargetResource(ResourceType.Energy, 4);
         }

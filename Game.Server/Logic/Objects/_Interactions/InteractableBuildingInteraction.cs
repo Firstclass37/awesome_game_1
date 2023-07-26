@@ -22,8 +22,8 @@ namespace Game.Server.Logic.Objects._Interactions
 
         public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
-            if (SwapResources())
-                _characterDamageService.InstantKill(character);
+            _characterDamageService.InstantKill(character);
+            SwapResources();
         }
 
         protected internal void AddRequiredResource(int resourceId, float amout) 
