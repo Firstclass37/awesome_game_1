@@ -7,6 +7,7 @@ using Game.Server.Models;
 using Game.Server.Logic.Maps;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
+using Game.Server.Logic._Extentions;
 
 namespace Game.Server.Logic.Systems
 {
@@ -44,7 +45,10 @@ namespace Game.Server.Logic.Systems
         {
             var randomPoint = _mapGrid.GetGrid()
                 .OrderBy(g => Guid.NewGuid())
-                .First(p => _gameObjectAccessor.Find(p)?.GameObject.ObjectType == BuildingTypes.Road);
+                .Select(p => new { Coordinate = p, Object = _gameObjectAccessor.Find(p) })
+                .Where(p => p.Object != null)
+                .First(p => p.Object.GameObject.ObjectType == BuildingTypes.Road || p.Object.Interactable())
+                .Coordinate;
 
             var character = _gameObjectAccessor.Get(characterId);
             var initialPosition = character.Area.First().Coordiante;
