@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.DataBuilding;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects.UranusMine.Interaction;
 using Game.Server.Models;
 using Game.Server.Models.Constants;
@@ -11,19 +12,10 @@ namespace Game.Server.Logic.Objects.UranusMine.Creation
     {
         public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
         {
-            var gameObject = new GameObject(BuildingTypes.UranusMine);
-            var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToList();
-            var interactions = new List<GameObjectInteraction>()
-            {
-                new GameObjectInteraction(gameObject.Id, typeof(UranusMineInteraction).FullName)
-            };
-
-            return new GameObjectAggregator
-            {
-                GameObject = gameObject,
-                Area = positions,
-                Interactions = interactions,
-            };
+            return new GameObjectAggregatorBuilder(BuildingTypes.UranusMine)
+                .AddArea(root, area)
+                .AddInteraction<UranusMineInteraction>()
+                .Build();
         }
     }
 }

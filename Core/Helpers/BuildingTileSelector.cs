@@ -25,7 +25,7 @@ namespace My_awesome_character.Core.Helpers
         private static readonly Dictionary<string, int> _tiles = new Dictionary<string, int>()
         {
             { BuildingTypesTrue.Home, Tiles.HomeType1 },
-            { BuildingTypesTrue.MineUranus, Tiles.MineUranus },
+            { BuildingTypesTrue.UranusMine, Tiles.MineUranus },
             { BuildingTypesTrue.PowerStation, Tiles.PowerStation },
             { BuildingTypesTrue.Road, Tiles.RoadAshpalt },
         };

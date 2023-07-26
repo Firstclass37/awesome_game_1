@@ -9,7 +9,7 @@ namespace My_awesome_character.Core.Helpers
         private readonly Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>
         {
             { BuildingTypesTrue.Home, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\home_test_2x2.png") },
-            { BuildingTypesTrue.MineUranus, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\Mine.png") },
+            { BuildingTypesTrue.UranusMine, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\Mine.png") },
             { BuildingTypesTrue.Road, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Ground\\road_asphalt_pewviewinfo.png") },
             { BuildingTypesTrue.PowerStation, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\PowerStation.png") },
         };
