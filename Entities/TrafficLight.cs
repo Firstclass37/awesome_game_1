@@ -9,7 +9,7 @@ public partial class TrafficLight : Node2D
 {
 	private readonly Dictionary<Direction, Polygon2D> _directions = new();
 	private readonly Dictionary<Direction, Area2D> _areas = new();
-	private readonly Dictionary<Direction, MapCell> _trackingCells = new();
+	private readonly Dictionary<Direction, CoordianteUI> _trackingCells = new();
 	private readonly HashSet<Guid> _skippedPlayers = new();
 
 	public override void _Ready()
@@ -49,13 +49,13 @@ public partial class TrafficLight : Node2D
 
 	public Direction[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
 
-	public MapCell GetTrackingCell(Direction direction) => _trackingCells[direction];
+	public CoordianteUI GetTrackingCell(Direction direction) => _trackingCells[direction];
 
-    public MapCell[] GetTrackingCells() => _trackingCells.Values.ToArray();
+    public CoordianteUI[] GetTrackingCells() => _trackingCells.Values.ToArray();
 
-	public Direction GetDirectionFor(MapCell cell) => _trackingCells.First(c => c.Value == cell).Key;
+	public Direction GetDirectionFor(CoordianteUI cell) => _trackingCells.First(c => c.Value == cell).Key;
 
-    public void ActivateDirection(Direction direction, MapCell trackingCell)
+    public void ActivateDirection(Direction direction, CoordianteUI trackingCell)
 	{
 		_directions[direction].Visible = true;
         _trackingCells.TryAdd(direction, trackingCell);

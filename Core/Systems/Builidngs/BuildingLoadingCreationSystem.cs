@@ -1,5 +1,4 @@
 ﻿using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Events.Homes;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
@@ -14,7 +13,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
         private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
 
-        private readonly static Dictionary<int, Queue<BuildingDelayedActionEvent>> _eventsQueue = new Dictionary<int, Queue<BuildingDelayedActionEvent>>();
+        //private readonly static Dictionary<int, Queue<BuildingDelayedActionEvent>> _eventsQueue = new Dictionary<int, Queue<BuildingDelayedActionEvent>>();
 
         public BuildingLoadingCreationSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)
         {
@@ -24,7 +23,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         public void OnStart()
         {
-            _eventAggregator.GetEvent<GameEvent<BuildingDelayedActionEvent>>().Subscribe(OnLoad);
+            //_eventAggregator.GetEvent<GameEvent<BuildingDelayedActionEvent>>().Subscribe(OnLoad);
         }
 
         public void Process(double gameTime)
@@ -32,44 +31,44 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         }
 
-        private void OnLoad(BuildingDelayedActionEvent @event)
-        {
-            if (!_eventsQueue.ContainsKey(@event.BuidlingId))
-                _eventsQueue.Add(@event.BuidlingId, new Queue<BuildingDelayedActionEvent>());
+        //private void OnLoad(BuildingDelayedActionEvent @event)
+        //{
+        //    if (!_eventsQueue.ContainsKey(@event.BuidlingId))
+        //        _eventsQueue.Add(@event.BuidlingId, new Queue<BuildingDelayedActionEvent>());
 
-            var building = _sceneAccessor.FindAll<Home>(h => h.Id == @event.BuidlingId).First();
-            var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
-            var exisingLoading = _sceneAccessor.FindFirst<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId));
-            if (exisingLoading != null)
-            {
-                _eventsQueue[@event.BuidlingId].Enqueue(@event);
-                return;
-            }
+        //    var building = _sceneAccessor.FindAll<Home>(h => h.Id == @event.BuidlingId).First();
+        //    var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
+        //    var exisingLoading = _sceneAccessor.FindFirst<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId));
+        //    if (exisingLoading != null)
+        //    {
+        //        _eventsQueue[@event.BuidlingId].Enqueue(@event);
+        //        return;
+        //    }
 
-            var buidlingPosition = map.GetLocalPosition(building.RootCell);
+        //    var buidlingPosition = map.GetLocalPosition(building.RootCell);
 
-            var loadingBar = SceneFactory.Create<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId), ScenePaths.LoadingBar);
-            loadingBar.Duration = @event.DelaySec;
-            loadingBar.Position = new Godot.Vector2(buidlingPosition.X, buidlingPosition.Y - 100);
-            loadingBar.Scale = new Godot.Vector2(2, 2);
-            loadingBar.WhenEnd = (b) => WhenEnd(@event.BuidlingId, @event.Event, b);
+        //    var loadingBar = SceneFactory.Create<LoadingBar>(SceneNames.LoadingBar(@event.BuidlingId), ScenePaths.LoadingBar);
+        //    loadingBar.Duration = @event.DelaySec;
+        //    loadingBar.Position = new Godot.Vector2(buidlingPosition.X, buidlingPosition.Y - 100);
+        //    loadingBar.Scale = new Godot.Vector2(2, 2);
+        //    loadingBar.WhenEnd = (b) => WhenEnd(@event.BuidlingId, @event.Event, b);
 
-            map.AddChild(loadingBar);
-            loadingBar.Start();
-        }
+        //    map.AddChild(loadingBar);
+        //    loadingBar.Start();
+        //}
 
-        private void WhenEnd(int buildingId, Action @event, LoadingBar bar)
-        {
-            bar.GetParent().RemoveChild(bar);
-            bar.Dispose();
+        //private void WhenEnd(int buildingId, Action @event, LoadingBar bar)
+        //{
+        //    bar.GetParent().RemoveChild(bar);
+        //    bar.Dispose();
 
-            @event?.Invoke();
+        //    @event?.Invoke();
             
-            if (_eventsQueue.Any())
-            {
-                var newEvent = _eventsQueue[buildingId].Dequeue();
-                OnLoad(newEvent);
-            }
-        }
+        //    if (_eventsQueue.Any())
+        //    {
+        //        var newEvent = _eventsQueue[buildingId].Dequeue();
+        //        OnLoad(newEvent);
+        //    }
+        //}
     }
 }

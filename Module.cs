@@ -17,14 +17,8 @@ namespace My_awesome_character
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Storage>().As<IStorage>().SingleInstance();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<SceneAccessor>().As<ISceneAccessor>().SingleInstance();
-
-
-            //other
-
-            builder.RegisterType<GameInitSystem>().As<ISystem>();
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
