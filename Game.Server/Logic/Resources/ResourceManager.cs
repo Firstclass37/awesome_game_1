@@ -45,7 +45,7 @@ namespace Game.Server.Logic.Resources
 
             resource.Value = resource.Value - count;
             _storage.Update(resource);
-            _eventAggregator.GetEvent<GameEvent<ResourceChangedEvent>>().Publish(new ResourceChangedEvent { ResourceTypeId = resourceType, Amount = count });
+            _eventAggregator.GetEvent<GameEvent<ResourceChangedEvent>>().Publish(new ResourceChangedEvent { ResourceTypeId = resourceType, Amount = resource.Value });
             return true;
         }
 
@@ -57,7 +57,7 @@ namespace Game.Server.Logic.Resources
 
             resource.Value += count;
             _storage.Update(resource);
-            _eventAggregator.GetEvent<GameEvent<ResourceChangedEvent>>().Publish(new ResourceChangedEvent { ResourceTypeId = resourceType, Amount = count });
+            _eventAggregator.GetEvent<GameEvent<ResourceChangedEvent>>().Publish(new ResourceChangedEvent { ResourceTypeId = resourceType, Amount = resource.Value });
         }
 
         private void AddifNotExists(int resourceType, string name, float initialValue)
