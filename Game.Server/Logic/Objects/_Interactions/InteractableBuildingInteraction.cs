@@ -41,10 +41,10 @@ namespace Game.Server.Logic.Objects._Interactions
             if (_resourcesRequired.All(r => _resourceManager.GetAmount(r.Key) > r.Value))
             {
                 foreach (var resource in _resourcesRequired)
-                    _resourceManager.TrySpend(resource.Key, (int)resource.Value);
+                    _resourceManager.TrySpend(resource.Key, resource.Value);
 
                 foreach (var resource in _resourceTarget)
-                    _resourceManager.Increase(resource.Key, (int)resource.Value);
+                    _resourceManager.Increase(resource.Key, resource.Value);
 
                 return true;
             }

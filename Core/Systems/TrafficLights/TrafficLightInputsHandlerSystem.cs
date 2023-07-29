@@ -1,7 +1,6 @@
 ﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Game.Events;
-using My_awesome_character.Core.Game.Resources;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 
@@ -11,13 +10,11 @@ namespace My_awesome_character.Core.Systems.TrafficLights
     {
         private readonly ISceneAccessor _sceneAccessor;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IResourceManager _resourceManager;
 
-        public TrafficLightInputsHandlerSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator, IResourceManager resourceManager)
+        public TrafficLightInputsHandlerSystem(ISceneAccessor sceneAccessor, IEventAggregator eventAggregator)
         {
             _sceneAccessor = sceneAccessor;
             _eventAggregator = eventAggregator;
-            _resourceManager = resourceManager;
         }
 
         public void OnStart()
@@ -40,8 +37,8 @@ namespace My_awesome_character.Core.Systems.TrafficLights
 
         private void TrafficLight_OnLeftClick(Direction direction, TrafficLight trafficLight)
         {
-            if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
-                trafficLight.SetSize(direction, trafficLight.GetSize(direction) + 1);
+            //if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
+            //    trafficLight.SetSize(direction, trafficLight.GetSize(direction) + 1);
         }
 
         private void TrafficLight_OnRightClick(Direction direction, TrafficLight trafficLight)
@@ -50,12 +47,12 @@ namespace My_awesome_character.Core.Systems.TrafficLights
             if (currentSize <= 0)
                 return;
 
-            if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
-            {
-                trafficLight.SetSize(direction, trafficLight.GetSize(direction) - 1);
-                if (trafficLight.GetSize(direction) < trafficLight.GetValue(direction))
-                    trafficLight.SetValue(direction, trafficLight.GetSize(direction));
-            }
+            //if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
+            //{
+            //    trafficLight.SetSize(direction, trafficLight.GetSize(direction) - 1);
+            //    if (trafficLight.GetSize(direction) < trafficLight.GetValue(direction))
+            //        trafficLight.SetValue(direction, trafficLight.GetSize(direction));
+            //}
         }
     }
 }

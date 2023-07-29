@@ -44,6 +44,7 @@ namespace Game.Server.Logic.Objects.Characters
             _storage.Add(movement);
         }
 
+
         public void StopMoving(Character character)
         {
             var characterId = character.GameObject.GameObject.Id;

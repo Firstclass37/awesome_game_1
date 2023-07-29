@@ -1,10 +1,6 @@
 ﻿using Autofac;
 using Game.Server.Logger;
 using My_awesome_character.Core.Game;
-using My_awesome_character.Core.Game.Buildings.Build;
-using My_awesome_character.Core.Game.Buildings.Build.Factories;
-using My_awesome_character.Core.Game.Buildings.Requirements;
-using My_awesome_character.Core.Game.Resources;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Builidngs;
@@ -25,22 +21,15 @@ namespace My_awesome_character
             builder.RegisterType<Storage>().As<IStorage>().SingleInstance();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<SceneAccessor>().As<ISceneAccessor>().SingleInstance();
-            builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
 
 
             //other
-            builder.RegisterType<BuildRequirementProvider>().As<IBuildRequirementProvider>().SingleInstance();
 
             builder.RegisterType<GameInitSystem>().As<ISystem>();
 
-            builder.RegisterType<BuildingFactoryProvider>().As<IBuildingFactoryProvider>().SingleInstance();
-            builder.RegisterType<RoadFactory>().AsSelf();
-            builder.RegisterType<PowerStationFactory>().AsSelf();
-            builder.RegisterType<UranusMineFactory>().AsSelf();
 
             builder.RegisterType<MovementSystem>().As<ISystem>().SingleInstance();
             //builder.RegisterType<InitCharacterSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<HomeCreatingSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<PeriodicActionsSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterCreationSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<HomePreviewSystem>().As<ISystem>().SingleInstance();

@@ -1,7 +1,6 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
-using My_awesome_character.Core.Game.Buildings;
 using My_awesome_character.Core.Game.Constants;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ public class MapLayers
     public const int Preview = 4;
 }
 
-public partial class Map : Node2D, IAreaCalculator, IMap
+public partial class Map : Node2D
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{

@@ -1,12 +1,9 @@
 ﻿using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game.Events.Homes;
-using My_awesome_character.Core.Game.Events.Resource;
 using My_awesome_character.Core.Infrastructure.Events;
-using My_awesome_character.Core.Infrastructure.Events.Extentions;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

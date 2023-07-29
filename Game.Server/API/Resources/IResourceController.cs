@@ -2,8 +2,6 @@
 {
     public interface IResourceController
     {
-        int GetAmount(int resourceType);
-
         IReadOnlyCollection<ResourceInfo> GetList();
     }
 }

@@ -1,7 +1,6 @@
-﻿using Godot;
+﻿using Game.Server.API.Resources;
+using Godot;
 using My_awesome_character.Core.Constatns;
-using My_awesome_character.Core.Game.Constants;
-using My_awesome_character.Core.Game.Resources;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
 
@@ -10,12 +9,12 @@ namespace My_awesome_character.Core.Systems.Resources
     internal class InitResourcesInfoSystem : ISystem
     {
         private readonly ISceneAccessor _sceneAccessor;
-        private readonly IResourceManager _resourceManager;
+        private readonly IResourceController _resourceController;
 
-        public InitResourcesInfoSystem(ISceneAccessor sceneAccessor, IResourceManager resourceManager)
+        public InitResourcesInfoSystem(ISceneAccessor sceneAccessor, IResourceController resourceController)
         {
             _sceneAccessor = sceneAccessor;
-            _resourceManager = resourceManager;
+            _resourceController = resourceController;
         }
 
         public void OnStart()
@@ -23,20 +22,21 @@ namespace My_awesome_character.Core.Systems.Resources
             var resourceContainer = _sceneAccessor.GetScene<Node2D>(SceneNames.Game).GetNode<Container>("ResourceContainer");
 
             var textureSelector = new ResourcePreviewTextureSelector();
-            foreach(var resource in _resourceManager.GetList())
-                resourceContainer.AddChild(Create(resource, textureSelector, _resourceManager.GetAmount(resource)));
+            foreach(var resource in _resourceController.GetList())
+                resourceContainer.AddChild(Create(resource, textureSelector));
         }
 
         public void Process(double gameTime)
         {
         }
 
-        private Resource Create(int resourceId, ISelector<int, Texture2D> textureSelector, int amount)
+        private Resource Create(ResourceInfo resourceInfo, ISelector<int, Texture2D> textureSelector)
         {
-            var resource = SceneFactory.Create<Resource>(SceneNames.ResourceInfo(resourceId), ScenePaths.ResourceInfo);
-            resource.ResourceType = resourceId;
-            resource.Amount = amount;
-            resource.PreviewTexture = textureSelector.Select(resourceId);
+            var resource = SceneFactory.Create<Resource>(SceneNames.ResourceInfo(resourceInfo.Id), ScenePaths.ResourceInfo);
+            resource.ResourceType = resourceInfo.Id;
+            resource.Amount = (int)resourceInfo.Amout;
+            resource.Description = resourceInfo.Name;
+            resource.PreviewTexture = textureSelector.Select(resourceInfo.Id);
             return resource;
         }
     }

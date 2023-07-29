@@ -1,13 +1,9 @@
 ﻿using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
-using My_awesome_character.Core.Game.Buildings.Requirements;
 using My_awesome_character.Core.Game.Constants;
-using My_awesome_character.Core.Game.Events.Homes;
-using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
 using Newtonsoft.Json;
-using System;
 using System.IO;
 using System.Linq;
 

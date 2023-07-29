@@ -25,4 +25,6 @@ public partial class Resource : HBoxContainer
 		get { return int.Parse(AmountLabel.Text); }
 		set { AmountLabel.Text = value.ToString(); }
 	}
+
+	public string Description { get; set; }
 }

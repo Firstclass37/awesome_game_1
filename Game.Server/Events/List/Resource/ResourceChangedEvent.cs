@@ -1,6 +1,6 @@
 ﻿namespace Game.Server.Events.List.Resource
 {
-    public class ResourceIncreaseEvent
+    public class ResourceChangedEvent
     {
         public int ResourceTypeId { get; set; }
 
