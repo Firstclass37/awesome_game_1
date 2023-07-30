@@ -28,11 +28,11 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
         {
             if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
             {
-                var currentValues = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                currentValues[direction] = trafficLight.Sizes[direction] + increment;
+                var currentCapacities = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                currentCapacities[direction] = trafficLight.Sizes[direction] + increment;
 
-                var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesValues);
-                var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesValues, currentValues);
+                var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesCapacity);
+                var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesCapacity, currentCapacities);
                 newAttribute.Id = attribute.Id;
                 _storage.Update(newAttribute);
 
@@ -50,8 +50,8 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
                 var currentValues = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 currentValues[direction] = trafficLight.Sizes[direction] - decrement;
 
-                var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesValues);
-                var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesValues, currentValues);
+                var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesCapacity);
+                var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesCapacity, currentValues);
                 newAttribute.Id = attribute.Id;
                 _storage.Update(newAttribute);
 
@@ -97,8 +97,8 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
             var currentValues = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             currentValues[direction] = value;
 
-            var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesCapacity);
-            var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesCapacity, currentValues);
+            var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesValues);
+            var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesValues, currentValues);
             newAttribute.Id = attribute.Id;
             _storage.Update(newAttribute);
 
