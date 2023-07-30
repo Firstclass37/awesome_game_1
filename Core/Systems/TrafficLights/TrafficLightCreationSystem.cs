@@ -1,8 +1,14 @@
-﻿using My_awesome_character.Core.Game;
+﻿using Game.Server.API.TrafficLight;
+using Game.Server.Events.Core;
+using Game.Server.Events.List.TrafficLights;
+using Game.Server.Models.Constants;
+using Godot;
+using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
-using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Ui;
-using System.Collections.Generic;
+using System.Linq;
+using static Godot.Node;
 
 namespace My_awesome_character.Core.Systems.TrafficLights
 {
@@ -10,86 +16,78 @@ namespace My_awesome_character.Core.Systems.TrafficLights
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly ISceneAccessor _sceneAccessor;
+        private readonly ITrafficLightController _trafficLightController;
 
-        public TrafficLightCreationSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor)
+        public TrafficLightCreationSystem(IEventAggregator eventAggregator, ISceneAccessor sceneAccessor, ITrafficLightController trafficLightController)
         {
             _eventAggregator = eventAggregator;
             _sceneAccessor = sceneAccessor;
+            _trafficLightController = trafficLightController;
         }
 
         public void OnStart()
         {
-            //_eventAggregator.GetEvent<GameEvent<HomeCreateRequestEvent>>().Subscribe(OnBuildingCreated);
+            _eventAggregator.GetEvent<GameEvent<TrafficLightChangedEvent>>().Subscribe(OnCreated);
         }
 
         public void Process(double gameTime)
         {
         }
 
-        //private void OnBuildingCreated(HomeCreateRequestEvent @event)
-        //{
-            //var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
-            //var targetCell = @event.TargetCell;
-
-            //var actualCell = map.GetActualCell(new Game.CoordianteUI(targetCell.X, targetCell.Y));
-            //var candidates = map.GetNeighboursOf(targetCell).Union(new[] { actualCell })
-            //    .Where(n => n.CellType == MapCellType.Road)
-            //    .ToArray();
-
-            //foreach(var candidate in candidates)
-            //{
-            //    var neighboursRoads = map
-            //            .GetDirectedNeighboursOf(candidate)
-            //            .Where(n => n.Key.CellType == MapCellType.Road)
-            //            .ToDictionary(n => n.Key, n => n.Value);
-                
-            //    if (neighboursRoads.Any() && neighboursRoads.Count > 2)
-            //    {
-            //        var exists = _sceneAccessor
-            //            .FindAll<TrafficLight>(t => t.MapPosition.Equals(new Game.CoordianteUI(candidate.X, candidate.Y)))
-            //            .FirstOrDefault();
-
-            //        if (exists != null)
-            //        {
-            //            var activeDirections = exists.GetActiveDirections();
-            //            var newDirections = neighboursRoads
-            //                .Where(n => !activeDirections.Contains(n.Value))
-            //                .ToDictionary(n => n.Key, n => n.Value);
-            //            AddDirections(exists, newDirections);
-            //        }
-            //        else
-            //        {
-            //            var trafficLight = Create(candidate, map);
-            //            AddDirections(trafficLight, neighboursRoads);
-
-            //            _eventAggregator.GetEvent<GameEvent<TrafficLightsCreatedEvent>>().Publish(new TrafficLightsCreatedEvent { Id = trafficLight.Id });
-            //        }
-            //    }
-            //}
-        //}
-
-        private TrafficLight Create(CoordianteUI cell, Map map)
+        private void OnCreated(TrafficLightChangedEvent @event)
         {
-            //var id = new Random().Next(0, 100000);
-            ////todo: это должно быть в HomeCreatingSystem
-            //var trafficLight = SceneFactory.Create<TrafficLight>(SceneNames.TrafficLight(id), ScenePaths.TrafficLight);
-            //map.AddChild(trafficLight, forceReadableName: true);
+            var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
+            var trafficLight = _sceneAccessor.FindFirst<TrafficLight>(SceneNames.TrafficLight(@event.Id));
+            if (trafficLight == null)
+                trafficLight = Create(@event, map);
 
-            //trafficLight.Id = id;
-            //trafficLight.MapPosition = cell;
-            //trafficLight.Scale = new Vector2(0.2f, 0.2f);
-            //trafficLight.Position = map.GetLocalPosition(cell);
-            //return trafficLight;
-            return default;
+            AddDirections(trafficLight, @event);
         }
 
-        private void AddDirections(TrafficLight trafficLight, Dictionary<CoordianteUI, Direction> neightboars)
+        private TrafficLight Create(TrafficLightChangedEvent @event, Map map)
         {
-            //foreach (var neightboar in neightboars)
-            //{
-            //    trafficLight.SetSize(neightboar.Value, 1);
-            //    trafficLight.ActivateDirection(neightboar.Value, neightboar.Key);
-            //}
+            var trafficLight = SceneFactory.Create<TrafficLight>(SceneNames.TrafficLight(@event.Id), ScenePaths.TrafficLight);
+            map.AddChild(trafficLight, forceReadableName: true, InternalMode.Back);
+
+            trafficLight.Id = @event.Id;
+            trafficLight.MapPosition = new CoordianteUI(@event.Position.X, @event.Position.Y);
+            trafficLight.Scale = new Vector2(0.2f, 0.2f);
+            trafficLight.Position = map.GetLocalPosition(trafficLight.MapPosition);
+            trafficLight.OnLeftClick += (d) => TrafficLight_OnLeftClick(d, trafficLight);
+            trafficLight.OnRightClick += (d) => TrafficLight_OnRightClick(d, trafficLight);
+            return trafficLight;
+        }
+
+        private void AddDirections(TrafficLight trafficLight, TrafficLightChangedEvent @event )
+        {
+            var values = @event.Values.ToDictionary(v => (DirectionUI)((int)v.Key), v => v.Value);
+            var capacities = @event.Capasities.ToDictionary(v => (DirectionUI)((int)v.Key), v => v.Value);
+            var disabledDirections = trafficLight.GetActiveDirections().Except(capacities.Keys).ToArray();
+
+            foreach( var direction in disabledDirections)
+                trafficLight.Deactivate(direction);
+
+            foreach(var capacity in capacities)
+            {
+                if (!trafficLight.IsActiveDirection(capacity.Key))
+                    trafficLight.Activate(capacity.Key, default);
+
+                trafficLight.SetSize(capacity.Key, capacity.Value);
+                trafficLight.SetValue(capacity.Key, 0);
+            }
+
+            foreach (var value in values)
+                trafficLight.SetValue(value.Key, value.Value);
+        }
+
+        private void TrafficLight_OnLeftClick(DirectionUI direction, TrafficLight trafficLight)
+        {
+            _trafficLightController.Increase(trafficLight.Id, (Direction)((int)direction));
+        }
+
+        private void TrafficLight_OnRightClick(DirectionUI direction, TrafficLight trafficLight)
+        {
+            _trafficLightController.Decrease(trafficLight.Id, (Direction)((int)direction));
         }
     }
 }

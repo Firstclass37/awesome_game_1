@@ -1,35 +1,26 @@
 using Godot;
-using System;
 
 public partial class CameraAnchor : ColorRect
 {
-    public override void _Input(InputEvent @event)
+    private const int _step = 5;
+
+    public override void _Process(double delta)
     {
-		var keyEvent = @event as InputEventKey;
-		if (keyEvent == null)
-			return;
-
-		var key = keyEvent.GetKeycodeWithModifiers();
-		var step = 15;
-
-		var viewPortRect = GetViewportRect();
-		var centerX = viewPortRect.GetCenter();
-
-		if (key == Key.Up)
-		{
-            Position += new Vector2(0, -step);
+        if (Input.IsPhysicalKeyPressed(Key.Up))
+        {
+            Position += new Vector2(0, -_step);
         }
-		else if (key == Key.Down)
-		{
-            Position += new Vector2(0, +step);
+        if (Input.IsPhysicalKeyPressed(Key.Down))
+        {
+            Position += new Vector2(0, +_step);
         }
-		else if (key == Key.Right)
-		{
-            Position += new Vector2(+step, 0);
+        if (Input.IsPhysicalKeyPressed(Key.Right))
+        {
+            Position += new Vector2(+_step, 0);
         }
-		else if (key == Key.Left)
-		{
-            Position += new Vector2(- step, 0);
+        if (Input.IsPhysicalKeyPressed(Key.Left))
+        {
+            Position += new Vector2(-_step, 0);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace My_awesome_character.Core.Constatns
         public static string Builidng_preview(Type type) => $"building_preview_{type.Name}";
         public static string BuidlingPreviewInfo(string buildingType) => $"buidlig_preview_info_{buildingType}";
 
-        public static string TrafficLight(int id) => $"traffic_light_{id}";
+        public static string TrafficLight(Guid id) => $"traffic_light_{id}";
 
 
 

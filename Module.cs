@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Game.Server.Logger;
-using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Infrastructure.Events;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Builidngs;
@@ -29,13 +28,8 @@ namespace My_awesome_character
             builder.RegisterType<CharacterDeathSystem>().As<ISystem>().SingleInstance();
 
             builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<TrafficLightLogicSystem>().As<ISystem>().SingleInstance();
-            builder.RegisterType<TrafficLightInputsHandlerSystem>().As<ISystem>().SingleInstance();
-
 
             builder.RegisterType<BuildingListSystem>().As<ISystem>().SingleInstance();
-
-
 
             builder.RegisterType<GameObjectCreationSystem>().As<ISystem>();
 

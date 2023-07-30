@@ -7,22 +7,20 @@ using System.Linq;
 
 public partial class TrafficLight : Node2D
 {
-	private readonly Dictionary<Direction, Polygon2D> _directions = new();
-	private readonly Dictionary<Direction, Area2D> _areas = new();
-	private readonly Dictionary<Direction, CoordianteUI> _trackingCells = new();
-	private readonly HashSet<Guid> _skippedPlayers = new();
+	private readonly Dictionary<DirectionUI, Polygon2D> _directions = new();
+	private readonly Dictionary<DirectionUI, Area2D> _areas = new();
 
 	public override void _Ready()
 	{
-		_directions.Add(Direction.Left, GetNode<Polygon2D>("TextureRect/Left_polygon"));
-		_directions.Add(Direction.Top, GetNode<Polygon2D>("TextureRect/Top_polygon"));
-		_directions.Add(Direction.Right, GetNode<Polygon2D>("TextureRect/Right_polygon"));
-		_directions.Add(Direction.Bottom, GetNode<Polygon2D>("TextureRect/Bottom_polygon"));
+		_directions.Add(DirectionUI.Left, GetNode<Polygon2D>("TextureRect/Left_polygon"));
+		_directions.Add(DirectionUI.Top, GetNode<Polygon2D>("TextureRect/Top_polygon"));
+		_directions.Add(DirectionUI.Right, GetNode<Polygon2D>("TextureRect/Right_polygon"));
+		_directions.Add(DirectionUI.Bottom, GetNode<Polygon2D>("TextureRect/Bottom_polygon"));
 
-		_areas.Add(Direction.Left, GetNode<Area2D>("TextureRect/Left_Area2D"));
-        _areas.Add(Direction.Top, GetNode<Area2D>("TextureRect/Top_Area2D2"));
-        _areas.Add(Direction.Right, GetNode<Area2D>("TextureRect/Right_Area2D3"));
-        _areas.Add(Direction.Bottom, GetNode<Area2D>("TextureRect/Bottom_Area2D4"));
+		_areas.Add(DirectionUI.Left, GetNode<Area2D>("TextureRect/Left_Area2D"));
+        _areas.Add(DirectionUI.Top, GetNode<Area2D>("TextureRect/Top_Area2D2"));
+        _areas.Add(DirectionUI.Right, GetNode<Area2D>("TextureRect/Right_Area2D3"));
+        _areas.Add(DirectionUI.Bottom, GetNode<Area2D>("TextureRect/Bottom_Area2D4"));
 
         foreach (var node in _directions.Values)
 			node.Visible = false;
@@ -35,52 +33,34 @@ public partial class TrafficLight : Node2D
         }
 	}
 
-    public event Action<Direction> OnRightClick;
+    public event Action<DirectionUI> OnRightClick;
 
-    public event Action<Direction> OnLeftClick;
+    public event Action<DirectionUI> OnLeftClick;
 
     public override void _Process(double delta)
 	{
+
 	}
 
-	public int Id { get; set; }
+	public Guid Id { get; set; }
 
 	public CoordianteUI MapPosition { get; set; }
 
-	public Direction[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
+	public DirectionUI[] GetActiveDirections() => _directions.Where(d => d.Value.Visible).Select(d => d.Key).ToArray();
 
-	public CoordianteUI GetTrackingCell(Direction direction) => _trackingCells[direction];
+	public bool IsActiveDirection(DirectionUI direction) => _directions.Where(d => d.Value.Visible).Any(d => d.Key == direction);
 
-    public CoordianteUI[] GetTrackingCells() => _trackingCells.Values.ToArray();
-
-	public Direction GetDirectionFor(CoordianteUI cell) => _trackingCells.First(c => c.Value == cell).Key;
-
-    public void ActivateDirection(Direction direction, CoordianteUI trackingCell)
+    public void Activate(DirectionUI direction, CoordianteUI trackingCell)
 	{
 		_directions[direction].Visible = true;
-        _trackingCells.TryAdd(direction, trackingCell);
     }
 
-	public void DeactivateDirection(Direction direction)
+	public void Deactivate(DirectionUI direction)
 	{
 		_directions[direction].Visible = false;
 	}
 
-	public int GetValue(Direction direction)
-	{
-		var polygon = _directions[direction];
-		var label = polygon.GetChild<Label>(0);
-		var values = label.Text.Split('/');
-		var currentValue = values[0];
-		return int.Parse(currentValue);
-	}
-
-	public void DecreaseValue(Direction direction)
-	{
-		SetValue(direction, GetValue(direction) - 1);
-	}
-
-	public int GetSize(Direction direction)
+	public int GetSize(DirectionUI direction)
 	{
 		var polygon = _directions[direction];
 		var label = polygon.GetChild<Label>(0);
@@ -89,7 +69,7 @@ public partial class TrafficLight : Node2D
 		return int.Parse(size);
 	}
 
-	public void SetSize(Direction direction, int size)
+	public void SetSize(DirectionUI direction, int size)
 	{
 		var polygon = _directions[direction];
 		var label = polygon.GetChild<Label>(0);
@@ -99,7 +79,7 @@ public partial class TrafficLight : Node2D
 		label.Text = $"{currentValue}/{size}";
 	}
 
-	public void SetValue(Direction direction, int value)
+	public void SetValue(DirectionUI direction, int value)
 	{
 		var polygon = _directions[direction];
 		var label = polygon.GetChild<Label>(0);
@@ -109,28 +89,32 @@ public partial class TrafficLight : Node2D
 		label.Text = $"{value}/{currentSize}";
 	}
 
-	public void Reset(Direction direction)
+	public void Reset(DirectionUI direction)
 	{
 		SetValue(direction, GetSize(direction));
 	}
 
-	public void SkipCharacter(Guid characterId) => _skippedPlayers.Add(characterId);
-
-	public bool WasSkipped(Guid characterId) => _skippedPlayers.Contains(characterId);
-
-	public void ClearSkip(Guid characterId) => _skippedPlayers.Remove(characterId);
-
-
-    private void OnDirectionInputEvent(Node viewport, InputEvent @event, long shapeIdx, Direction direction)
+    public override void ProcessInput()
     {
-		//var mouseEvent = @event as InputEventMouseButton;
+		if (Input.IsActionJustReleased("left-click"))
+		{
+
+		}
+		else if (Input.IsActionJustReleased("right-click"))
+		{ 
+		
+		}
+    }
+
+    private void OnDirectionInputEvent(Node viewport, InputEvent @event, long shapeIdx, DirectionUI direction)
+    {
         if (Input.IsActionJustReleased("left-click"))
             OnLeftClick?.Invoke(direction);
         else if (Input.IsActionJustReleased("right-click"))
             OnRightClick?.Invoke(direction);
     }
 
-    private void OnDirectionAreaMouseEnter(Direction direction)
+    private void OnDirectionAreaMouseEnter(DirectionUI direction)
     {
         var polygon = _directions[direction];
         if (!polygon.Visible)
@@ -139,7 +123,7 @@ public partial class TrafficLight : Node2D
         polygon.Modulate = new Color("4cff21");
     }
 
-    private void OnDirectionAreaMouseExit(Direction direction)
+    private void OnDirectionAreaMouseExit(DirectionUI direction)
     {
         var polygon = _directions[direction];
         if (!polygon.Visible)

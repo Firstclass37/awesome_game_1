@@ -18,7 +18,7 @@ namespace Game.Server.Models.GameObjects
         public bool IsVisible { get; }
     }
 
-    internal class GameObjectToAttribute : IEntityObject
+    internal record GameObjectToAttribute : IEntityObject
     {
         public GameObjectToAttribute(Guid gameObjectId, string attributeType, object value)
         {
@@ -30,11 +30,11 @@ namespace Game.Server.Models.GameObjects
 
         public Guid Id { get; set; }
 
-        public Guid GameObjectId { get; }
+        public Guid GameObjectId { get; init; }
 
-        public string AttributeType { get; }
+        public string AttributeType { get; init; }
 
-        public object Value { get; }
+        public object Value { get; init; }
     }
 
     internal record GameObjectPosition : IEntityObject

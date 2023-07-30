@@ -1,4 +1,5 @@
 ﻿using Game.Server.Events.Core;
+using Game.Server.Events.Core.Extentions;
 using Game.Server.Events.List.TrafficLights;
 using Game.Server.Logic.Resources;
 using Game.Server.Models.Buildings;
@@ -38,7 +39,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
                 trafficLight.GameObject.Attributes.Remove(attribute);
                 trafficLight.GameObject.Attributes.Add(newAttribute);
 
-                PublishChangedEvent(trafficLight, direction);
+                PublishChangedEvent(trafficLight);
             }
         }
 
@@ -57,8 +58,35 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
                 trafficLight.GameObject.Attributes.Remove(attribute);
                 trafficLight.GameObject.Attributes.Add(newAttribute);
 
-                PublishChangedEvent(trafficLight, direction);
+                PublishChangedEvent(trafficLight);
             }
+        }
+
+        public void ActivateDirection(TrafficLight trafficLight, Direction direction)
+        {
+            if (trafficLight.Sizes.ContainsKey(direction))
+                return;
+
+            var currentValues = trafficLight.CurrentValues.ToDictionary(k => k.Key, k => k.Value);
+            var currentCapacity = trafficLight.Sizes.ToDictionary(k => k.Key, k => k.Value);
+            currentValues.Add(direction, 0);
+            currentCapacity.Add(direction, 1);
+
+            var capacityAttribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesCapacity);
+            var valuesAttribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesValues);
+
+            var newCapacityAttribute = capacityAttribute with { Value = currentCapacity };
+            var newValuesAttribute = valuesAttribute with { Value = currentValues };
+
+            _storage.Update(newCapacityAttribute);
+            _storage.Update(newValuesAttribute);
+
+            trafficLight.GameObject.Attributes.Remove(capacityAttribute);
+            trafficLight.GameObject.Attributes.Remove(valuesAttribute);
+            trafficLight.GameObject.Attributes.Add(newCapacityAttribute);
+            trafficLight.GameObject.Attributes.Add(newValuesAttribute);
+
+            PublishChangedEvent(trafficLight);
         }
 
         public void UpdateValue(TrafficLight trafficLight, Direction direction, int value)
@@ -77,20 +105,18 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
             trafficLight.GameObject.Attributes.Remove(attribute);
             trafficLight.GameObject.Attributes.Add(newAttribute);
 
-            PublishChangedEvent(trafficLight, direction);
+            PublishChangedEvent(trafficLight);
         }
 
-        private void PublishChangedEvent(TrafficLight trafficLight, Direction direction)
+        private void PublishChangedEvent(TrafficLight trafficLight)
         {
-            _eventAggregator.GetEvent<GameEvent<TrafficLightDirectionChangedEvent>>()
-                .Publish(new TrafficLightDirectionChangedEvent
-                {
-                    TrafficLightId = trafficLight.Id,
-                    Direction = direction,
-                    Value = trafficLight.CurrentValues[direction],
-                    Size = trafficLight.Sizes[direction]
-                }
-                );
+            _eventAggregator.PublishGameEvent(new TrafficLightChangedEvent
+            {
+                Id = trafficLight.Id,
+                Position = trafficLight.RootCell,
+                Capasities = trafficLight.Sizes,
+                Values = trafficLight.CurrentValues
+            });
         }
     }
 }

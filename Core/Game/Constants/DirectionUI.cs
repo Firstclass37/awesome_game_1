@@ -1,6 +1,6 @@
 ﻿namespace My_awesome_character.Core.Game.Constants
 {
-    public enum Direction
+    public enum DirectionUI
     {
         Left,
         Right,

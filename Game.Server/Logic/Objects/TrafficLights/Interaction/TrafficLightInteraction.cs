@@ -38,7 +38,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
 
             _characterMovement.StopMoving(character);
 
-            var characterDirection = _map.GetDirectionOfNeightbor(trafficLight.RootCell, character.Position); ;
+            var characterDirection = _map.GetDirectionOfNeightbor(trafficLight.RootCell, character.Position);
             var targetDirection = _pointsman.SelectDirection(trafficLight, characterDirection);
             var directionCoord = trafficLight.Tracking[targetDirection];
 
