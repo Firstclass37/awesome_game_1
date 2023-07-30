@@ -27,9 +27,13 @@ public partial class TrafficLight : Node2D
 
 		foreach (var area in _areas)
 		{
-            area.Value.InputEvent += (vp, e, sid) => OnDirectionInputEvent(vp, e, sid, area.Key);
-			area.Value.MouseEntered += () => OnDirectionAreaMouseEnter(area.Key);
-			area.Value.MouseExited += () => OnDirectionAreaMouseExit(area.Key);
+			var inputHandler = area.Value.GetNode<ColorRect>("ColorRect");
+			if (inputHandler == null)
+				continue;
+
+            inputHandler.GuiInput += (e) => OnDirectionInputEvent(e, area.Key);
+            inputHandler.MouseEntered += () => OnDirectionAreaMouseEnter(area.Key);
+            inputHandler.MouseExited += () => OnDirectionAreaMouseExit(area.Key);
         }
 	}
 
@@ -94,19 +98,7 @@ public partial class TrafficLight : Node2D
 		SetValue(direction, GetSize(direction));
 	}
 
-    public override void ProcessInput()
-    {
-		if (Input.IsActionJustReleased("left-click"))
-		{
-
-		}
-		else if (Input.IsActionJustReleased("right-click"))
-		{ 
-		
-		}
-    }
-
-    private void OnDirectionInputEvent(Node viewport, InputEvent @event, long shapeIdx, DirectionUI direction)
+    private void OnDirectionInputEvent(InputEvent @event, DirectionUI direction)
     {
         if (Input.IsActionJustReleased("left-click"))
             OnLeftClick?.Invoke(direction);

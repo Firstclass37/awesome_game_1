@@ -80,12 +80,24 @@ label_settings = SubResource("LabelSettings_7naue")
 metadata/_edit_use_anchors_ = true
 
 [node name="Left_Area2D" type="Area2D" parent="TextureRect"]
-position = Vector2(261, 130)
+z_as_relative = false
+position = Vector2(163, 72)
+collision_layer = 513
+collision_mask = 513
+collision_priority = 100.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/Left_Area2D"]
-position = Vector2(1.81433, 1.25624)
-scale = Vector2(1.00537, 1.0075)
+z_as_relative = false
+position = Vector2(102.146, 59.9604)
+scale = Vector2(1.01468, 1.00872)
 polygon = PackedVector2Array(-261, -6, -6, -5, -5, -130, -82.3719, -122.339, -147, -106, -185.816, -91.5695, -223, -67, -248.48, -38.964)
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="TextureRect/Left_Area2D"]
+offset_left = -131.0
+offset_right = 94.0
+offset_bottom = 53.0
+color = Color(1, 1, 1, 0)
 
 [node name="Top_Area2D2" type="Area2D" parent="TextureRect"]
 position = Vector2(257, 269)
@@ -95,6 +107,13 @@ position = Vector2(253, -160)
 scale = Vector2(1.00537, 1.0075)
 polygon = PackedVector2Array(-248.664, 16.8734, 2.98398, 15.8809, -20.8878, -32.7544, -68.6314, -67.4938, -151.188, -96.2779, -248.664, -107.196)
 
+[node name="ColorRect" type="ColorRect" parent="TextureRect/Top_Area2D2"]
+offset_left = 5.0
+offset_top = -197.0
+offset_right = 230.0
+offset_bottom = -144.0
+color = Color(1, 1, 1, 0)
+
 [node name="Bottom_Area2D4" type="Area2D" parent="TextureRect"]
 position = Vector2(561, 207)
 
@@ -103,10 +122,24 @@ position = Vector2(-301, 54)
 scale = Vector2(1.00537, 1.0075)
 polygon = PackedVector2Array(-238.718, -87.3449, -212.857, -60.5459, -178.044, -40.6948, -104.439, -15.8809, -57.6901, -7.94045, -6, -5, -5, -130, -144.225, -131.017, -256.622, -131.017, -253.638, -108.189)
 
+[node name="ColorRect" type="ColorRect" parent="TextureRect/Bottom_Area2D4"]
+offset_left = -534.0
+offset_top = -75.0
+offset_right = -309.0
+offset_bottom = -22.0
+color = Color(1, 1, 1, 0)
+
 [node name="Right_Area2D3" type="Area2D" parent="TextureRect"]
-position = Vector2(544, 40)
+position = Vector2(543, 40)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/Right_Area2D3"]
 position = Vector2(-21, 221)
 scale = Vector2(1.00537, 1.0075)
 polygon = PackedVector2Array(-261, -6, -208.878, -7.94045, -163.124, -15.8809, -120.354, -27.7916, -76.5886, -47.6427, -48.7382, -66.5012, -28.8451, -88.3375, -17.9038, -101.241, -11.9359, -130.025, -143.231, -130.025, -260.6, -130.025)
+
+[node name="ColorRect" type="ColorRect" parent="TextureRect/Right_Area2D3"]
+offset_left = -283.0
+offset_top = 92.0
+offset_right = -58.0
+offset_bottom = 145.0
+color = Color(1, 1, 1, 0)
