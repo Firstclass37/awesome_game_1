@@ -20,8 +20,11 @@ namespace Game.Server.Logic.Objects.TrafficLights.Requirements
 
         public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
         {
-            var root = area.First().Key;
+            var first = area.First();
+            if (first.Value == null || first.Value.GameObject.ObjectType != BuildingTypes.Road)
+                return false;
 
+            var root = area.First().Key;
             var neigtborsCoordinates = _mapGrid.GetNeightborsOf(root).Select(c => c.Key).ToArray();
             var neigtbors = _storage.Find<GameObjectPosition>(p => neigtborsCoordinates.Contains(p.Coordiante)).Select(e => e.EntityId).ToArray();
 
