@@ -1,13 +1,14 @@
 ﻿using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Maps;
-using Game.Server.Logic.Objects.Characters;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
 using Game.Server.Models.Constants;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching
 {
-    internal class OnlyRoadNeighboursSelector : INieighborsSearchStrategy<Coordiante>
+    internal interface IOnlyRoadNeighboursSelector : INieighborsSearchStrategy<Coordiante> { };
+
+    internal class OnlyRoadNeighboursSelector : IOnlyRoadNeighboursSelector
     {
         private readonly IMapGrid _mapGrid;
         private readonly IGameObjectAccessor _gameObjectAccessor;

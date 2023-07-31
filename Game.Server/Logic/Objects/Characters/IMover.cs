@@ -5,8 +5,10 @@ namespace Game.Server.Logic.Objects.Characters
 {
     internal interface IMover
     {
-        CharacterMovement GetCurrentMovement(Character character);
+        Models.Movement GetCurrentMovement(Character character);
+
         void MoveTo(Character gameObject, Coordiante coordiante, Guid? initiator = null);
+
         void StopMoving(Character gameObject);
     }
 }

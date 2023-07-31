@@ -29,11 +29,11 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
                 return;
 
             var characterMovement = _characterMovement.GetCurrentMovement(character);
-            if (characterMovement != null && characterMovement.MovementIniciator == gameObject.GameObject.Id)
+            if (characterMovement != null && characterMovement.Initiator == gameObject.GameObject.Id)
                 return;
 
             var trafficLight = new TrafficLight(gameObject);
-            if (trafficLight.RootCell.Equals(interactionPoint))
+            if (trafficLight.RootCell == interactionPoint)
                 return;
 
             _characterMovement.StopMoving(character);
@@ -47,7 +47,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
                 .Select(d => d.Key)
                 .First();
 
-            _characterMovement.MoveTo(character, wantMoveTo);
+            _characterMovement.MoveTo(character, wantMoveTo, trafficLight.Id);
         }
     }
 }

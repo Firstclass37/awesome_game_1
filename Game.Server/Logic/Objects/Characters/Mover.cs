@@ -1,6 +1,6 @@
-﻿using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
+﻿using Game.Server.Logger;
+using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
-using Game.Server.Models;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
@@ -12,38 +12,45 @@ namespace Game.Server.Logic.Objects.Characters
         private readonly IPathSearcher _pathSearcher;
         private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
         private readonly IStorage _storage;
+        private readonly IOnlyRoadNeighboursSelector _onlyRoadNeighboursSelector;
+        private readonly ILogger _logger;
 
-        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IStorage storage)
+        private readonly Guid _autoMovementInitiator = Guid.Empty;
+
+        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IStorage storage, IOnlyRoadNeighboursSelector onlyRoadNeighboursSelector, ILogger logger)
         {
             _pathSearcher = pathSearcher;
             _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
             _storage = storage;
+            _onlyRoadNeighboursSelector = onlyRoadNeighboursSelector;
+            _logger = logger;
         }
 
-        public CharacterMovement GetCurrentMovement(Character character)
+        public Models.Movement GetCurrentMovement(Character character)
         {
-            return _storage.Find<CharacterMovement>(c => c.CharacterId == character.Id && c.Active).FirstOrDefault();
+            ArgumentNullException.ThrowIfNull(character);
+
+            return _storage.Find<Models.Movement>(c => c.GameObjectId == character.Id && c.Active).FirstOrDefault();
         }
 
         public void MoveTo(Character character, Coordiante coordiante, Guid? initiator)
         {
-            var root = character.Position;
-            var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(SelectSelector(root, coordiante)));
-            if (!path.Any())
-                throw new ArgumentException();
+            ArgumentNullException.ThrowIfNull(coordiante);
+            ArgumentNullException.ThrowIfNull(character);
 
             StopMoving(character);
 
-            var movement = new CharacterMovement
+            var root = character.Position;
+            var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(_onlyRoadNeighboursSelector));
+            if (!path.Any())
             {
-                CharacterId = character.Id,
-                LastMovement = 0,
-                MovementIniciator = initiator,
-                Path = path
-            };
-            _storage.Add(movement);
+                _logger.Info($"PATH WAS NOT FOUND FOR {character.Id} FROM {root} to {coordiante}");
+            }
+            else
+            {
+                _storage.Add(new Models.Movement(character.Id, path, initiator ?? _autoMovementInitiator));
+            }
         }
-
 
         public void StopMoving(Character character)
         {
@@ -53,17 +60,6 @@ namespace Game.Server.Logic.Objects.Characters
                 return;
 
             _storage.Remove(activeMovement);
-        }
-
-        private INieighborsSearchStrategy<Coordiante> SelectSelector(Coordiante currentPosition, Coordiante targetPosition)
-        {
-            return default;
-            //return new OnlyRoadNeighboursSelector(_neighboursAccessor);
-
-            //if (IsRoad(currentPosition) && IsRoad(targetPosition))
-            //    return new OnlyRoadNeighboursSelector(map);
-            //else
-            //    return new AllNeighboursSelector(map);
         }
     }
 }

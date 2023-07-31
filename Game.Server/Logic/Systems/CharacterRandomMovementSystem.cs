@@ -1,34 +1,27 @@
-﻿using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
-using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
-using Game.Server.Storage;
-using Game.Server.Logger;
-using Game.Server.Models.Maps;
+﻿using Game.Server.Storage;
 using Game.Server.Models;
 using Game.Server.Logic.Maps;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Logic._Extentions;
+using Game.Server.Logic.Objects.Characters;
 
 namespace Game.Server.Logic.Systems
 {
     internal class CharacterRandomMovementSystem : ISystem
     {
-        private readonly IPathSearcher _pathSearcher;
-        private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
         private readonly IMapGrid _mapGrid;
         private readonly IGameObjectAccessor _gameObjectAccessor;
         private readonly IStorage _storage;
-        private readonly ILogger _logger;
+        private readonly IMover _mover;
+        private readonly Guid _autoMovementInitiator = Guid.Parse("2CC3B290-6A0F-497C-ADB1-409A8D662A32");
 
-        public CharacterRandomMovementSystem(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory,
-            IMapGrid mapGrid, IGameObjectAccessor gameObjectAccessor, IStorage storage, ILogger logger)
+        public CharacterRandomMovementSystem(IGameObjectAccessor gameObjectAccessor, IStorage storage, IMover mover, IMapGrid mapGrid)
         {
-            _pathSearcher = pathSearcher;
-            _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
-            _mapGrid = mapGrid;
             _gameObjectAccessor = gameObjectAccessor;
             _storage = storage;
-            _logger = logger;
+            _mover = mover;
+            _mapGrid = mapGrid;
         }
 
         public void Process(double gameTime)
@@ -51,22 +44,7 @@ namespace Game.Server.Logic.Systems
                 .Coordinate;
 
             var character = _gameObjectAccessor.Get(characterId);
-            var initialPosition = character.Area.First().Coordiante;
-
-            var path = _pathSearcher.Search(initialPosition, randomPoint, _pathSearcherSettingsFactory.Create(SelectSelector(initialPosition, randomPoint)));
-            if (path.Any())
-            {
-                _storage.Add(new Movement(characterId, path, Guid.Empty));
-            }
-            else
-            {
-                _logger.Info($"PATH WAS NOT FOUND FOR {characterId} FROM {initialPosition} to {randomPoint}");
-            }
-        }
-
-        private INieighborsSearchStrategy<Coordiante> SelectSelector(Coordiante currentPosition, Coordiante targetPosition)
-        {
-            return new OnlyRoadNeighboursSelector(_mapGrid, _gameObjectAccessor);
+            _mover.MoveTo(new Models.GamesObjectList.Character(character), randomPoint, _autoMovementInitiator);
         }
     }
 }
