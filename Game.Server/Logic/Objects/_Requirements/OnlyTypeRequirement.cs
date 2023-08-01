@@ -18,7 +18,7 @@ namespace Game.Server.Logic.Objects._Requirements
             _buildingTypes = new string[] { buildingType };
         }
 
-        public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
+        public bool Satisfy(Coordiante coordiante, Dictionary<Coordiante, GameObjectAggregator> area)
         {
             return area.Values.All(b => _buildingTypes.Contains(b.GameObject.ObjectType));
         }

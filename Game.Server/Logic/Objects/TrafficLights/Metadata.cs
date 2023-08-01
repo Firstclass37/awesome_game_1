@@ -10,22 +10,22 @@ namespace Game.Server.Logic.Objects.TrafficLights
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IDefaultAreaGetterFactory _areaGetterFactory;
+        private readonly ITrafficLightAreaGetter _trafficLightAreaGetter;
         private readonly TrafficLightBuildRequirement _trafficLightBuildRequirement;
         private readonly TrafficLightFactory _trafficLightFactory;
 
-        public Metadata(IDefaultAreaGetterFactory areaGetterFactory, TrafficLightBuildRequirement trafficLightBuildRequirement, TrafficLightFactory trafficLightFactory)
+        public Metadata(TrafficLightBuildRequirement trafficLightBuildRequirement, TrafficLightFactory trafficLightFactory, ITrafficLightAreaGetter trafficLightAreaGetter)
         {
-            _areaGetterFactory = areaGetterFactory;
             _trafficLightBuildRequirement = trafficLightBuildRequirement;
             _trafficLightFactory = trafficLightFactory;
+            _trafficLightAreaGetter = trafficLightAreaGetter;
         }
 
         public string ObjectType => BuildingTypes.TrafficLigh;
 
         public string Description => "Traffic light!";
 
-        public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
+        public IAreaGetter AreaGetter => _trafficLightAreaGetter;
 
         public ICreationRequirement CreationRequirement => _trafficLightBuildRequirement;
 

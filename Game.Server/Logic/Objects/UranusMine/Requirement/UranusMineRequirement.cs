@@ -7,7 +7,7 @@ namespace Game.Server.Logic.Objects.UranusMine.Requirement
 {
     internal class UranusMineRequirement : ICreationRequirement
     {
-        public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
+        public bool Satisfy(Coordiante coordiante, Dictionary<Coordiante, GameObjectAggregator> area)
         {
             var gameObjectsHere = area.Values.ToArray();
 

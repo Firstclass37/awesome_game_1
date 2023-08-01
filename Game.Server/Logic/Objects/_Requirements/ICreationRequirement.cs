@@ -5,6 +5,6 @@ namespace Game.Server.Logic.Objects._Requirements
 {
     internal interface ICreationRequirement
     {
-        bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area);
+        bool Satisfy(Coordiante root, Dictionary<Coordiante, GameObjectAggregator> area);
     }
 }

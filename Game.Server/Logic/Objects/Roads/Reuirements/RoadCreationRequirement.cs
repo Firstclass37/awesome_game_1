@@ -20,7 +20,7 @@ namespace Game.Server.Logic.Objects.Roads.Reuirements
             _gameObjectAccessor = gameObjectAccessor;
         }
 
-        public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
+        public bool Satisfy(Coordiante coordiante, Dictionary<Coordiante, GameObjectAggregator> area)
         {
             var root = area.First();
             if (root.Value == null || root.Value.GameObject.ObjectType != BuildingTypes.Ground)

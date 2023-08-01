@@ -23,7 +23,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
             var neighbours = _mapGrid.GetNeightborsOf(coordiante);
             var objectHere = _gameObjectAccessor.Find(coordiante);
             if (objectHere.GameObject.ObjectType != BuildingTypes.Road)
-                throw new ArgumentException($"traffic light extend are not allowed for this building type {objectHere.GameObject.ObjectType}");
+                return false;
 
             foreach(var neighbor in neighbours) 
             {

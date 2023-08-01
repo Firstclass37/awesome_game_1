@@ -38,7 +38,7 @@ namespace Game.Server.Logic.Objects._Buidling
                 throw new ArgumentException($"metadata for object {objectType} was not found");
 
             var area = metadata.AreaGetter.GetArea(point).ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
-            return metadata.CreationRequirement.Satisfy(area);
+            return metadata.CreationRequirement.Satisfy(point, area);
         }
 
         public GameObjectAggregator Create(string objectType, Coordiante point, object args)
@@ -51,7 +51,7 @@ namespace Game.Server.Logic.Objects._Buidling
                 throw new ArgumentException($"metadata for object {objectType} was not found");
 
             var area = metadata.AreaGetter.GetArea(point).ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
-            if (!metadata.CreationRequirement.Satisfy(area))
+            if (!metadata.CreationRequirement.Satisfy(point, area))
                 throw new Exception($"can't create object {objectType} here [{point.X} {point.Y}]");
 
             var createdObject = metadata.GameObjectFactory.CreateNew(point, area.Keys.ToArray());

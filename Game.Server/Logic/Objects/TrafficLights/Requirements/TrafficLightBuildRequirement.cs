@@ -18,13 +18,13 @@ namespace Game.Server.Logic.Objects.TrafficLights.Requirements
             _storage = storage;
         }
 
-        public bool Satisfy(Dictionary<Coordiante, GameObjectAggregator> area)
+        //todo: тут передавать еще root
+        public bool Satisfy(Coordiante root, Dictionary<Coordiante, GameObjectAggregator> area)
         {
-            var first = area.First();
-            if (first.Value == null || first.Value.GameObject.ObjectType != BuildingTypes.Road)
+            var rootObj = area[root];
+            if (rootObj == null || rootObj.GameObject.ObjectType != BuildingTypes.Road)
                 return false;
 
-            var root = area.First().Key;
             var neigtborsCoordinates = _mapGrid.GetNeightborsOf(root).Select(c => c.Key).ToArray();
             var neigtbors = _storage.Find<GameObjectPosition>(p => neigtborsCoordinates.Contains(p.Coordiante)).Select(e => e.EntityId).ToArray();
 
