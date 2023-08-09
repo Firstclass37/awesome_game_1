@@ -46,8 +46,10 @@ public partial class BuildingsPreview : ColorRect
 
     public void AddPrices(params Resource[] resource) 
 	{
-		//clear children before add
-		foreach(var resourceItem in resource)
+        foreach(var child in PriceContainer.GetChildren())
+			PriceContainer.RemoveChild(child);
+
+        foreach (var resourceItem in resource)
 			PriceContainer.AddChild(resourceItem);
 	}
 

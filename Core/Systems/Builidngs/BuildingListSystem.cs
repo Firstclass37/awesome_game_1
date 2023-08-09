@@ -1,4 +1,6 @@
 ﻿using Game.Server.API.Buildings;
+using Game.Server.Events.Core;
+using Game.Server.Events.List.Resource;
 using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Helpers;
@@ -11,16 +13,19 @@ namespace My_awesome_character.Core.Systems.Builidngs
     {
         private readonly IBuildingController _buildingController;
         private readonly ISceneAccessor _sceneAccessor;
+        private readonly IEventAggregator _eventAggregator;
 
-        public BuildingListSystem(IBuildingController buildingController, ISceneAccessor sceneAccessor)
+        public BuildingListSystem(IBuildingController buildingController, ISceneAccessor sceneAccessor, IEventAggregator eventAggregator)
         {
             _buildingController = buildingController;
             _sceneAccessor = sceneAccessor;
+            _eventAggregator = eventAggregator;
         }
 
         public void OnStart()
         {
-            Upsert();
+            _eventAggregator.GetEvent<GameEvent<ResourceChangedEvent>>().Subscribe((e) => Reload());
+            Reload();
         }
 
         public void Process(double gameTime)
@@ -29,7 +34,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
                 UnselectAll();
         }
 
-        private void Upsert()
+        private void Reload()
         {
             var buildings = _buildingController.GetBuildableList();
 
@@ -38,19 +43,27 @@ namespace My_awesome_character.Core.Systems.Builidngs
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
 
-                var buildingPreviewInfo = SceneFactory.Create<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType), ScenePaths.BuidlingPreviewInfo);
+                var existing = _sceneAccessor.FindFirst<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType));
+                var buildingPreviewInfo = existing == null 
+                    ? SceneFactory.Create<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType), ScenePaths.BuidlingPreviewInfo)
+                    : existing;
                 buildingPreviewInfo.BuildingTexture = new BuildingPreviewInfoSelector().Select(building.BuildingType);
                 buildingPreviewInfo.BuildingType = building.BuildingType;
                 buildingPreviewInfo.Description = building.Description;
                 buildingPreviewInfo.Availabe = building.Available;
                 buildingPreviewInfo.AddPrices(resources);
-                if (building.Available)
+                if (existing == null)
                 {
                     buildingPreviewInfo.OnClick += BuildingPreviewInfo_OnClick;
                     buildingPreviewInfo.OnMouseEnter += BuildingPreviewInfo_OnMouseEnter;
                     buildingPreviewInfo.OnMouseLeave += BuildingPreviewInfo_OnMouseLeave;
+                    buildingCollection.AddBuilding(buildingPreviewInfo);
                 }
-                buildingCollection.AddBuilding(buildingPreviewInfo);
+                if (buildingPreviewInfo.Availabe == false)
+                {
+                    buildingPreviewInfo.Hovered = false;
+                    buildingPreviewInfo.IsSelected = false;
+                }
             }
         }
 
@@ -61,13 +74,14 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void BuildingPreviewInfo_OnMouseEnter(BuildingsPreview obj)
         {
-            obj.Hovered = true;
+            if (obj.Availabe)
+                obj.Hovered = true;
         }
 
         private void BuildingPreviewInfo_OnClick(BuildingsPreview obj)
         {
             UnselectAll();
-            obj.IsSelected = !obj.IsSelected;
+            obj.IsSelected = obj.Availabe && !obj.IsSelected;
         }
 
         private void UnselectAll()
