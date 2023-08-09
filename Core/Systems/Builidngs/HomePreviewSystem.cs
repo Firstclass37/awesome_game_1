@@ -66,7 +66,8 @@ namespace My_awesome_character.Core.Systems.Homes
                 return;
 
             var coordinate = new Coordiante(mapCoordinate.X, mapCoordinate.Y);
-            _buildingController.Buy(selected.BuildingType, coordinate);
+            if (_buildingController.CanBuild(selected.BuildingType, coordinate))
+                _buildingController.Buy(selected.BuildingType, coordinate);
         }
 
         private void ShowPreview(Game.CoordianteUI mapCoordinate, Map map)

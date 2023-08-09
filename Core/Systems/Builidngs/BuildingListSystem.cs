@@ -74,14 +74,13 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void BuildingPreviewInfo_OnMouseEnter(BuildingsPreview obj)
         {
-            if (obj.Availabe)
-                obj.Hovered = true;
+            obj.Hovered = true;
         }
 
         private void BuildingPreviewInfo_OnClick(BuildingsPreview obj)
         {
             UnselectAll();
-            obj.IsSelected = obj.Availabe && !obj.IsSelected;
+            obj.IsSelected = !obj.IsSelected;
         }
 
         private void UnselectAll()
