@@ -20,10 +20,21 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         public void OnStart()
         {
+            Upsert();
+        }
+
+        public void Process(double gameTime)
+        {
+            if (Input.IsActionJustPressed("Esc"))
+                UnselectAll();
+        }
+
+        private void Upsert()
+        {
             var buildings = _buildingController.GetBuildableList();
 
             var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
-            foreach(var building in buildings) 
+            foreach (var building in buildings.OrderByDescending(b => b.Available))
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
 
@@ -31,19 +42,16 @@ namespace My_awesome_character.Core.Systems.Builidngs
                 buildingPreviewInfo.BuildingTexture = new BuildingPreviewInfoSelector().Select(building.BuildingType);
                 buildingPreviewInfo.BuildingType = building.BuildingType;
                 buildingPreviewInfo.Description = building.Description;
+                buildingPreviewInfo.Availabe = building.Available;
                 buildingPreviewInfo.AddPrices(resources);
-                buildingPreviewInfo.OnClick += BuildingPreviewInfo_OnClick;
-                buildingPreviewInfo.OnMouseEnter += BuildingPreviewInfo_OnMouseEnter;
-                buildingPreviewInfo.OnMouseLeave += BuildingPreviewInfo_OnMouseLeave;
-
+                if (building.Available)
+                {
+                    buildingPreviewInfo.OnClick += BuildingPreviewInfo_OnClick;
+                    buildingPreviewInfo.OnMouseEnter += BuildingPreviewInfo_OnMouseEnter;
+                    buildingPreviewInfo.OnMouseLeave += BuildingPreviewInfo_OnMouseLeave;
+                }
                 buildingCollection.AddBuilding(buildingPreviewInfo);
             }
-        }
-
-        public void Process(double gameTime)
-        {
-            if (Input.IsActionJustPressed("Esc"))
-                UnselectAll();
         }
 
         private void BuildingPreviewInfo_OnMouseLeave(BuildingsPreview obj)

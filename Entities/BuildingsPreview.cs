@@ -8,6 +8,8 @@ public partial class BuildingsPreview : ColorRect
 	private TextureRect Texture => GetNode<TextureRect>("TextureRect");
 	private Label Label => GetNode<Label>("Label");
 
+	private ColorRect BlockingRect => GetNode<ColorRect>("BlockRect");
+
 	public Texture2D BuildingTexture { set { Texture.Texture = value; } }
 
 	public string BuildingType { get; set; }
@@ -15,6 +17,12 @@ public partial class BuildingsPreview : ColorRect
 	public string Description { set { Label.Text = value; } }
 
 	public bool IsSelected { get; set; }
+
+	public bool Availabe 
+	{ 
+		get { return !BlockingRect.Visible; } 
+		set { BlockingRect.Visible = !value; } 
+	}
 
 	public bool Hovered 
 	{ 
@@ -26,8 +34,8 @@ public partial class BuildingsPreview : ColorRect
 
     public override void _Ready()
     {
-		MouseEntered += () => OnMouseEnter(this);
-		MouseExited += () => OnMouseLeave(this);
+		MouseEntered += () => OnMouseEnter?.Invoke(this);
+		MouseExited += () => OnMouseLeave?.Invoke(this);
     }
 
     public event Action<BuildingsPreview> OnMouseEnter;

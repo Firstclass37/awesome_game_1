@@ -32,7 +32,7 @@ namespace Game.Server.Logic.Resources
         private bool _commited = false;
         private readonly List<ResourceChunk> _spentResources = new();
 
-        internal SpendingTransaction(IResourceManager resourceManager)
+        public SpendingTransaction(IResourceManager resourceManager)
         {
             _resourceManager = resourceManager;
         }
