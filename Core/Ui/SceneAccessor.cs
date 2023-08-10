@@ -9,12 +9,17 @@ namespace My_awesome_character.Core.Ui
     {
         public static Node Root { get; set; }
 
-        public T GetNode<T>(string name) where T : class => 
+        public T GetNode<T>(string name) where T : class =>
             Root.GetNode(name) as T;
 
-        public T GetScene<T>(string name) where T : class =>
-            Root.FindChild(name, true, false) as T;
+        public T GetScene<T>(string name) where T : class 
+        {
+            if (Root.Name == name)
+                return Root as T;
 
+            return Root.FindChild(name, true, false) as T;
+        }
+            
         public T FindFirst<T>(string name) where T : class => 
             Find(Root, name) as T;
 

@@ -1,4 +1,5 @@
-﻿using Game.Server.Events.Core;
+﻿using Game.Server.DataAccess;
+using Game.Server.Events.Core;
 using Game.Server.Events.List.Character;
 using Game.Server.Models;
 using Game.Server.Models.GameObjects;
@@ -11,12 +12,14 @@ namespace Game.Server.Logic.Systems
     {
         private readonly IStorage _storage;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IGameObjectPositionCacheDecorator _gameObjectPositionCacheDecorator;
         private readonly float _speed = 1.5f;
 
-        public MovementSystem(IStorage storage, IEventAggregator eventAggregator)
+        public MovementSystem(IStorage storage, IEventAggregator eventAggregator, IGameObjectPositionCacheDecorator gameObjectPositionCacheDecorator)
         {
             _storage = storage;
             _eventAggregator = eventAggregator;
+            _gameObjectPositionCacheDecorator = gameObjectPositionCacheDecorator;
         }
 
         public void Process(double gameTime)
@@ -24,7 +27,7 @@ namespace Game.Server.Logic.Systems
             var movements = _storage.Find<Movement>(m => m.Active);
             foreach (var movement in movements) 
             {
-                var currentPosition = _storage.Find<GameObjectPosition>(p => p.EntityId == movement.GameObjectId).ToArray();
+                var currentPosition = _gameObjectPositionCacheDecorator.GetPositionsFor(movement.GameObjectId).ToArray();
                 if (currentPosition.Length > 1)
                     throw new Exception($"movement system dosn't support huge object movement yet");
 

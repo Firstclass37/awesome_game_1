@@ -17,7 +17,7 @@ namespace My_awesome_character.Core.System
 
         public override void _EnterTree()
         {
-            SceneAccessor.Root = GetParent();
+            SceneAccessor.Root = GetParent().GetNode("Game");
         }
 
         public override void _Ready()

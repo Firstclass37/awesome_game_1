@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace Game.Server.Storage
 {
-    internal class Storage : IStorage
+    internal class MyStorage : IStorage
     {
         private static readonly ConcurrentDictionary<string, ConcurrentDictionary<Guid, object>> _dataBase = new();
 

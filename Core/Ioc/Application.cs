@@ -14,7 +14,7 @@ namespace My_awesome_character.Core.Ioc
         {
             var builder = new ContainerBuilder();
             var assemblies = Assembly.GetAssembly(typeof(Application));
-            builder.RegisterAssemblyModules(assemblies);
+            builder.RegisterModule(new Module());
             builder.RegisterModule(new GameServerModule());
 
             _container = builder.Build();
