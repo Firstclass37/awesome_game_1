@@ -24,14 +24,22 @@ namespace Game.Server.Logic.Systems
             _mapGrid = mapGrid;
         }
 
+        private double LastFireTime = 0;
+
         public void Process(double gameTime)
         {
+            var needFire = gameTime - LastFireTime > 1;
+            if (needFire == false)
+                return;
+
             var characters = _storage.Find<GameObject>(o => o.ObjectType == CharacterTypes.Default)
                 .Where(c => _storage.Find<Movement>(m => m.GameObjectId == c.Id).All(m => m.Active == false))
                 .ToArray();
 
             foreach (var character in characters)
                 MoveToRandomPoint(character.Id);
+
+            LastFireTime = gameTime;
         }
 
         private void MoveToRandomPoint(Guid characterId)

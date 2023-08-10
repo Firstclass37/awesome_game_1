@@ -3,6 +3,7 @@ using Game.Server.Events.List.Character;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Ui;
+using My_awesome_character.Core.Ui.Extentions;
 
 namespace My_awesome_character.Core.Systems.Character
 {
@@ -33,7 +34,7 @@ namespace My_awesome_character.Core.Systems.Character
             var target = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var character = _sceneAccessor.FindFirst<character>(SceneNames.Character(@event.CharacterId));
+            var character = map.GetNamedNode<character>(SceneNames.Character(@event.CharacterId));
             character.MoveTo(target, @event.Speed, p => map.GetLocalPosition(p));
         }
     }

@@ -5,6 +5,8 @@ namespace My_awesome_character.Core.Ui
 {
     internal interface ISceneAccessor
     {
+        T GetNode<T>(string name) where T : class;
+
         T FindFirst<T>(string name) where T : class;
 
         IEnumerable<T> FindAll<T>(Predicate<T> predicate) where T : class;

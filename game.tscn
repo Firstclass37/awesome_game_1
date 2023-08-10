@@ -14,10 +14,10 @@ rotation = 0.00258588
 
 [node name="Label" type="Label" parent="."]
 z_index = 999
-offset_left = 119.0
-offset_top = -0.307719
-offset_right = 184.0
-offset_bottom = 47.6923
+offset_left = 108.559
+offset_top = 602.721
+offset_right = 173.559
+offset_bottom = 650.721
 text = "12"
 label_settings = SubResource("LabelSettings_5c161")
 horizontal_alignment = 1

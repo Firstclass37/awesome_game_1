@@ -11,10 +11,10 @@ namespace Game.Server.Logic
             _systems = systems;
         }
 
-        public void Tick(double gameTimeMs)
+        public void Tick(double gameTimeSeconds)
         {
             foreach (var system in _systems)
-                system.Process(gameTimeMs);
+                system.Process(gameTimeSeconds);
         }
     }
 }

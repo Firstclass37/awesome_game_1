@@ -9,6 +9,9 @@ namespace My_awesome_character.Core.Ui
     {
         public static Node Root { get; set; }
 
+        public T GetNode<T>(string name) where T : class => 
+            Root.GetNode(name) as T;
+
         public T GetScene<T>(string name) where T : class =>
             Root.FindChild(name, true, false) as T;
 
@@ -46,7 +49,5 @@ namespace My_awesome_character.Core.Ui
 
             yield break;
         }
-
-        
     }
 }
