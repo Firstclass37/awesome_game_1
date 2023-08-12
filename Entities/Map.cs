@@ -85,7 +85,7 @@ public partial class Map : Node2D, IPhantomNeighboursAccessor
         var tilePos = TileMap.LocalToMap(localPos);
         coordiante = new CoordianteUI(tilePos.X, tilePos.Y);
 
-        return tilePos != Vector2.Zero;
+        return TileMap.GetUsedCells(MapLayers.GroundLayer).Any(c => c == tilePos);
     }
 
     //todo: переделать на сигналы/ивенты
