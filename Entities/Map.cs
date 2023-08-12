@@ -1,4 +1,7 @@
-﻿using Godot;
+﻿using Game.Server.Map;
+using Game.Server.Models.Constants;
+using Game.Server.Models.Maps;
+using Godot;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using System;
@@ -24,7 +27,7 @@ public class MapLayers
     public const int Preview = 4;
 }
 
-public partial class Map : Node2D
+public partial class Map : Node2D, IPhantomNeighboursAccessor
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{
@@ -119,5 +122,19 @@ public partial class Map : Node2D
             }
         }
         return cells;
+    }
+
+    public IReadOnlyDictionary<Coordiante, Direction> GetNeightborsOf(Coordiante coordiante)
+    {
+        var vector = new Vector2I(coordiante.X, coordiante.Y);
+
+        return new Dictionary<Vector2I, Direction>
+        {
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomRightSide), Direction.Right },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.BottomLeftSide), Direction.Bottom },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopRightSide), Direction.Top },
+            { TileMap.GetNeighborCell(vector, TileSet.CellNeighbor.TopLeftSide), Direction.Left }
+        }
+        .ToDictionary(v => new Coordiante(v.Key.X, v.Key.Y), v => v.Value);
     }
 }
