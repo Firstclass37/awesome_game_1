@@ -1,5 +1,6 @@
 ﻿using Game.Server.Models;
 using Game.Server.Models.GameObjects;
+using Game.Server.Models.Maps;
 using Game.Server.Storage;
 using System.Collections.Concurrent;
 
@@ -7,6 +8,7 @@ namespace Game.Server.DataAccess
 {
     internal interface IGameObjectPositionCacheDecorator: IStorage
     {
+        IEnumerable<Guid> GetObjectsOn(Coordiante coordiante);
         IEnumerable<GameObjectPosition> GetPositionsFor(Guid objectId);
     }
 
@@ -15,6 +17,7 @@ namespace Game.Server.DataAccess
         private readonly IStorage _storage;
 
         private readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, GameObjectPosition>> _objectToPositions = new();
+        private readonly ConcurrentDictionary<Coordiante, ConcurrentDictionary<Guid, bool>> _positionToObjects = new();
 
         public GameObjectPositionCacheDecorator(IStorage storage)
         {
@@ -26,14 +29,20 @@ namespace Game.Server.DataAccess
             return _objectToPositions.ContainsKey(objectId) ? _objectToPositions[objectId].Values : Array.Empty<GameObjectPosition>();
         }
 
+        public IEnumerable<Guid> GetObjectsOn(Coordiante coordiante)
+        {
+            return _positionToObjects.ContainsKey(coordiante) ? _positionToObjects[coordiante].Keys : Array.Empty<Guid>();
+        }
+
+
         public void Add<T>(T obj) where T : IEntityObject
         {
             _storage.Add(obj);
 
             if (obj is GameObjectPosition position)
             {
-                var positions = GetPositions(position.EntityId);
-                positions.TryAdd(position.Id, position);
+                GetPositions(position.EntityId).TryAdd(position.Id, position);
+                GetPositionsToObject(position.Coordiante).TryAdd(position.EntityId, true);
             }
         }
 
@@ -64,8 +73,8 @@ namespace Game.Server.DataAccess
 
             if (obj is GameObjectPosition position)
             {
-                var positions = GetPositions(position.EntityId);
-                positions.TryRemove(position.Id, out _);
+                GetPositions(position.EntityId).TryRemove(position.Id, out _);
+                GetPositionsToObject(position.Coordiante).TryRemove(position.EntityId, out _);
             }
         }
 
@@ -77,12 +86,18 @@ namespace Game.Server.DataAccess
 
         public void Update<T>(T obj) where T : IEntityObject
         {
+            var prevValue = _storage.Get<T>(obj.Id);
+
             _storage.Update<T>(obj);
 
             if (obj is GameObjectPosition position)
             {
                 var positions = GetPositions(position.EntityId);
                 positions[position.Id] = position;
+
+                var prevPosition = prevValue as GameObjectPosition;
+                GetPositionsToObject(prevPosition.Coordiante).TryRemove(prevPosition.EntityId, out _);
+                GetPositionsToObject(position.Coordiante).TryAdd(position.EntityId, true);
             }
         }
 
@@ -94,6 +109,15 @@ namespace Game.Server.DataAccess
 
             _objectToPositions.TryAdd(objectId, new ConcurrentDictionary<Guid, GameObjectPosition>());
             return _objectToPositions[objectId];
+        }
+
+        private ConcurrentDictionary<Guid, bool> GetPositionsToObject(Coordiante coordinate)
+        {
+            if (_positionToObjects.ContainsKey(coordinate))
+                return _positionToObjects[coordinate];
+
+            _positionToObjects.TryAdd(coordinate, new ConcurrentDictionary<Guid, bool>());
+            return _positionToObjects[coordinate];
         }
     }
 }

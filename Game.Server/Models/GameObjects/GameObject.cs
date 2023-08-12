@@ -9,11 +9,14 @@ namespace Game.Server.Models.GameObjects
             Id = Guid.NewGuid();
             ObjectType = objectType;
             IsVisible = isVisible;
+            CreatedDate = DateTime.UtcNow;
         }
 
         public Guid Id { get; set; }
 
         public string ObjectType { get; }
+
+        public DateTime CreatedDate { get; }
 
         public bool IsVisible { get; }
     }

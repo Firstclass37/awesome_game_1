@@ -38,12 +38,12 @@ namespace My_awesome_character.Core.Systems.Builidngs
         {
             var buildings = _buildingController.GetBuildableList();
 
-            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
+            var buildingCollection = _sceneAccessor.GetNode<BuildingCollection>(SceneNames.BuildingCollection);
             foreach (var building in buildings.OrderByDescending(b => b.Available))
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
 
-                var existing = _sceneAccessor.FindFirst<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType));
+                var existing = buildingCollection.GetList().FirstOrDefault(p => p.BuildingType == building.BuildingType);
                 var buildingPreviewInfo = existing == null 
                     ? SceneFactory.Create<BuildingsPreview>(SceneNames.BuidlingPreviewInfo(building.BuildingType), ScenePaths.BuidlingPreviewInfo)
                     : existing;

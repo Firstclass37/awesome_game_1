@@ -29,7 +29,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void OnCreated(ObjectCreatedEvent @event)
         {
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
 
             if (@event.ObjectType == GroundTypes.Ground)
             {

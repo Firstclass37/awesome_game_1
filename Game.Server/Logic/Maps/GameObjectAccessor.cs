@@ -1,26 +1,29 @@
-﻿using Game.Server.Models;
+﻿using Game.Server.DataAccess;
+using Game.Server.Models;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
-using System.Collections.Immutable;
 
 namespace Game.Server.Logic.Maps
 {
     internal class GameObjectAccessor : IGameObjectAccessor
     {
         private readonly IStorage _storage;
+        private readonly IGameObjectPositionCacheDecorator _gameObjectPositionCacheDecorator;
 
-        public GameObjectAccessor(IStorage storage)
+        public GameObjectAccessor(IStorage storage, IGameObjectPositionCacheDecorator gameObjectPositionCacheDecorator)
         {
             _storage = storage;
+            _gameObjectPositionCacheDecorator = gameObjectPositionCacheDecorator;
         }
 
         public GameObjectAggregator Find(Coordiante position)
         {
-            var positionInfo = _storage.Find<GameObjectPosition>(p => p.Coordiante == position)
+            var positionInfo = _gameObjectPositionCacheDecorator.GetObjectsOn(position)
+                .Select(id => _storage.Get<GameObject>(id))
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefault();
-            return positionInfo != null ? Get(positionInfo.EntityId) : null;
+            return positionInfo != null ? Get(positionInfo.Id) : null;
         }
 
         public IEnumerable<GameObjectAggregator> FindAll(Coordiante position)
@@ -37,7 +40,7 @@ namespace Game.Server.Logic.Maps
             var agregator = new GameObjectAggregator();
             agregator.GameObject = gameObject;
             agregator.Attributes = _storage.Find<GameObjectToAttribute>(a => a.GameObjectId == gameObject.Id).ToList();
-            agregator.Area = _storage.Find<GameObjectPosition>(p => p.EntityId == gameObject.Id).ToList();
+            agregator.Area = _gameObjectPositionCacheDecorator.GetPositionsFor(gameObject.Id).ToList();
             agregator.Interactions = _storage.Find<GameObjectInteraction>(i => i.GameObjectId == id).ToList();
 
             return agregator;

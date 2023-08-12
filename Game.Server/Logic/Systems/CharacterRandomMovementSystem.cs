@@ -5,6 +5,7 @@ using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Objects.Characters;
+using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Systems
 {

@@ -31,9 +31,15 @@ namespace Game.Server.Logic.Systems
                 if (currentPosition.Length > 1)
                     throw new Exception($"movement system dosn't support huge object movement yet");
 
+
                 var currentSinglePosition = currentPosition.First();
                 var nextPosition = FindNext(movement, currentSinglePosition.Coordiante);
-                
+                if (nextPosition == null)
+                {
+                    _storage.Remove(movement);
+                    continue;
+                }
+
                 if (movement.CurrentMoveToPosition != nextPosition)
                 {
                     _eventAggregator.GetEvent<GameEvent<CharacterMoveEvent>>().Publish(new CharacterMoveEvent
