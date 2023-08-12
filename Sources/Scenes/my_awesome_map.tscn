@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmpbjqg7ku10m"]
+[gd_scene load_steps=23 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://x7ooimht313g" path="res://Assets/Map/Building/PowerStation.png" id="2_0l4og"]
 [ext_resource type="Texture2D" uid="uid://hdexljtdwl7" path="res://Assets/Map/Ground/road_asphalt.png" id="2_5rddi"]
+[ext_resource type="Texture2D" uid="uid://casv1wyirxme4" path="res://Assets/Map/Ground/block.png" id="2_fk4l5"]
 [ext_resource type="Texture2D" uid="uid://lg8xbdhdokur" path="res://Assets/Map/Ground/dirt_N.png" id="2_i8wvi"]
 [ext_resource type="Texture2D" uid="uid://clehlocqjol7p" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N_128_64.png" id="4_1acxk"]
 [ext_resource type="Texture2D" uid="uid://8t8yflvhrb0g" path="res://Assets/Map/kenney_isometric-miniature-dungeon/stone_N_128_64.png" id="5_5wxiu"]
@@ -46,6 +47,16 @@ texture_region_size = Vector2i(256, 335)
 0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
 0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/2/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hw4fd"]
+texture = ExtResource("2_fk4l5")
+texture_region_size = Vector2i(128, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1twd4"]
 texture = ExtResource("4_1acxk")
@@ -152,6 +163,7 @@ sources/8 = SubResource("TileSetAtlasSource_hksly")
 sources/10 = SubResource("TileSetAtlasSource_sa3kp")
 sources/1 = SubResource("TileSetAtlasSource_07a1i")
 sources/9 = SubResource("TileSetAtlasSource_8dprw")
+sources/11 = SubResource("TileSetAtlasSource_hw4fd")
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true

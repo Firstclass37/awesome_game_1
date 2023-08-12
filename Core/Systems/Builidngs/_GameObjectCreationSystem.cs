@@ -66,6 +66,13 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
                 map.SetCell(@event.Id, root, area, MapLayers.Resources, Tiles.ResourceUranus);
             }
+            if (@event.ObjectType == BuildingTypesTrue.Block)
+            {
+                var root = new CoordianteUI(@event.Root.X, @event.Root.Y);
+                var area = @event.Area.Select(c => new CoordianteUI(c.X, c.Y)).ToArray();
+
+                map.SetCell(@event.Id, root, area, MapLayers.Buildings, Tiles.Block);
+            }
         }
 
         public void Process(double gameTime)

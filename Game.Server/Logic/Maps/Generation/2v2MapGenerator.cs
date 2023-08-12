@@ -44,6 +44,9 @@ namespace Game.Server.Logic.Maps.Generation
                 {
                     AddCoordinateInfo(coordinate);
                     _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
+
+                    if (rowCenter == center)
+                        _gameObjectCreator.Create(BuildingTypes.Block, coordinate);
                 }
             }
 

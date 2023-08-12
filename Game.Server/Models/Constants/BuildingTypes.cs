@@ -11,6 +11,8 @@
 
         public const string Ground = nameof(Ground);
 
+        public const string Block = nameof(Block);
+
         public const string TrafficLigh = nameof(TrafficLigh);
 
         /// <summary>

@@ -16,6 +16,7 @@ public static class Tiles
     public const int MineUranus = 8;
     public const int PowerStation = 10;
     public const int ResourceUranus = 6;
+    public const int Block = 11;
 }
 
 public class MapLayers

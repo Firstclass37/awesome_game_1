@@ -19,9 +19,9 @@ namespace Game.Server.DataBuilding
             _gameObject = new GameObject(type);
         }
 
-        public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area)
+        public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area, bool blocking = false)
         {
-            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, a, a == root, false)).ToList();
+            _area = area.Select(a => new GameObjectPosition(_gameObject.Id, a, a == root, blocking)).ToList();
             return this;
         }
 
