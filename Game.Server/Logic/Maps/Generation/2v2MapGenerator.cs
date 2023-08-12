@@ -15,8 +15,8 @@ namespace Game.Server.Logic.Maps.Generation
 
         private readonly ILogger _logger;
 
-        private readonly int Widht = 20;
-        private readonly int Height = 40;
+        private readonly int BaseWidht = 20;
+        private readonly int BaseHeight = 40;
 
         public Map2x2Generator(IPhantomNeighboursAccessor phantomNeighboursAccessor, IGameObjectCreator gameObjectCreator, IStorage storage, ILogger logger)
         {
@@ -34,36 +34,67 @@ namespace Game.Server.Logic.Maps.Generation
 
         private void CreateGroundGrid(Coordiante center)
         {
-            var centers = GetRowsCenters(center, Height).ToArray();
-            _logger.Info($"centers count: {centers.Length}");
+            var up = MoveTo(center, Direction.Top, BaseHeight / 2).ToArray();
+            var down = MoveTo(center, Direction.Bottom, BaseHeight / 2).ToArray();
+            var centers = up.Union(down).Union(new[] { center }).ToArray();
+
+            var centerLeft = MoveTo(center, Direction.Left, BaseWidht / 2).ToArray();
+            var centerRight = MoveTo(center, Direction.Right, BaseWidht / 2).ToArray();
+            var leftRoadIndex = centerLeft.Length / 2;
+            var rightRoadIndex = centerRight.Length / 2;
+            var roadStartPoints = new Coordiante[]
+            {
+                center,
+                centerLeft[leftRoadIndex],
+                centerRight[rightRoadIndex]
+            };
 
             foreach (var rowCenter in centers)
             {
-                var rowCoordinates = CreateRow(rowCenter, Widht).ToArray();
+                var rowCoordinates = CreateRow(rowCenter, BaseWidht / 2).ToArray();
                 foreach (var coordinate in rowCoordinates)
                 {
                     AddCoordinateInfo(coordinate);
-                    _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
-
-                    if (rowCenter == center)
-                        _gameObjectCreator.Create(BuildingTypes.Block, coordinate);
+                    if (!roadStartPoints.Contains(coordinate))
+                        _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
                 }
             }
+
+            foreach(var coordinate in CreateRow(center, BaseWidht/2).Except(roadStartPoints))
+                _gameObjectCreator.Create(BuildingTypes.Block, coordinate);
+             
+            var roadLenght = (int)((BaseHeight / 2) * 0.6);
+            foreach(var roadStartPoint in roadStartPoints)
+            {
+                var upRoad = MoveTo(roadStartPoint, Direction.Top, roadLenght).ToArray();
+                var downRoad = MoveTo(roadStartPoint, Direction.Bottom, roadLenght).ToArray();
+
+                //_gameObjectCreator.Create(BuildingTypes.Road, roadStartPoint);
+                foreach (var coordinate in upRoad.Union(downRoad))
+                    _gameObjectCreator.Create(BuildingTypes.Road, coordinate);
+            }
+
+            var baseHeight = 3;
+            var topBase = MoveTo(center, Direction.Bottom).Skip(roadLenght).Take(baseHeight);
+            var bottomBase = MoveTo(center, Direction.Top).Skip(roadLenght).Take(baseHeight);
+            foreach (var point in topBase.Union(bottomBase))
+            {
+                var leftPart = MoveTo(point, Direction.Left, leftRoadIndex + 1);
+                var rightPart = MoveTo(point, Direction.Right, rightRoadIndex + 1);
+
+                _gameObjectCreator.Create(BuildingTypes.Road, point);
+                foreach (var coordinate in leftPart.Union(rightPart))
+                    _gameObjectCreator.Create(BuildingTypes.Road, coordinate);
+            }
+
 
             InitNeigbours();
         }
 
-        private IEnumerable<Coordiante> GetRowsCenters(Coordiante center, int height)
+        private IEnumerable<Coordiante> CreateRow(Coordiante coordiante, int count)
         {
-            var up = MoveTo(center, Direction.Top, height / 2);
-            var down = MoveTo(center, Direction.Bottom, height / 2);
-            return up.Union(down).Union(new[] { center} );
-        }
-
-        private IEnumerable<Coordiante> CreateRow(Coordiante coordiante, int widht)
-        {
-            var left = MoveTo(coordiante, Direction.Left, widht / 2);
-            var right = MoveTo(coordiante, Direction.Right, widht / 2);
+            var left = MoveTo(coordiante, Direction.Left, count);
+            var right = MoveTo(coordiante, Direction.Right, count);
             return left.Union(right).Union(new[] { coordiante });
         }
 
@@ -72,6 +103,17 @@ namespace Game.Server.Logic.Maps.Generation
             var current = coordiante;
             var i = count;
             while(i-- > 0)
+            {
+                current = _phantomNeighboursAccessor.GetNeightborsOf(current).First(v => v.Value == direction).Key;
+                yield return current;
+            }
+        }
+
+        private IEnumerable<Coordiante> MoveTo(Coordiante coordiante, Direction direction)
+        {
+            var current = coordiante;
+            var i = BaseWidht + BaseHeight;
+            while (i-- > 0)
             {
                 current = _phantomNeighboursAccessor.GetNeightborsOf(current).First(v => v.Value == direction).Key;
                 yield return current;
