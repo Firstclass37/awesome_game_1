@@ -22,8 +22,6 @@ namespace My_awesome_character.Core.System
 
         public override void _Ready()
         {
-            GD.Print($"_Ready SYSTEMS COUNT: {_systems?.Count()}");
-
             foreach (var system in _systems)
                 system.OnStart();
 

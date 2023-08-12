@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Game.Server.Logger;
+using Game.Server.Map;
 using My_awesome_character.Core.Infrastructure.Events;
+using My_awesome_character.Core.Mapp;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Builidngs;
 using My_awesome_character.Core.Systems.Character;
@@ -34,6 +36,7 @@ namespace My_awesome_character
             builder.RegisterType<GameObjectCreationSystem>().As<ISystem>();
 
             builder.RegisterType<GodotLogger>().As<ILogger>();
+            builder.RegisterType<PhantomNeighboursAccessor>().As<IPhantomNeighboursAccessor>();
         }
     }
 }

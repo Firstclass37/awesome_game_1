@@ -28,7 +28,7 @@ namespace Game.Server.Logic.Objects._Buidling
             _logger = logger;
         }
 
-        public bool CanCreate(string objectType, Coordiante point, object args)
+        public bool CanCreate(string objectType, Coordiante point, object args = null)
         {
             if (string.IsNullOrWhiteSpace(objectType)) 
                 throw new ArgumentNullException(nameof(objectType));
@@ -41,7 +41,7 @@ namespace Game.Server.Logic.Objects._Buidling
             return metadata.CreationRequirement.Satisfy(point, area);
         }
 
-        public GameObjectAggregator Create(string objectType, Coordiante point, object args)
+        public GameObjectAggregator Create(string objectType, Coordiante point, object args = null)
         {
             if (string.IsNullOrWhiteSpace(objectType))
                 throw new ArgumentNullException(nameof(objectType));

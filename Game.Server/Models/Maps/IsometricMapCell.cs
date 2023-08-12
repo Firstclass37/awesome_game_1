@@ -2,7 +2,7 @@
 
 namespace Game.Server.Models.Maps
 {
-    internal class IsometricMapCell: IEntityObject
+    internal record IsometricMapCell: IEntityObject
     {
         public IsometricMapCell(Coordiante coordiante)
         {
@@ -18,12 +18,10 @@ namespace Game.Server.Models.Maps
             Neighbors = neighbors;
         }
 
-
-
         public Guid Id { get; set; }
 
         public Coordiante Coordiante { get; }
 
-        public Dictionary<IsometricMapCell, Direction> Neighbors { get; }
+        public Dictionary<IsometricMapCell, Direction> Neighbors { get; init; }
     }
 }
