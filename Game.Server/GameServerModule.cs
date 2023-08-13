@@ -12,9 +12,15 @@ namespace Game.Server
     {
         protected override void Load(ContainerBuilder builder)
         {
+            var excludeRegistrationsTypes = new Type[]
+            {
+                typeof(MyStorage),
+                typeof(StorageCacheDecorator)
+            };
+            
             var types = GetType().Assembly.GetTypes()
                 .Where(t => t.IsClass && !t.IsAbstract && !t.IsGenericType)
-                .Where(t => t != typeof(MyStorage) && t != typeof(GameObjectPositionCacheDecorator))
+                .Where(t => excludeRegistrationsTypes.Contains(t) == false)
                 .ToArray();
 
 
@@ -25,9 +31,9 @@ namespace Game.Server
 
             //builder.RegisterDecorator<GameObjectPositionCacheDecorator, IStorage>();
 
-            builder.RegisterInstance(new GameObjectPositionCacheDecorator(new MyStorage()))
+            builder.RegisterInstance(new StorageCacheDecorator(new MyStorage()))
                 .As<IStorage>()
-                .As<IGameObjectPositionCacheDecorator>()
+                .AsImplementedInterfaces()
                 .SingleInstance();
 
             builder.RegisterTypes(types).AsSelf().AsImplementedInterfaces();

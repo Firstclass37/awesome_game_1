@@ -37,10 +37,9 @@ public partial class character : Node2D
 		IsMoving = true;
 
 		var current = MapPosition;
-
 		var currentPosition = positionProvider(current);
 		var targetPosition = positionProvider(to);
-		_movingTween.TweenCallback(Callable.From(() => ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection))));
+		ActivateDirection(SelectDirection(targetPosition - currentPosition, _currentDirection));
 		_movingTween.TweenProperty(this, "position", targetPosition, speed);
 		_movingTween.TweenCallback(Callable.From(() => SetNewPosition(to)));
         _movingTween.TweenCallback(Callable.From(() => StopMovingInternal()));

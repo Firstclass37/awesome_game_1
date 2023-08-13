@@ -9,17 +9,17 @@ namespace Game.Server.Logic.Maps
     internal class GameObjectAccessor : IGameObjectAccessor
     {
         private readonly IStorage _storage;
-        private readonly IGameObjectPositionCacheDecorator _gameObjectPositionCacheDecorator;
+        private readonly IStorageCacheDecorator _storageCacheDecorator;
 
-        public GameObjectAccessor(IStorage storage, IGameObjectPositionCacheDecorator gameObjectPositionCacheDecorator)
+        public GameObjectAccessor(IStorage storage, IStorageCacheDecorator gameObjectPositionCacheDecorator)
         {
             _storage = storage;
-            _gameObjectPositionCacheDecorator = gameObjectPositionCacheDecorator;
+            _storageCacheDecorator = gameObjectPositionCacheDecorator;
         }
 
         public GameObjectAggregator Find(Coordiante position)
         {
-            var positionInfo = _gameObjectPositionCacheDecorator.GetObjectsOn(position)
+            var positionInfo = _storageCacheDecorator.GetObjectsOn(position)
                 .Select(id => _storage.Get<GameObject>(id))
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefault();
@@ -39,8 +39,8 @@ namespace Game.Server.Logic.Maps
 
             var agregator = new GameObjectAggregator();
             agregator.GameObject = gameObject;
-            agregator.Attributes = _storage.Find<GameObjectToAttribute>(a => a.GameObjectId == gameObject.Id).ToList();
-            agregator.Area = _gameObjectPositionCacheDecorator.GetPositionsFor(gameObject.Id).ToList();
+            agregator.Attributes = _storageCacheDecorator.GetAttributesFor( gameObject.Id).ToList();
+            agregator.Area = _storageCacheDecorator.GetPositionsFor(gameObject.Id).ToList();
             agregator.Interactions = _storage.Find<GameObjectInteraction>(i => i.GameObjectId == id).ToList();
 
             return agregator;

@@ -16,7 +16,7 @@ namespace Game.Server.Logic.Resources
             _eventAggregator = eventAggregator;
             _storage = storage;
 
-            AddifNotExists(ResourceType.Money, "K$", 1000);
+            AddifNotExists(ResourceType.Money, "K$", 3000);
             AddifNotExists(ResourceType.Water, "Water", 0);
             AddifNotExists(ResourceType.Food, "Food", 0);
             AddifNotExists(ResourceType.Electricity, "Electricity", 0);

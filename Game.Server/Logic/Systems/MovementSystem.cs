@@ -12,10 +12,10 @@ namespace Game.Server.Logic.Systems
     {
         private readonly IStorage _storage;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IGameObjectPositionCacheDecorator _gameObjectPositionCacheDecorator;
+        private readonly IStorageCacheDecorator _gameObjectPositionCacheDecorator;
         private readonly float _speed = 1.5f;
 
-        public MovementSystem(IStorage storage, IEventAggregator eventAggregator, IGameObjectPositionCacheDecorator gameObjectPositionCacheDecorator)
+        public MovementSystem(IStorage storage, IEventAggregator eventAggregator, IStorageCacheDecorator gameObjectPositionCacheDecorator)
         {
             _storage = storage;
             _eventAggregator = eventAggregator;
