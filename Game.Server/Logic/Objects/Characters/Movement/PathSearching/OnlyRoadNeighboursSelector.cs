@@ -23,7 +23,7 @@ namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching
         {
             var neighbours = _mapGrid.GetNeightborsOf(element).Keys.ToArray();
             return neighbours
-                .Select(n => new { Coordinate = n, Object =   _gameObjectAccessor.Find(n) })
+                .Select(n => new { Coordinate = n, Object = _gameObjectAccessor.Find(n) })
                 .Where(n => n.Object != null)
                 .Where(c =>  c.Object.GameObject.ObjectType == BuildingTypes.Road || c.Object.Interactable())
                 .Select(n => n.Coordinate)
