@@ -15,8 +15,8 @@ namespace Game.Server.Logic.Maps.Generation
 
         private readonly ILogger _logger;
 
-        private readonly int BaseWidht = 20;
-        private readonly int BaseHeight = 40;
+        private readonly int BaseWidht = 30;
+        private readonly int BaseHeight = 50;
 
         public Map2x2Generator(IPhantomNeighboursAccessor phantomNeighboursAccessor, IGameObjectCreator gameObjectCreator, IStorage storage, ILogger logger)
         {
