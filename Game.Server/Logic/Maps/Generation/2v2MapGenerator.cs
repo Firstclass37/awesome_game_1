@@ -2,6 +2,7 @@
 using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Map;
 using Game.Server.Models.Constants;
+using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
 
@@ -57,6 +58,9 @@ namespace Game.Server.Logic.Maps.Generation
                     AddCoordinateInfo(coordinate);
                     if (!roadStartPoints.Contains(coordinate))
                         _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
+
+                    var playerNumber = up.Contains(rowCenter) ? 1 : 2;
+                    _storage.Add(new PlayerToPosition { Coordinate = coordinate, PlayerNumber = playerNumber });
                 }
             }
 
