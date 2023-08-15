@@ -28,6 +28,7 @@ namespace Game.Server
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<GameCycle>().As<IGameCycle>().SingleInstance();
             builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
+            builder.RegisterType<MatrixGrid>().As<IMatrixGrid>().SingleInstance();
 
             //builder.RegisterDecorator<GameObjectPositionCacheDecorator, IStorage>();
 

@@ -56,8 +56,8 @@ namespace Game.Server.Logic.Maps.Generation
                 foreach (var coordinate in rowCoordinates)
                 {
                     AddCoordinateInfo(coordinate);
-                    if (!roadStartPoints.Contains(coordinate))
-                        _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
+                    
+                    _gameObjectCreator.Create(BuildingTypes.Ground, coordinate);
 
                     var playerNumber = up.Contains(rowCenter) ? 1 : 2;
                     _storage.Add(new PlayerToPosition { Coordinate = coordinate, PlayerNumber = playerNumber });
@@ -73,7 +73,7 @@ namespace Game.Server.Logic.Maps.Generation
                 var upRoad = MoveTo(roadStartPoint, Direction.Top, roadLenght).ToArray();
                 var downRoad = MoveTo(roadStartPoint, Direction.Bottom, roadLenght).ToArray();
 
-                //_gameObjectCreator.Create(BuildingTypes.Road, roadStartPoint);
+                _gameObjectCreator.Create(BuildingTypes.Road, roadStartPoint);
                 foreach (var coordinate in upRoad.Union(downRoad))
                     _gameObjectCreator.Create(BuildingTypes.Road, coordinate);
             }
