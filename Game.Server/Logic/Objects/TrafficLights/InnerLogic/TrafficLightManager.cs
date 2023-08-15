@@ -48,10 +48,14 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
 
         public void DecreaseSize(TrafficLight trafficLight, Direction direction, int decrement = 1)
         {
+            var currentValues = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var newValue = trafficLight.Sizes[direction] - decrement;
+            if (newValue < 0)
+                return;
+
             if (_resourceManager.TrySpend(ResourceType.Microchip, _cost))
             {
-                var currentValues = trafficLight.Sizes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                currentValues[direction] = trafficLight.Sizes[direction] - decrement;
+                currentValues[direction] = newValue;
 
                 var attribute = trafficLight.GameObject.Attributes.First(a => a.AttributeType == AttributeType.TrafficLightSidesCapacity);
                 var newAttribute = new GameObjectToAttribute(trafficLight.Id, AttributeType.TrafficLightSidesCapacity, currentValues);

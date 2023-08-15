@@ -64,7 +64,7 @@ namespace Game.Server.Logic.Maps.Generation
                 }
             }
 
-            foreach(var coordinate in CreateRow(center, BaseWidht/2).Except(roadStartPoints))
+            foreach (var coordinate in CreateRow(center, BaseWidht/2).Except(roadStartPoints))
                 _gameObjectCreator.Create(BuildingTypes.Block, coordinate);
              
             var roadLenght = (int)((BaseHeight / 2) * 0.6);

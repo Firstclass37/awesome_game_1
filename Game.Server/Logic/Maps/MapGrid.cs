@@ -8,14 +8,13 @@ namespace Game.Server.Logic.Maps
     {
         private readonly IStorage _storage;
         private readonly Lazy<IReadOnlyCollection<Coordiante>> _mapGrid;
-        private readonly Lazy<Dictionary<Coordiante, Dictionary<Coordiante, Direction>>> _neighbours;
+        private readonly Lazy<Dictionary<Coordiante, Guid>> _isometricCellIds;
 
         public MapGrid(IStorage storage)
         {
             _storage = storage;
             _mapGrid = new Lazy<IReadOnlyCollection<Coordiante>>(() => _storage.Find<IsometricMapCell>(c => true).Select(c => c.Coordiante).ToArray());
-            _neighbours = new Lazy<Dictionary<Coordiante, Dictionary<Coordiante, Direction>>>(() => 
-                _storage.Find<IsometricMapCell>(i => true).ToDictionary(i => i.Coordiante, i => i.Neighbors.ToDictionary(n => n.Key.Coordiante, n => n.Value)));
+            _isometricCellIds = new Lazy<Dictionary<Coordiante, Guid>>(() => _storage.Find<IsometricMapCell>(i => true).ToDictionary(i => i.Coordiante, i => i.Id));
         }
 
         public Direction GetDirectionOfNeightbor(Coordiante coordiante, Coordiante neighbor)
@@ -26,6 +25,7 @@ namespace Game.Server.Logic.Maps
 
         public IReadOnlyCollection<Coordiante> GetGrid() => _mapGrid.Value;
 
-        public IReadOnlyDictionary<Coordiante, Direction> GetNeightborsOf(Coordiante coordiante) => _neighbours.Value[coordiante];
+        public IReadOnlyDictionary<Coordiante, Direction> GetNeightborsOf(Coordiante coordiante) => 
+            _storage.Get<IsometricMapCell>(_isometricCellIds.Value[coordiante]).Neighbors.ToDictionary(n => n.Key.Coordiante, n => n.Value);
     }
 }

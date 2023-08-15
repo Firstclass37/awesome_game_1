@@ -28,7 +28,7 @@ public class MapLayers
     public const int Preview = 4;
 }
 
-public partial class Map : Node2D, IPhantomNeighboursAccessor
+public partial class Map : Node2D
 {
     private readonly Dictionary<int, MapCellType> _layersToTags = new Dictionary<int, MapCellType>()
 	{
