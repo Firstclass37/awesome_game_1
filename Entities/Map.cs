@@ -17,6 +17,11 @@ public static class Tiles
     public const int PowerStation = 10;
     public const int ResourceUranus = 6;
     public const int Block = 11;
+    public const int BauxiteResource = 4;
+    public const int IronOreResource = 12;
+    public const int MineralsResource = 13;
+    public const int CokeResource = 7;
+
 }
 
 public class MapLayers

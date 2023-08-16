@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cmpbjqg7ku10m"]
+[gd_scene load_steps=31 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://x7ooimht313g" path="res://Assets/Map/Building/PowerStation.png" id="2_0l4og"]
@@ -6,10 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://casv1wyirxme4" path="res://Assets/Map/Ground/block.png" id="2_fk4l5"]
 [ext_resource type="Texture2D" uid="uid://lg8xbdhdokur" path="res://Assets/Map/Ground/dirt_N.png" id="2_i8wvi"]
 [ext_resource type="Texture2D" uid="uid://clehlocqjol7p" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N_128_64.png" id="4_1acxk"]
+[ext_resource type="Texture2D" uid="uid://dukqpdbwksxdw" path="res://Assets/Map/Ground/IronOre.png" id="5_3iwc2"]
 [ext_resource type="Texture2D" uid="uid://8t8yflvhrb0g" path="res://Assets/Map/kenney_isometric-miniature-dungeon/stone_N_128_64.png" id="5_5wxiu"]
 [ext_resource type="Texture2D" uid="uid://b6dn2sgjhnce1" path="res://Assets/Map/Building/Mine.png" id="6_3p2xd"]
+[ext_resource type="Texture2D" uid="uid://b738upvgqecuu" path="res://Assets/Map/Ground/minerals.png" id="6_38ep6"]
+[ext_resource type="Texture2D" uid="uid://bteamtuxoi77g" path="res://Assets/Map/Ground/Bauxite.png" id="9_ouca0"]
 [ext_resource type="Script" path="res://Entities/MapCamera/CameraAnchor.cs" id="10_ymviw"]
 [ext_resource type="Script" path="res://Entities/MapCamera/Camera2D.cs" id="11_wtnxy"]
+[ext_resource type="Texture2D" uid="uid://cuiuq01tvsjtw" path="res://Assets/Map/Ground/Coke.png" id="12_ocnfu"]
 [ext_resource type="Texture2D" uid="uid://8cfv74esusys" path="res://Assets/Map/Building/home_test_2x2.png" id="14_2v5tu"]
 [ext_resource type="Texture2D" uid="uid://1cltjv0gv0xp" path="res://Assets/Map/Ground/uranus.png" id="15_svoh3"]
 
@@ -58,6 +62,20 @@ texture_region_size = Vector2i(128, 64)
 0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:1/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lqs2e"]
+texture = ExtResource("5_3iwc2")
+texture_region_size = Vector2i(128, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nl0ul"]
+texture = ExtResource("6_38ep6")
+texture_region_size = Vector2i(128, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1twd4"]
 texture = ExtResource("4_1acxk")
 texture_region_size = Vector2i(128, 62)
@@ -77,6 +95,13 @@ texture_region_size = Vector2i(129, 61)
 0:6/0 = 0
 0:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:6/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkrov"]
+texture = ExtResource("9_ouca0")
+texture_region_size = Vector2i(128, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_apt4r"]
 texture = ExtResource("14_2v5tu")
@@ -112,6 +137,13 @@ texture_region_size = Vector2i(128, 64)
 0:1/0 = 0
 0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:1/0/physics_layer_0/angular_velocity = 0.0
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q15fh"]
+texture = ExtResource("12_ocnfu")
+texture_region_size = Vector2i(128, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -164,6 +196,10 @@ sources/10 = SubResource("TileSetAtlasSource_sa3kp")
 sources/1 = SubResource("TileSetAtlasSource_07a1i")
 sources/9 = SubResource("TileSetAtlasSource_8dprw")
 sources/11 = SubResource("TileSetAtlasSource_hw4fd")
+sources/4 = SubResource("TileSetAtlasSource_kkrov")
+sources/7 = SubResource("TileSetAtlasSource_q15fh")
+sources/12 = SubResource("TileSetAtlasSource_lqs2e")
+sources/13 = SubResource("TileSetAtlasSource_nl0ul")
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
