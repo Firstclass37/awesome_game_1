@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Models.Resources;
 
@@ -12,7 +13,7 @@ namespace Game.Server.Logic.Objects._Core
 
         public string Description { get; }
 
-        public IAreaGetter AreaGetter { get; }
+        public AreaSize Size { get; }
 
         public ICreationRequirement CreationRequirement { get; }
 

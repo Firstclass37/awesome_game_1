@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Roads.Createtion;
@@ -11,25 +12,21 @@ namespace Game.Server.Logic.Objects.Roads
     internal class Metadata : IGameObjectMetadata
     {
         private readonly RoadCreationRequirement _requirement;
-        private readonly IDefaultAreaGetterFactory _areaGetterFactory;
-        private readonly RoadFactory _roadFactory;
 
-        public Metadata(RoadCreationRequirement requirement, IDefaultAreaGetterFactory areaGetterFactory, RoadFactory roadFactory)
+        public Metadata(RoadCreationRequirement requirement)
         {
             _requirement = requirement;
-            _areaGetterFactory = areaGetterFactory;
-            _roadFactory = roadFactory;
         }
 
         public string ObjectType => BuildingTypes.Road;
 
         public string Description => "Road";
 
-        public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => _requirement;
 
-        public IGameObjectFactory GameObjectFactory => _roadFactory;
+        public IGameObjectFactory GameObjectFactory => new RoadFactory();
 
         public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Money, 10));
     }

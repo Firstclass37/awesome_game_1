@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.PowerStations.Creation;
@@ -9,24 +10,15 @@ namespace Game.Server.Logic.Objects.PowerStations
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IDefaultAreaGetterFactory _areFactory;
-        private readonly PowerStationFactory _factory;
-
-        public Metadata(IDefaultAreaGetterFactory areFactory, PowerStationFactory homeFactory)
-        {
-            _areFactory = areFactory;
-            _factory = homeFactory;
-        }
-
         public string ObjectType => BuildingTypes.GeothermalStation;
 
         public string Description => "Power station";
 
-        public IAreaGetter AreaGetter => _areFactory.Get2x2();
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 
-        public IGameObjectFactory GameObjectFactory => _factory;
+        public IGameObjectFactory GameObjectFactory => new PowerStationFactory();
 
         public Price BasePrice => Price.Create(
             new ResourceChunk(ResourceType.Aluminum, 100), 

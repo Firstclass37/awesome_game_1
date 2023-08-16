@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.ElectrolysisReactor.Creation;
@@ -9,24 +10,15 @@ namespace Game.Server.Logic.Objects.ElectrolysisReactor
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly ElectrolysisReactorFactory _electrolysisReactorFactory;
-        private readonly IArea2x2Getter _area2x2Getter;
-
-        public Metadata(ElectrolysisReactorFactory electrolysisReactorFactory, IArea2x2Getter area2x2Getter)
-        {
-            _electrolysisReactorFactory = electrolysisReactorFactory;
-            _area2x2Getter = area2x2Getter;
-        }
-
         public string ObjectType => BuildingTypes.ElectrolysisReactor;
 
         public string Description => "Electrolysis Reactor";
 
-        public IAreaGetter AreaGetter => _area2x2Getter;
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 
-        public IGameObjectFactory GameObjectFactory => _electrolysisReactorFactory;
+        public IGameObjectFactory GameObjectFactory => new ElectrolysisReactorFactory();
 
         public Price BasePrice => Price.Create(
             new ResourceChunk(ResourceType.Steel, 30), 

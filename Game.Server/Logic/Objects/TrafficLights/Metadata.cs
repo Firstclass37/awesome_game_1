@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.TrafficLights.Creation;
@@ -10,22 +11,20 @@ namespace Game.Server.Logic.Objects.TrafficLights
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly ITrafficLightAreaGetter _trafficLightAreaGetter;
         private readonly TrafficLightBuildRequirement _trafficLightBuildRequirement;
         private readonly TrafficLightFactory _trafficLightFactory;
 
-        public Metadata(TrafficLightBuildRequirement trafficLightBuildRequirement, TrafficLightFactory trafficLightFactory, ITrafficLightAreaGetter trafficLightAreaGetter)
+        public Metadata(TrafficLightBuildRequirement trafficLightBuildRequirement, TrafficLightFactory trafficLightFactory)
         {
             _trafficLightBuildRequirement = trafficLightBuildRequirement;
             _trafficLightFactory = trafficLightFactory;
-            _trafficLightAreaGetter = trafficLightAreaGetter;
         }
 
         public string ObjectType => BuildingTypes.TrafficLigh;
 
         public string Description => "Traffic light!";
 
-        public IAreaGetter AreaGetter => _trafficLightAreaGetter;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => _trafficLightBuildRequirement;
 

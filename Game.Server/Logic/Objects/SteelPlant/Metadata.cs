@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.SteelPlant.Creation;
@@ -9,12 +10,10 @@ namespace Game.Server.Logic.Objects.SteelPlant
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IArea2x2Getter _area2x2Getter;
         private readonly SteelPlantFactory _steelPlantFactory;
 
-        public Metadata(IArea2x2Getter area2x2Getter, SteelPlantFactory steelPlantFactory)
+        public Metadata(SteelPlantFactory steelPlantFactory)
         {
-            _area2x2Getter = area2x2Getter;
             _steelPlantFactory = steelPlantFactory;
         }
 
@@ -22,7 +21,7 @@ namespace Game.Server.Logic.Objects.SteelPlant
 
         public string Description => "Steel plant";
 
-        public IAreaGetter AreaGetter => _area2x2Getter;
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Models.Constants;
@@ -8,18 +9,11 @@ namespace Game.Server.Logic.Objects.Block
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IArea1x1Getter _area1x1Getter;
-
-        public Metadata(IArea1x1Getter area1x1Getter)
-        {
-            _area1x1Getter = area1x1Getter;
-        }
-
         public string ObjectType => BuildingTypes.Block;
 
         public string Description => "Blocking block";
 
-        public IAreaGetter AreaGetter => _area1x1Getter;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

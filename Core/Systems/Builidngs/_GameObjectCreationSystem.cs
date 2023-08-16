@@ -60,8 +60,6 @@ namespace My_awesome_character.Core.Systems.Builidngs
                 map.SetCell(@event.Id, root, area, MapLayers.RoadLayer, _buildingsToTileMapper[@event.ObjectType]);
             else if (_resourcesToTileMapper.ContainsKey(@event.ObjectType))
                 map.SetCell(@event.Id, root, area, MapLayers.Resources, _resourcesToTileMapper[@event.ObjectType]);
-            else
-                throw new ArgumentException($"unknown game object type {@event.ObjectType}");
         }
 
         public void Process(double gameTime)

@@ -17,15 +17,17 @@ namespace Game.Server.Logic.Objects._Buidling
         private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
         private readonly IGameObjectAccessor _gameObjectAccessor;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IAreaCalculator _areaCalculator;
         private readonly ILogger _logger;
 
-        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator, ILogger logger)
+        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator, ILogger logger, IAreaCalculator areaCalculator)
         {
             _metadatas = metadatas;
             _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
             _gameObjectAccessor = gameObjectAccessor;
             _eventAggregator = eventAggregator;
             _logger = logger;
+            _areaCalculator = areaCalculator;
         }
 
         public bool CanCreate(string objectType, Coordiante point, object args = null)
@@ -37,7 +39,10 @@ namespace Game.Server.Logic.Objects._Buidling
             if (metadata == null)
                 throw new ArgumentException($"metadata for object {objectType} was not found");
 
-            var area = metadata.AreaGetter.GetArea(point).ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
+            if (GetArea(point, metadata.Size, out var originalArea) == false)
+                return false;
+
+            var area = originalArea.ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
             return metadata.CreationRequirement.Satisfy(point, area);
         }
 
@@ -50,7 +55,10 @@ namespace Game.Server.Logic.Objects._Buidling
             if (metadata == null)
                 throw new ArgumentException($"metadata for object {objectType} was not found");
 
-            var area = metadata.AreaGetter.GetArea(point).ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
+            if (GetArea(point, metadata.Size, out var originalArea) == false)
+                throw new ArgumentException($"can't calculate area for {objectType} for point {point}");
+
+            var area = originalArea.ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
             if (!metadata.CreationRequirement.Satisfy(point, area))
                 throw new Exception($"can't create object {objectType} here [{point.X} {point.Y}]");
 
@@ -73,7 +81,22 @@ namespace Game.Server.Logic.Objects._Buidling
                     .Publish(new ObjectCreatedEvent { Id = gameObject.GameObject.Id, ObjectType = objectType, Area = area.ToArray(), Root = point });
             }
 
-            //_logger.Info($"object created at {point} with area: {string.Join(";", area.Select(a => a.ToString()).ToArray())}");
+            _logger.Info($"object created at {point} with area: {string.Join(";", area.Select(a => a.ToString()).ToArray())}");
+        }
+
+        private bool GetArea(Coordiante root, AreaSize areaSize, out Coordiante[] area) 
+        {
+            area = Array.Empty<Coordiante>();
+
+            try
+            {
+                area = _areaCalculator.GetArea(root, areaSize);
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }   
         }
     }
 }

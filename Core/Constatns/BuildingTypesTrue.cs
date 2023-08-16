@@ -1,6 +1,6 @@
 ﻿namespace My_awesome_character.Core.Constatns
 {
-    internal class BuildingTypesTrue
+    public class BuildingTypesTrue
     {
         public const string Home = nameof(Home);
         public const string UranusMine = nameof(UranusMine);

@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.ResourceResource.Creation;
@@ -9,18 +10,11 @@ namespace Game.Server.Logic.Objects.ResourceResource
 {
     internal class MineralsMetadata : IGameObjectMetadata
     {
-        private readonly IArea1x1Getter _area1X1Getter;
-
-        public MineralsMetadata(IArea1x1Getter area1X1Getter)
-        {
-            _area1X1Getter = area1X1Getter;
-        }
-
         public string ObjectType => ResourceResourceTypes.Minerals;
 
         public string Description => "Minerals";
 
-        public IAreaGetter AreaGetter => _area1X1Getter;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

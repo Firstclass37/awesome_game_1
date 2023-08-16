@@ -65,7 +65,7 @@ namespace Game.Server.Logic.Maps.Generation
             foreach(var coordiante in randomPoints)
             {
                 var area = GetArea(coordiante, generationInfo.AreaSize);
-                if (area.All(a => randomPoints.Contains(a) && CanCreateHere(area, generationInfo.ResourceType)))
+                if (area.Any() && area.All(a => randomPoints.Contains(a) && CanCreateHere(area, generationInfo.ResourceType)))
                     return area;
             }
 
@@ -81,7 +81,7 @@ namespace Game.Server.Logic.Maps.Generation
             }
             catch
             {
-                return GetArea(root, areaSize);
+                return Array.Empty<Coordiante>();
             }
         }
 

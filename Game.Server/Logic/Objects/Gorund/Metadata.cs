@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.Gorund.Creation;
@@ -10,24 +11,15 @@ namespace Game.Server.Logic.Objects.Gorund
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IDefaultAreaGetterFactory _areaGetterFactory;
-        private readonly GroundRequirement _groundRequirement;
-
-        public Metadata(IDefaultAreaGetterFactory areaGetterFactory, GroundRequirement groundRequirement)
-        {
-            _areaGetterFactory = areaGetterFactory;
-            _groundRequirement = groundRequirement;
-        }
-
         public string ObjectType => GroundTypes.Ground;
 
         public string Description => "Default ground";
 
         public Price BasePrice => Price.Free;
 
-        public IAreaGetter AreaGetter => _areaGetterFactory.Get1x1();
+        public AreaSize Size => AreaSize.Area1x1;
 
-        public ICreationRequirement CreationRequirement => _groundRequirement;
+        public ICreationRequirement CreationRequirement => new GroundRequirement();
 
         public IGameObjectFactory GameObjectFactory => new GroundFactory();
     }

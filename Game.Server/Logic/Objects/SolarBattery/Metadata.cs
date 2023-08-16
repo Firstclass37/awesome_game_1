@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.SolarBattery.Creation;
@@ -9,24 +10,15 @@ namespace Game.Server.Logic.Objects.SolarBattery
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IArea2x2Getter _area2x2Getter;
-        private readonly SolarBatteryFactory _solarBatteryFactory;
-
-        public Metadata(IArea2x2Getter area2x2Getter, SolarBatteryFactory solarBatteryFactory)
-        {
-            _area2x2Getter = area2x2Getter;
-            _solarBatteryFactory = solarBatteryFactory;
-        }
-
         public string ObjectType => BuildingTypes.SolarBattery;
 
         public string Description => "Solar battery";
 
-        public IAreaGetter AreaGetter => _area2x2Getter;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 
-        public IGameObjectFactory GameObjectFactory => _solarBatteryFactory;
+        public IGameObjectFactory GameObjectFactory => new SolarBatteryFactory();
 
         public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Aluminum, 20), new ResourceChunk(ResourceType.Silicon, 100));
     }

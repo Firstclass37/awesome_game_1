@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.MoistureTrap.Creation;
@@ -9,24 +10,15 @@ namespace Game.Server.Logic.Objects.MoistureTrap
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IArea2x2Getter _area2x2Getter;
-        private readonly MoistureTrapFactory _moistureTrapFactory;
-
-        public Metadata(IArea2x2Getter area2x2Getter, MoistureTrapFactory moistureTrapFactory)
-        {
-            _area2x2Getter = area2x2Getter;
-            _moistureTrapFactory = moistureTrapFactory;
-        }
-
         public string ObjectType => BuildingTypes.MoistureTrap;
 
         public string Description => "Moisture trap";
 
-        public IAreaGetter AreaGetter => _area2x2Getter;
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 
-        public IGameObjectFactory GameObjectFactory => _moistureTrapFactory;
+        public IGameObjectFactory GameObjectFactory => new MoistureTrapFactory();
 
         public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Steel, 10), new ResourceChunk(ResourceType.Glass, 10));
     }

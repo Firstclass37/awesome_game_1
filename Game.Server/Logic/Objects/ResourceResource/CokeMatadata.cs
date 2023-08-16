@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Models.Constants;
@@ -8,18 +9,11 @@ namespace Game.Server.Logic.Objects.ResourceResource
 {
     internal class CokeMatadata : IGameObjectMetadata
     {
-        private readonly IArea1x1Getter _area1;
-
-        public CokeMatadata(IArea1x1Getter area1)
-        {
-            _area1 = area1;
-        }
-
         public string ObjectType => ResourceResourceTypes.Coke;
 
         public string Description => "Coke";
 
-        public IAreaGetter AreaGetter => _area1;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

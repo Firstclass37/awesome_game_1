@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.WaterPump.Creation;
@@ -9,24 +10,15 @@ namespace Game.Server.Logic.Objects.WaterPump
 {
     internal class Metadata : IGameObjectMetadata
     {
-        private readonly IArea2x2Getter _area2x2Getter;
-        private readonly WaterPumpFactory _waterPumpFactory;
-
-        public Metadata(IArea2x2Getter area2x2Getter, WaterPumpFactory waterPumpFactory)
-        {
-            _area2x2Getter = area2x2Getter;
-            _waterPumpFactory = waterPumpFactory;
-        }
-
         public string ObjectType => BuildingTypes.WaterPump;
 
         public string Description => "Water pump";
 
-        public IAreaGetter AreaGetter => _area2x2Getter;
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyTypeRequirement(ResourceResourceTypes.Groundwater);
 
-        public IGameObjectFactory GameObjectFactory => _waterPumpFactory;
+        public IGameObjectFactory GameObjectFactory => new WaterPumpFactory();
 
         public Price BasePrice => Price.Create(new ResourceChunk(ResourceType.Steel, 10));
     }
