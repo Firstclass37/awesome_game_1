@@ -1,7 +1,26 @@
-﻿using Game.Server.Models.Maps;
+﻿using Game.Server.Map;
+using Game.Server.Models.Constants;
+using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Maps
 {
+    internal record AreaSize
+    {
+        public static AreaSize Area2x2 => new AreaSize(2, 2);
+
+        public static AreaSize Area1x1 => new AreaSize(1, 1);
+
+        public AreaSize(int height, int width)
+        {
+            Height = height > 0 ? height : throw new ArgumentException("height must be above zero");
+            Width = width > 0 ? width : throw new ArgumentException("width must be above zero");
+        }
+
+        public int Height { get; }
+
+        public int Width { get; }
+    }
+
     internal class AreaCalculator : IAreaCalculator
     {
         private readonly IMapGrid _mapGrid;
@@ -11,25 +30,32 @@ namespace Game.Server.Logic.Maps
             _mapGrid = mapGrid;
         }
 
-        public Coordiante[] Get2x2Area(Coordiante root)
-        {
-            var neigbors = _mapGrid.GetNeightborsOf(root);
-            var rightNeighbor = neigbors.First(n => n.Value == Models.Constants.Direction.Right).Key;
-            var bottomNeighbor = neigbors.First(n => n.Value == Models.Constants.Direction.Bottom).Key;
-            var bottomOfRightNeighbor = _mapGrid.GetNeightborsOf(rightNeighbor).First(n => n.Value == Models.Constants.Direction.Bottom).Key;
+        public Coordiante[] GetArea(Coordiante root, AreaSize areaSize) 
+        { 
+            ArgumentNullException.ThrowIfNull(areaSize);
 
-            return new Coordiante[]
+            var container = new List<Coordiante>();
+
+            var points = MoveTo(root, Direction.Bottom, areaSize.Height - 1).Union(new[] { root }).ToArray();
+            foreach(var point in points)
             {
-                root,
-                rightNeighbor,
-                bottomNeighbor,
-                bottomOfRightNeighbor
-            };
+                var row = MoveTo(point, Direction.Right, areaSize.Width - 1);
+                container.Add(point);
+                container.AddRange(row);
+            }
+
+            return container.ToArray();
         }
 
-        public Coordiante[] Get3X3Area(Coordiante root)
+        private IEnumerable<Coordiante> MoveTo(Coordiante coordiante, Direction direction, int count)
         {
-            throw new NotImplementedException();
+            var current = coordiante;
+            var i = count;
+            while (i-- > 0)
+            {
+                current = _mapGrid.GetNeightborsOf(current).First(v => v.Value == direction).Key;
+                yield return current;
+            }
         }
     }
 }

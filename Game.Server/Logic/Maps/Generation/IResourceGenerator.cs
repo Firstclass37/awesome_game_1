@@ -58,7 +58,7 @@ namespace Game.Server.Logic.Maps.Generation
 
             foreach(var coordiante in randomPoints)
             {
-                var area = _areaCalculator.Get2x2Area(coordiante);
+                var area = _areaCalculator.GetArea(coordiante, AreaSize.Area2x2);
                 if (area.All(a => randomPoints.Contains(a) && _gameObjectCreator.CanCreate(objectType, a)))
                     return area;
             }
