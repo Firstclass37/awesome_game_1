@@ -24,9 +24,10 @@ namespace Game.Server.Logic.Objects.TrafficLights.Creation
             var neighbors = _mapGrid.GetNeightborsOf(root);
             var roadNeigbors = neighbors.Where(n => _gameObjectAccessor.Find(n.Key)?.GameObject.ObjectType == BuildingTypes.Road)
                 .ToDictionary(n => n.Value, n => n.Key);
+            var trafficLightArea = roadNeigbors.Select(r => r.Value).Union(new[] { root }).ToArray();
 
             return new GameObjectAggregatorBuilder(BuildingTypes.TrafficLigh)
-                .AddArea(root, area)
+                .AddArea(root, trafficLightArea)
                 .AddAttribute(AttrituteTypes.Interactable)
                 .AddAttribute(AttributeType.TrafficLightTrackingCells, roadNeigbors)
                 .AddAttribute(AttributeType.TrafficLightSidesCapacity, roadNeigbors.Select(d => d.Key).ToDictionary(d => d, d => 1))

@@ -23,9 +23,13 @@ namespace My_awesome_character.Core.Systems.Builidngs
             { ResourceResourceTypes.Coke, Tiles.CokeResource }
         };
 
-        private readonly Dictionary<string, int> _buildingsToTileMapper = new Dictionary<string, int>()
+        private readonly Dictionary<string, int> _roadToTileMapper = new Dictionary<string, int>
         {
             { BuildingTypesTrue.Road, Tiles.RoadAshpalt },
+        };
+
+        private readonly Dictionary<string, int> _buildingsToTileMapper = new Dictionary<string, int>()
+        {
             { BuildingTypesTrue.Home, Tiles.HomeType1 },
             { BuildingTypesTrue.UranusMine, Tiles.MineUranus },
             { BuildingTypesTrue.Block, Tiles.Block },
@@ -54,10 +58,12 @@ namespace My_awesome_character.Core.Systems.Builidngs
             var root = new CoordianteUI(@event.Root.X, @event.Root.Y);
             var area = @event.Area.Select(c => new CoordianteUI(c.X, c.Y)).ToArray();
 
+            if (_roadToTileMapper.ContainsKey(@event.ObjectType))
+                map.SetCell(@event.Id, root, area, MapLayers.RoadLayer, _roadToTileMapper[@event.ObjectType]);
             if (_groundToTileMapper.ContainsKey(@event.ObjectType))
                 map.SetCell(@event.Id, root, area, MapLayers.GroundLayer, _groundToTileMapper[@event.ObjectType]);
             else if (_buildingsToTileMapper.ContainsKey(@event.ObjectType))
-                map.SetCell(@event.Id, root, area, MapLayers.RoadLayer, _buildingsToTileMapper[@event.ObjectType]);
+                map.SetCell(@event.Id, root, area, MapLayers.Buildings, _buildingsToTileMapper[@event.ObjectType]);
             else if (_resourcesToTileMapper.ContainsKey(@event.ObjectType))
                 map.SetCell(@event.Id, root, area, MapLayers.Resources, _resourcesToTileMapper[@event.ObjectType]);
         }
