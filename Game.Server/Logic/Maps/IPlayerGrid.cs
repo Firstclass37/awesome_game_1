@@ -6,6 +6,8 @@ namespace Game.Server.Logic.Maps
 {
     internal interface IPlayerGrid
     {
+        IReadOnlyCollection<int> Players { get; }
+
         public IReadOnlyCollection<Coordiante> GetAvailableFor(int playerId);
     }
 
@@ -18,6 +20,8 @@ namespace Game.Server.Logic.Maps
             _playersCoordinates = new Lazy<Dictionary<int, List<Coordiante>>>(
                 () => storage.Find<PlayerToPosition>(t => true).GroupBy(pp => pp.PlayerNumber).ToDictionary(p => p.Key, p => p.Select(a => a.Coordinate).ToList()));
         }
+
+        public IReadOnlyCollection<int> Players => _playersCoordinates.Value.Keys;
 
         public IReadOnlyCollection<Coordiante> GetAvailableFor(int playerId) =>
             _playersCoordinates.Value.ContainsKey(playerId) ? _playersCoordinates.Value[playerId] : throw new ArgumentOutOfRangeException($"no info about coordinates for player {playerId}");
