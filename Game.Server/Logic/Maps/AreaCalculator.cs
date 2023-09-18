@@ -10,6 +10,8 @@ namespace Game.Server.Logic.Maps
 
         public static AreaSize Area1x1 => new AreaSize(1, 1);
 
+        public static AreaSize Square(int size) => new AreaSize(size, size);
+
         public AreaSize(int height, int width)
         {
             Height = height > 0 ? height : throw new ArgumentException("height must be above zero");

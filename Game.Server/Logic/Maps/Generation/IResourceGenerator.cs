@@ -1,4 +1,6 @@
-﻿using Game.Server.Logic.Objects._Buidling;
+﻿using Game.Server.Common.Extentions;
+using Game.Server.Logic.Maps.Extentions;
+using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
@@ -20,31 +22,29 @@ namespace Game.Server.Logic.Maps.Generation
         private readonly IGameObjectCreator _gameObjectCreator;
         private readonly IStorage _storage;
         private readonly IAreaCalculator _areaCalculator;
-        private readonly IMapGrid _mapGrid;
-        private readonly IGameObjectAccessor _gameObjectAccessor;
 
+
+        private readonly int _resourceAmount = 7;
         private readonly ResourceGenerationInfo[] _resourceToGenerate = new ResourceGenerationInfo[] 
         {
-            new ResourceGenerationInfo(ResourceResourceTypes.Bauxite, new AreaSize(3, 3)),
-            new ResourceGenerationInfo(ResourceResourceTypes.Minerals, new AreaSize(3, 3)),
-            new ResourceGenerationInfo(ResourceResourceTypes.Uranium, new AreaSize(3, 3)),
-            new ResourceGenerationInfo(ResourceResourceTypes.Coke, new AreaSize(3, 3)),
-            new ResourceGenerationInfo(ResourceResourceTypes.IronOre, new AreaSize(3, 3))
+            new ResourceGenerationInfo(ResourceResourceTypes.Bauxite, AreaSize.Square(4)),
+            new ResourceGenerationInfo(ResourceResourceTypes.Minerals, AreaSize.Square(4)),
+            new ResourceGenerationInfo(ResourceResourceTypes.Uranium, AreaSize.Square(4)),
+            new ResourceGenerationInfo(ResourceResourceTypes.Coke, AreaSize.Square(4)),
+            new ResourceGenerationInfo(ResourceResourceTypes.IronOre, AreaSize.Square(4))
         };
 
-        public ResourceGenerator(IGameObjectCreator gameObjectCreator, IPlayerGrid layerGrid, IStorage storage, IAreaCalculator areaCalculator, IMapGrid mapGrid, IGameObjectAccessor gameObjectAccessor)
+        public ResourceGenerator(IGameObjectCreator gameObjectCreator, IPlayerGrid layerGrid, IStorage storage, IAreaCalculator areaCalculator)
         {
             _gameObjectCreator = gameObjectCreator;
             _playerGrid = layerGrid;
             _storage = storage;
             _areaCalculator = areaCalculator;
-            _mapGrid = mapGrid;
-            _gameObjectAccessor = gameObjectAccessor;
         }
 
         public void Generate()
         {
-            var players = GetPlayers();
+            var players = _storage.Find<PlayerToPosition>(t => true).GroupBy(pp => pp.PlayerNumber).Select(g => g.Key).ToArray();
             foreach(var resource in _resourceToGenerate)
             {
                 foreach(var player in players) 
@@ -53,45 +53,30 @@ namespace Game.Server.Logic.Maps.Generation
                     foreach (var point in group)
                         _gameObjectCreator.Create(resource.ResourceType, point);
                 }
-            }        
+            }
         }
 
         private IEnumerable<Coordiante> FindArea(ResourceGenerationInfo generationInfo, int playerId)
         {
-            var randomPoints = _playerGrid.GetAvailableFor(playerId)
-                .OrderBy(g => Guid.NewGuid())
-                .ToArray();
+            var playerCells = _playerGrid.GetAvailableFor(playerId).Mix();
 
-            foreach(var coordiante in randomPoints)
+            foreach(var coordiante in playerCells)
             {
-                var area = GetArea(coordiante, generationInfo.AreaSize);
-                if (area.Any() && area.All(a => randomPoints.Contains(a) && CanCreateHere(area, generationInfo.ResourceType)))
-                    return area;
+                if (!_areaCalculator.TryGetArea(coordiante, generationInfo.AreaSize, out var area))
+                    continue;
+
+                if (!area.All(a => playerCells.Contains(a)))
+                    continue;
+
+                var availableCells = area
+                    .Mix()
+                    .Where(c => _gameObjectCreator.CanCreate(generationInfo.ResourceType, c))
+                    .ToArray();
+                if (availableCells.Length >= _resourceAmount)
+                    return availableCells.Take(_resourceAmount).ToArray();
             }
 
             throw new ArgumentException($"can't found available area for {generationInfo.ResourceType} with area {generationInfo.AreaSize} (player: {playerId})");
         }
-
-
-        private Coordiante[] GetArea(Coordiante root, AreaSize areaSize)
-        {
-            try
-            {
-                return _areaCalculator.GetArea(root, areaSize);
-            }
-            catch
-            {
-                return Array.Empty<Coordiante>();
-            }
-        }
-
-        private bool CanCreateHere(Coordiante[] area, string objectType)
-        {
-            return area.All(a => _gameObjectCreator.CanCreate(objectType, a)) &&
-                area.SelectMany(a => _mapGrid.GetNeightborsOf(a)).All(a => _gameObjectAccessor.Find(a.Key).GameObject.ObjectType == GroundTypes.Ground);
-        }
-
-        private int[] GetPlayers() => 
-             _storage.Find<PlayerToPosition>(t => true).GroupBy(pp => pp.PlayerNumber).Select(g => g.Key).ToArray();
     }
 }
