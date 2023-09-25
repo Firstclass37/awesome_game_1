@@ -1,10 +1,11 @@
-[gd_scene load_steps=31 format=3 uid="uid://cmpbjqg7ku10m"]
+[gd_scene load_steps=33 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://x7ooimht313g" path="res://Assets/Map/Building/PowerStation.png" id="2_0l4og"]
 [ext_resource type="Texture2D" uid="uid://hdexljtdwl7" path="res://Assets/Map/Ground/road_asphalt.png" id="2_5rddi"]
 [ext_resource type="Texture2D" uid="uid://casv1wyirxme4" path="res://Assets/Map/Ground/block.png" id="2_fk4l5"]
 [ext_resource type="Texture2D" uid="uid://lg8xbdhdokur" path="res://Assets/Map/Ground/dirt_N.png" id="2_i8wvi"]
+[ext_resource type="Texture2D" uid="uid://cv7kcdrnc6b6p" path="res://Assets/Map/Building/solar-batary.png" id="2_w3geg"]
 [ext_resource type="Texture2D" uid="uid://clehlocqjol7p" path="res://Assets/Map/kenney_isometric-miniature-dungeon/dirt_N_128_64.png" id="4_1acxk"]
 [ext_resource type="Texture2D" uid="uid://dukqpdbwksxdw" path="res://Assets/Map/Ground/IronOre.png" id="5_3iwc2"]
 [ext_resource type="Texture2D" uid="uid://8t8yflvhrb0g" path="res://Assets/Map/kenney_isometric-miniature-dungeon/stone_N_128_64.png" id="5_5wxiu"]
@@ -75,6 +76,25 @@ texture_region_size = Vector2i(128, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3tjtn"]
+resource_name = "Solar Batery"
+texture = ExtResource("2_w3geg")
+margins = Vector2i(0, 3)
+texture_region_size = Vector2i(243, 200)
+0:0/next_alternative_id = 3
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(10, 0)
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/1 = 1
+0:0/1/modulate = Color(1, 1, 1, 0.439216)
+0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/1/physics_layer_0/angular_velocity = 0.0
+0:0/2 = 2
+0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
+0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/2/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1twd4"]
 texture = ExtResource("4_1acxk")
@@ -149,9 +169,10 @@ texture_region_size = Vector2i(128, 64)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hksly"]
+resource_name = "Mine"
 texture = ExtResource("6_3p2xd")
 texture_region_size = Vector2i(255, 196)
-0:0/next_alternative_id = 3
+0:0/next_alternative_id = 4
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -163,6 +184,9 @@ texture_region_size = Vector2i(255, 196)
 0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
 0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/2/physics_layer_0/angular_velocity = 0.0
+0:0/3 = 3
+0:0/3/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/3/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8dprw"]
 texture = ExtResource("2_5rddi")
@@ -200,6 +224,7 @@ sources/4 = SubResource("TileSetAtlasSource_kkrov")
 sources/7 = SubResource("TileSetAtlasSource_q15fh")
 sources/12 = SubResource("TileSetAtlasSource_lqs2e")
 sources/13 = SubResource("TileSetAtlasSource_nl0ul")
+sources/14 = SubResource("TileSetAtlasSource_3tjtn")
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true

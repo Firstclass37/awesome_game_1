@@ -12,6 +12,7 @@ namespace My_awesome_character.Core.Helpers
             { BuildingTypesTrue.UranusMine, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\Mine.png") },
             { BuildingTypesTrue.Road, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Ground\\road_asphalt_pewviewinfo.png") },
             { BuildingTypesTrue.PowerStation, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\PowerStation.png") },
+            { BuildingTypesTrue.SolarBattery, ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\solar-batary.png") },
         };
 
         private static Texture2D Default => ResourceLoader.Load<Texture2D>("C:\\Projects\\Mine\\My_awesome_character\\Assets\\Map\\Building\\unknown_preview.png");

@@ -14,7 +14,7 @@ namespace Game.Server.Logic.Objects.SolarBattery
 
         public string Description => "Solar battery";
 
-        public AreaSize Size => AreaSize.Area1x1;
+        public AreaSize Size => AreaSize.Area2x2;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

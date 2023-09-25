@@ -28,6 +28,7 @@ namespace My_awesome_character.Core.Helpers
             { BuildingTypesTrue.UranusMine, Tiles.MineUranus },
             { BuildingTypesTrue.PowerStation, Tiles.PowerStation },
             { BuildingTypesTrue.Road, Tiles.RoadAshpalt },
+            { BuildingTypesTrue.SolarBattery, Tiles.SolarBatary },
         };
 
         public int Select(string from)

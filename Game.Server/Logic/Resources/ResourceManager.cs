@@ -17,20 +17,20 @@ namespace Game.Server.Logic.Resources
             _storage = storage;
 
             AddifNotExists(ResourceType.Money, "K$", 3000);
-            AddifNotExists(ResourceType.Water, "Water", 0);
-            AddifNotExists(ResourceType.Food, "Food", 0);
-            AddifNotExists(ResourceType.Electricity, "Electricity", 0);
-            AddifNotExists(ResourceType.Steel, "Steel", 0);
-            AddifNotExists(ResourceType.Uranus, "Uranus", 0);
+            AddifNotExists(ResourceType.Water, "Water", 1000);
+            AddifNotExists(ResourceType.Food, "Food", 1000);
+            AddifNotExists(ResourceType.Electricity, "Electricity", 1000);
+            AddifNotExists(ResourceType.Steel, "Steel", 1000);
+            AddifNotExists(ResourceType.Uranus, "Uranus", 1000);
             AddifNotExists(ResourceType.Microchip, "Microchip", 100);
-            AddifNotExists(ResourceType.Aluminum, "Aluminum", 0);
-            AddifNotExists(ResourceType.Energy, "Energy", 100);
-            AddifNotExists(ResourceType.Iron, "Energy", 100);
-            AddifNotExists(ResourceType.Coal, "Coal", 0);
-            AddifNotExists(ResourceType.Chemicals, "Chemicals", 0);
-            AddifNotExists(ResourceType.Glass, "Glass", 0);
-            AddifNotExists(ResourceType.Silicon, "Silicon", 0);
-            AddifNotExists(ResourceType.Fuel, "Fuel", 0);
+            AddifNotExists(ResourceType.Aluminum, "Aluminum", 1000);
+            AddifNotExists(ResourceType.Energy, "Energy", 1000);
+            AddifNotExists(ResourceType.Iron, "Energy", 1000);
+            AddifNotExists(ResourceType.Coal, "Coal", 1000);
+            AddifNotExists(ResourceType.Chemicals, "Chemicals", 1000);
+            AddifNotExists(ResourceType.Glass, "Glass", 1000);
+            AddifNotExists(ResourceType.Silicon, "Silicon", 1000);
+            AddifNotExists(ResourceType.Fuel, "Fuel", 1000);
         }
 
         public float GetAmount(int resourceType) => _storage.Find<Resource>(r => r.ResourceType == resourceType).First().Value;

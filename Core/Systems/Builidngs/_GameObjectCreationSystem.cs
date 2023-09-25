@@ -33,6 +33,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
             { BuildingTypesTrue.Home, Tiles.HomeType1 },
             { BuildingTypesTrue.UranusMine, Tiles.MineUranus },
             { BuildingTypesTrue.Block, Tiles.Block },
+            { BuildingTypesTrue.SolarBattery, Tiles.SolarBatary },
         };
 
         private readonly Dictionary<string, int> _groundToTileMapper = new Dictionary<string, int>
