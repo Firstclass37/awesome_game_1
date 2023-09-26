@@ -14,7 +14,7 @@ namespace Game.Server.Logic.Objects.WindTurbine
 
         public string Description => "Wind turbine";
 
-        public AreaSize Size => AreaSize.Area2x2;
+        public AreaSize Size => AreaSize.Area1x1;
 
         public ICreationRequirement CreationRequirement => new OnlyGroundRequirement();
 

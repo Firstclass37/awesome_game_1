@@ -22,6 +22,7 @@ public static class Tiles
     public const int MineralsResource = 13;
     public const int CokeResource = 7;
     public const int SolarBatary = 14;
+    public const int WindTurbine = 15;
 }
 
 public class MapLayers

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cmpbjqg7ku10m"]
+[gd_scene load_steps=35 format=3 uid="uid://cmpbjqg7ku10m"]
 
 [ext_resource type="Script" path="res://Entities/Map.cs" id="1_5omci"]
 [ext_resource type="Texture2D" uid="uid://x7ooimht313g" path="res://Assets/Map/Building/PowerStation.png" id="2_0l4og"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://8t8yflvhrb0g" path="res://Assets/Map/kenney_isometric-miniature-dungeon/stone_N_128_64.png" id="5_5wxiu"]
 [ext_resource type="Texture2D" uid="uid://b6dn2sgjhnce1" path="res://Assets/Map/Building/Mine.png" id="6_3p2xd"]
 [ext_resource type="Texture2D" uid="uid://b738upvgqecuu" path="res://Assets/Map/Ground/minerals.png" id="6_38ep6"]
+[ext_resource type="Texture2D" uid="uid://dxora4apfm8uj" path="res://Assets/Map/Building/wind-turbine.png" id="8_a5kig"]
 [ext_resource type="Texture2D" uid="uid://bteamtuxoi77g" path="res://Assets/Map/Ground/Bauxite.png" id="9_ouca0"]
 [ext_resource type="Script" path="res://Entities/MapCamera/CameraAnchor.cs" id="10_ymviw"]
 [ext_resource type="Script" path="res://Entities/MapCamera/Camera2D.cs" id="11_wtnxy"]
@@ -85,6 +86,24 @@ texture_region_size = Vector2i(243, 200)
 0:0/next_alternative_id = 3
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(10, 0)
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/1 = 1
+0:0/1/modulate = Color(1, 1, 1, 0.439216)
+0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/1/physics_layer_0/angular_velocity = 0.0
+0:0/2 = 2
+0:0/2/modulate = Color(1, 0.0470588, 0, 0.439216)
+0:0/2/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/2/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xrddf"]
+resource_name = "Wind turbine"
+texture = ExtResource("8_a5kig")
+margins = Vector2i(0, 324)
+texture_region_size = Vector2i(256, 420)
+0:0/next_alternative_id = 3
+0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/1 = 1
@@ -225,6 +244,7 @@ sources/7 = SubResource("TileSetAtlasSource_q15fh")
 sources/12 = SubResource("TileSetAtlasSource_lqs2e")
 sources/13 = SubResource("TileSetAtlasSource_nl0ul")
 sources/14 = SubResource("TileSetAtlasSource_3tjtn")
+sources/15 = SubResource("TileSetAtlasSource_xrddf")
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
