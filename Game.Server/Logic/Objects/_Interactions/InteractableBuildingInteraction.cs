@@ -1,4 +1,5 @@
-﻿using Game.Server.Logic.Objects.Characters;
+﻿using Game.Server.Common;
+using Game.Server.Logic.Objects.Characters;
 using Game.Server.Logic.Resources;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.GamesObjectList;
@@ -13,6 +14,7 @@ namespace Game.Server.Logic.Objects._Interactions
 
         private readonly Dictionary<int, float> _resourcesRequired = new();
         private readonly Dictionary<int, float> _resourceTarget = new();
+        private readonly List<IRequirement<GameObjectAggregator>> _requirements = new();
 
         public InteractableBuildingInteraction(IResourceManager resourceManager, ICharacterDamageService characterDamageService)
         {
@@ -23,7 +25,9 @@ namespace Game.Server.Logic.Objects._Interactions
         public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
             _characterDamageService.InstantKill(character);
-            SwapResources();
+
+            if (_requirements.All(r => r.Satisfy(gameObject)))
+                SwapResources();
         }
 
         protected internal void AddRequiredResource(int resourceId, float amout) 
@@ -34,6 +38,11 @@ namespace Game.Server.Logic.Objects._Interactions
         protected internal void AddTargetResource(int resourceId, float amout) 
         {
             _resourceTarget.Add(resourceId, amout);
+        }
+
+        protected internal void AddAdditionalRequirements(IRequirement<GameObjectAggregator> requirement)
+        {
+            _requirements.Add(requirement);
         }
 
         private bool SwapResources()

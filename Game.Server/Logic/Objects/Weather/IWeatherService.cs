@@ -1,16 +1,9 @@
-﻿namespace Game.Server.Logic.Objects.Weather
+﻿using Game.Server.Models.Maps;
+
+namespace Game.Server.Logic.Objects.Weather
 {
     internal interface IWeatherService
     {
-        WeatheState GetCurrent();
-    }
-
-
-    public enum WeatheState
-    {
-        Rainy,
-        Windy,
-        Night,
-        Sunny
+        public bool IsWindyThere(IReadOnlyCollection<Coordiante> coordiantes, bool fullCoverage = false);
     }
 }
