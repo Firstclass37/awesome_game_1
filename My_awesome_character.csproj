@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\Components\" />
+    <Folder Include="Entities\Weather\" />
     <Folder Include="Sources\Scenes\" />
   </ItemGroup>
   <ItemGroup>

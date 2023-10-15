@@ -1,4 +1,5 @@
-﻿using System;
+﻿using My_awesome_character.Core.Game;
+using System;
 
 namespace My_awesome_character.Core.Constatns
 {
@@ -19,6 +20,8 @@ namespace My_awesome_character.Core.Constatns
 
         public static string TrafficLight(Guid id) => $"traffic_light_{id}";
 
+
+        public static string Wind(CoordianteUI coordinates) => $"wind_{coordinates.X}_{coordinates.Y}";
 
 
 

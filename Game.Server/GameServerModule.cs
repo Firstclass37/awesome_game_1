@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Game.Server.Common;
 using Game.Server.DataAccess;
 using Game.Server.Events.Core;
 using Game.Server.Logic;
@@ -15,7 +16,8 @@ namespace Game.Server
             var excludeRegistrationsTypes = new Type[]
             {
                 typeof(MyStorage),
-                typeof(StorageCacheDecorator)
+                typeof(StorageCacheDecorator),
+                typeof(GameDiceGroup)
             };
             
             var types = GetType().Assembly.GetTypes()

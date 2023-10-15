@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkw4eo36dicai"]
+
+[ext_resource type="Texture2D" uid="uid://drulukyecid1e" path="res://Assets/Map/Weather/wind direction.png" id="1_48m6i"]
+[ext_resource type="Script" path="res://Entities/Weather/Winddirection.cs" id="1_bet6c"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_bet6c")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 64)
+offset_left = -63.0
+offset_top = -33.0
+offset_right = 65.0
+offset_bottom = 31.0
+pivot_offset = Vector2(64, 32)
+texture = ExtResource("1_48m6i")
+expand_mode = 1

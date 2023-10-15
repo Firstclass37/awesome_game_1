@@ -2,6 +2,6 @@
 {
     internal interface ISystem
     {
-        void Process(double gameTime);
+        void Process(double gameTimeSeconds);
     }
 }

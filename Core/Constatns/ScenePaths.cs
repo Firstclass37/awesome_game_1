@@ -17,5 +17,12 @@
 
         public const string LoadingBar = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Components\\loading_bar.tscn";
         public const string BuildingList = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\BuildingsList.tscn";
+
+
+        #region Weather
+
+        public const string WindDirection = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Weather\\wind_direction.tscn";
+
+        #endregion
     }
 }

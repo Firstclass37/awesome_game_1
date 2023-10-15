@@ -6,6 +6,10 @@ namespace Game.Server.Logic.Maps
 {
     internal interface IMatrixGrid
     {
+        int Width { get; }
+
+        int Height { get; }
+
         Coordiante GetCoordinateFor(Coordiante coordiante);
     }
 
@@ -21,8 +25,11 @@ namespace Game.Server.Logic.Maps
         }
 
         public Coordiante GetCoordinateFor(Coordiante coordiante) => _mapper.Value.TryGetValue(coordiante, out var index) ? index : throw new ArgumentOutOfRangeException($"{coordiante} was not found");
-   
-    
+
+        public int Width => _mapper.Value.Count;
+
+        public int Height => _mapper.Value.Keys.Count; 
+
         private Dictionary<Coordiante, Coordiante> CreateMap()
         {
             var cells = _storage.Find<IsometricMapCell>(t => true);
