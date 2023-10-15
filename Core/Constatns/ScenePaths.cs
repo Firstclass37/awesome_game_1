@@ -20,9 +20,11 @@
 
 
         #region Weather
-
         public const string WindDirection = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Weather\\wind_direction.tscn";
+        #endregion
 
+        #region Game
+        public const string Watch = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Game\\Watch.tscn";
         #endregion
     }
 }

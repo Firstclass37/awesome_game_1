@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2rjwxyf3ba8u"]
+[gd_scene load_steps=6 format=3 uid="uid://d2rjwxyf3ba8u"]
 
 [ext_resource type="Script" path="res://Entities/FpsMeter.cs" id="2_bqtc4"]
 [ext_resource type="PackedScene" uid="uid://cmpbjqg7ku10m" path="res://Sources/Scenes/my_awesome_map.tscn" id="2_gxlwo"]
 [ext_resource type="PackedScene" uid="uid://txey8fkr32bo" path="res://Sources/Scenes/BuildingCollection.tscn" id="3_xt6oh"]
+[ext_resource type="PackedScene" uid="uid://16fauy6fimlj" path="res://Sources/Scenes/Game/Watch.tscn" id="4_1e1vt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5c161"]
 font_size = 27
@@ -52,3 +53,6 @@ offset_left = 0.999997
 offset_top = -0.00258636
 offset_right = 109.0
 offset_bottom = 641.997
+
+[node name="Watch" parent="." instance=ExtResource("4_1e1vt")]
+position = Vector2(174.595, 616.551)

@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://16fauy6fimlj"]
+
+[ext_resource type="Script" path="res://Entities/Game/Watch.cs" id="1_dn15j"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_dn15j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 77.0
+offset_bottom = 26.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "10"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = ":"
+
+[node name="Label3" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "00"
+horizontal_alignment = 1

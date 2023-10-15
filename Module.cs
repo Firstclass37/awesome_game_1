@@ -6,6 +6,7 @@ using My_awesome_character.Core.Mapp;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Systems.Builidngs;
 using My_awesome_character.Core.Systems.Character;
+using My_awesome_character.Core.Systems.Game;
 using My_awesome_character.Core.Systems.Homes;
 using My_awesome_character.Core.Systems.Resources;
 using My_awesome_character.Core.Systems.TrafficLights;
@@ -30,6 +31,7 @@ namespace My_awesome_character
             builder.RegisterType<IncreaseSourceSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<CharacterDeathSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<WindSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<WatchSystem>().As<ISystem>().SingleInstance();
 
             builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
 

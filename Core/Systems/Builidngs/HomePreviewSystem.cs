@@ -1,6 +1,7 @@
 ﻿using Game.Server.API.Buildings;
 using Godot;
 using My_awesome_character.Core.Constatns;
+using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace My_awesome_character.Core.Systems.Homes
             }
         }
 
-        private void CreateBuildingOn(Game.CoordianteUI mapCoordinate)
+        private void CreateBuildingOn(CoordianteUI mapCoordinate)
         {
             var selected = FindSelectedBuilding();
             if (selected == null)
@@ -70,7 +71,7 @@ namespace My_awesome_character.Core.Systems.Homes
                 _buildingController.Buy(selected.BuildingType, coordinate);
         }
 
-        private void ShowPreview(Game.CoordianteUI mapCoordinate, Map map)
+        private void ShowPreview(CoordianteUI mapCoordinate, Map map)
         {
             var selected = FindSelectedBuilding();
             if (selected == null)

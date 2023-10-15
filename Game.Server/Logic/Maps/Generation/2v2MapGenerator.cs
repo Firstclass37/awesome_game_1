@@ -27,10 +27,11 @@ namespace Game.Server.Logic.Maps.Generation
             _logger = logger;
         }
 
-        public void Generate()
+        public int[] Generate()
         {
             var center = new Coordiante(0, 0);
             CreateGroundGrid(center);
+            return new int[] { 1, 2 };
         }
 
         private void CreateGroundGrid(Coordiante center)
