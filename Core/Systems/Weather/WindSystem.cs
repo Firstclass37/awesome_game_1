@@ -47,6 +47,7 @@ namespace My_awesome_character.Core.Systems.Weather
                 var windScene = SceneFactory.Create<Winddirection>(SceneNames.Wind(point), ScenePaths.WindDirection);
                 windScene.Position = map.GetLocalPosition(point);
                 windScene.ZIndex = 100;
+                windScene.Scale = new Godot.Vector2(0.8f, 0.8f);
                 windScene.Rotate(@event.Direction.ToUi());
 
                 map.AddChild(windScene, true);

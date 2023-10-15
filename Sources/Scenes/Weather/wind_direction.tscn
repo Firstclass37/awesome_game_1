@@ -7,6 +7,7 @@
 script = ExtResource("1_bet6c")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0.203922, 1, 0.572549)
 custom_minimum_size = Vector2(128, 64)
 offset_left = -63.0
 offset_top = -33.0
