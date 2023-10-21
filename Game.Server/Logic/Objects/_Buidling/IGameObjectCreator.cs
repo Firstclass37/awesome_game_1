@@ -3,10 +3,12 @@ using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects._Buidling
 {
+    internal record CreationParams(string ObjectType, Coordiante Point, int? Player = null, object Args = null);
+
     internal interface IGameObjectCreator
     {
-        GameObjectAggregator Create(string objectType, Coordiante point, int? player = null, object args = null);
+        GameObjectAggregator Create(CreationParams creationParamsl);
 
-        bool CanCreate(string objectType, Coordiante point, int? player = null, object args = null);
+        bool CanCreate(CreationParams creationParams);
     }
 }

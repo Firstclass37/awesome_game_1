@@ -59,8 +59,9 @@ namespace Game.Server.Logic.Objects.TrafficLights.Systems
 
         private GameObjectAggregator TryCreate(Coordiante coordiante)
         {
-            if (_gameObjectCreator.CanCreate(BuildingTypes.TrafficLigh, coordiante, _playerGrid.GetPlayerOf(coordiante)))
-                return _gameObjectCreator.Create(BuildingTypes.TrafficLigh, coordiante, _playerGrid.GetPlayerOf(coordiante));
+            var creationParams = new CreationParams(BuildingTypes.TrafficLigh, coordiante, _playerGrid.GetPlayerOf(coordiante));
+            if (_gameObjectCreator.CanCreate(creationParams))
+                return _gameObjectCreator.Create(creationParams);
 
             return default;
         }

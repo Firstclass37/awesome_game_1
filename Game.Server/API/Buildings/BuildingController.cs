@@ -62,14 +62,14 @@ namespace Game.Server.API.Buildings
 
         public bool CanBuild(string buildingType, Coordiante point)
         {
-            return _gameObjectCreator.CanCreate(buildingType, point, _firstPlayerNumber);
+            return _gameObjectCreator.CanCreate(new CreationParams(buildingType, point, _firstPlayerNumber));
         }
 
         public void Build(string buildingType, Coordiante point) 
         {
             try
             {
-                _gameObjectCreator.Create(buildingType, point, _firstPlayerNumber);
+                _gameObjectCreator.Create(new CreationParams(buildingType, point, _firstPlayerNumber));
             }
             catch (Exception e)
             {
@@ -82,7 +82,7 @@ namespace Game.Server.API.Buildings
             var price = _buidlingPricing.GetActualPriceFor(_gameObjectMetadataCollection.Get(buildingType));
             using var transaction = _spendingTransactionFactory.Create();
             transaction.Spend(price.Chunks);
-            _gameObjectCreator.Create(buildingType, point, _firstPlayerNumber);
+            _gameObjectCreator.Create(new CreationParams(buildingType, point, _firstPlayerNumber));
             transaction.Commit();
         }
     }

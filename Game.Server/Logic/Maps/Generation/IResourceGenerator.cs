@@ -44,7 +44,7 @@ namespace Game.Server.Logic.Maps.Generation
                 {
                     var group = FindArea(resource, player);
                     foreach (var point in group)
-                        _gameObjectCreator.Create(resource.ResourceType, point);
+                        _gameObjectCreator.Create(new CreationParams(resource.ResourceType, point));
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Game.Server.Logic.Maps.Generation
 
                 var availableCells = area
                     .Mix()
-                    .Where(c => _gameObjectCreator.CanCreate(generationInfo.ResourceType, c))
+                    .Where(c => _gameObjectCreator.CanCreate(new CreationParams(generationInfo.ResourceType, c)))
                     .ToArray();
                 if (availableCells.Length >= generationInfo.ResourceCount)
                     return availableCells.Take(generationInfo.ResourceCount).ToArray();

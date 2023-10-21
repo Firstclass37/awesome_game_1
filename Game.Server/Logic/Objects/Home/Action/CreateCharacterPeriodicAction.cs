@@ -23,7 +23,7 @@ namespace Game.Server.Logic.Objects.Home.Action
             var spawnCell = gameObject.GetAttributeValue<Coordiante>(AttributeType.SpawnCell);
             var spawnObject = _gameObjectAccessor.Find(spawnCell);
             if (spawnObject.GameObject.ObjectType == BuildingTypes.Road)
-                _gameObjectCreator.Create(CharacterTypes.Default, spawnCell, null);
+                _gameObjectCreator.Create(new CreationParams(CharacterTypes.Default, spawnCell));
         }
     }
 }
