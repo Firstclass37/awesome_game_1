@@ -18,9 +18,10 @@ namespace Game.Server.Logic.Objects.TrafficLights.Systems
         private readonly IEventAggregator _eventAggregator;
         private readonly IGameObjectCreator _gameObjectCreator;
         private readonly ITrafficLightExtender _trafficLightExtender;
+        private readonly IPlayerGrid _playerGrid;
         private readonly IMapGrid _mapGrid;
 
-        public AutoCreationSystem(IEventAggregator eventAggregator, IGameObjectCreator gameObjectCreator, ITrafficLightExtender trafficLightExtender, IMapGrid mapGrid)
+        public AutoCreationSystem(IEventAggregator eventAggregator, IGameObjectCreator gameObjectCreator, ITrafficLightExtender trafficLightExtender, IMapGrid mapGrid, IPlayerGrid playerGrid)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<GameEvent<ObjectCreatedEvent>>().Subscribe(OnCreated);
@@ -28,6 +29,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.Systems
             _gameObjectCreator = gameObjectCreator;
             _trafficLightExtender = trafficLightExtender;
             _mapGrid = mapGrid;
+            _playerGrid = playerGrid;
         }
 
         public void Process(double gameTime)
@@ -57,8 +59,8 @@ namespace Game.Server.Logic.Objects.TrafficLights.Systems
 
         private GameObjectAggregator TryCreate(Coordiante coordiante)
         {
-            if (_gameObjectCreator.CanCreate(BuildingTypes.TrafficLigh, coordiante, null))
-                return _gameObjectCreator.Create(BuildingTypes.TrafficLigh, coordiante, null);
+            if (_gameObjectCreator.CanCreate(BuildingTypes.TrafficLigh, coordiante, _playerGrid.GetPlayerOf(coordiante)))
+                return _gameObjectCreator.Create(BuildingTypes.TrafficLigh, coordiante, _playerGrid.GetPlayerOf(coordiante));
 
             return default;
         }

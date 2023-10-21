@@ -29,6 +29,8 @@ namespace Game.Server.API.Buildings
         private readonly IBuidlingPricing _buidlingPricing;
         private readonly IBuildingAvailability _buildingAvailability;
 
+        private readonly int _firstPlayerNumber = 1;
+
         public BuildingController(IGameObjectMetadataCollection gameObjectMetadataCollection, IGameObjectCreator gameObjectCreator, ISpendingTransactionFactory spendingTransactionFactory, IBuidlingPricing buidlingPricing, IBuildingAvailability buildingAvailability)
         {
             _gameObjectMetadataCollection = gameObjectMetadataCollection;
@@ -60,14 +62,14 @@ namespace Game.Server.API.Buildings
 
         public bool CanBuild(string buildingType, Coordiante point)
         {
-            return _gameObjectCreator.CanCreate(buildingType, point, null);
+            return _gameObjectCreator.CanCreate(buildingType, point, _firstPlayerNumber);
         }
 
         public void Build(string buildingType, Coordiante point) 
         {
             try
             {
-                _gameObjectCreator.Create(buildingType, point, null);
+                _gameObjectCreator.Create(buildingType, point, _firstPlayerNumber);
             }
             catch (Exception e)
             {
@@ -80,7 +82,7 @@ namespace Game.Server.API.Buildings
             var price = _buidlingPricing.GetActualPriceFor(_gameObjectMetadataCollection.Get(buildingType));
             using var transaction = _spendingTransactionFactory.Create();
             transaction.Spend(price.Chunks);
-            _gameObjectCreator.Create(buildingType, point, null);
+            _gameObjectCreator.Create(buildingType, point, _firstPlayerNumber);
             transaction.Commit();
         }
     }

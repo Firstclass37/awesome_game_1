@@ -32,10 +32,10 @@ offset_bottom = 42.0
 alignment = 1
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-offset_left = 133.028
-offset_top = 10.656
-offset_right = 1283.03
-offset_bottom = 660.656
+offset_left = 134.031
+offset_top = 11.6534
+offset_right = 1284.03
+offset_bottom = 661.653
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false

@@ -18,9 +18,10 @@ namespace Game.Server.Logic.Objects._Buidling
         private readonly IGameObjectAccessor _gameObjectAccessor;
         private readonly IEventAggregator _eventAggregator;
         private readonly IAreaCalculator _areaCalculator;
+        private readonly IPlayerGrid _playerGrid;
         private readonly ILogger _logger;
 
-        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator, ILogger logger, IAreaCalculator areaCalculator)
+        public GameObjectCreator(IGameObjectMetadata[] metadatas, IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IEventAggregator eventAggregator, ILogger logger, IAreaCalculator areaCalculator, IPlayerGrid playerGrid)
         {
             _metadatas = metadatas;
             _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
@@ -28,9 +29,10 @@ namespace Game.Server.Logic.Objects._Buidling
             _eventAggregator = eventAggregator;
             _logger = logger;
             _areaCalculator = areaCalculator;
+            _playerGrid = playerGrid;
         }
 
-        public bool CanCreate(string objectType, Coordiante point, object args = null)
+        public bool CanCreate(string objectType, Coordiante point, int? player = null, object args = null)
         {
             if (string.IsNullOrWhiteSpace(objectType)) 
                 throw new ArgumentNullException(nameof(objectType));
@@ -42,11 +44,14 @@ namespace Game.Server.Logic.Objects._Buidling
             if (GetArea(point, metadata.Size, out var originalArea) == false)
                 return false;
 
+            if (player.HasValue && !_playerGrid.IsAvailableFor(originalArea, player.Value))
+                return false;
+
             var area = originalArea.ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
             return metadata.CreationRequirement.Satisfy(point, area);
         }
 
-        public GameObjectAggregator Create(string objectType, Coordiante point, object args = null)
+        public GameObjectAggregator Create(string objectType, Coordiante point, int? player = null, object args = null)
         {
             if (string.IsNullOrWhiteSpace(objectType))
                 throw new ArgumentNullException(nameof(objectType));
@@ -57,6 +62,9 @@ namespace Game.Server.Logic.Objects._Buidling
 
             if (GetArea(point, metadata.Size, out var originalArea) == false)
                 throw new ArgumentException($"can't calculate area for {objectType} for point {point}");
+
+            if (player.HasValue && !_playerGrid.IsAvailableFor(originalArea, player.Value))
+                throw new ArgumentException($"can't build {objectType} on {point} couse the area is not available for player {player}");
 
             var area = originalArea.ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
             if (!metadata.CreationRequirement.Satisfy(point, area))
