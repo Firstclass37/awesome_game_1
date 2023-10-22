@@ -33,14 +33,14 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
                 return;
 
             var trafficLight = new TrafficLight(gameObject);
-            if (trafficLight.RootCell == interactionPoint)
+            if (trafficLight.GameObject.RootCell == interactionPoint)
                 return;
 
             _characterMovement.StopMoving(character);
 
-            var characterDirection = _map.GetDirectionOfNeightbor(trafficLight.RootCell, character.Position);
+            var characterDirection = _map.GetDirectionOfNeightbor(trafficLight.GameObject.RootCell, character.Position);
             var targetDirection = _pointsman.SelectDirection(trafficLight, characterDirection);
-            var directionCoord = trafficLight.Tracking[targetDirection];
+            var directionCoord = trafficLight.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightTrackingCells)[targetDirection];
 
             var wantMoveTo = _map.GetNeightborsOf(directionCoord)
                 .Where(d => d.Value == targetDirection)

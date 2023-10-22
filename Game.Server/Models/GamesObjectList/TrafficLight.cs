@@ -14,25 +14,19 @@ namespace Game.Server.Models.Buildings
         public GameObjectAggregator GameObject { get; }
 
         public Guid Id => GameObject.GameObject.Id;
-
-        public Coordiante RootCell => GameObject.Area.First(p => p.IsRoot).Coordiante;
-
-        public IReadOnlyCollection<Coordiante> Cells => GameObject.Area.Select(a => a.Coordiante).ToArray();
-
-        public IReadOnlyDictionary<Direction, Coordiante> Tracking => GameObject.GetAttributeValue<Dictionary<Direction, Coordiante>>(AttributeType.TrafficLightTrackingCells);
-
-        public IReadOnlyDictionary<Direction, int> Sizes => GameObject.GetAttributeValue<Dictionary<Direction, int>>(AttributeType.TrafficLightSidesCapacity);
-
-        public IReadOnlyDictionary<Direction, int> CurrentValues => GameObject.GetAttributeValue<Dictionary<Direction, int>>(AttributeType.TrafficLightSidesValues);
     }
 
-    internal class GameObjectProperty<T>
+    internal class TrafficLightAttributesTypes
     {
-        public GameObjectProperty(string name)
-        {
-            Name = name;
-        }
+        public const string TrafficLightTrackingCells = nameof(TrafficLightTrackingCells);
+        public const string TrafficLightSidesValues = nameof(TrafficLightSidesValues);
+        public const string TrafficLightSidesCapacity = nameof(TrafficLightSidesCapacity);
+    }
 
-        public string Name { get; set; }
+    internal static class TrafficLightAttributes
+    {
+        public static GameObjectAttribute<Dictionary<Direction, Coordiante>> TrafficLightTrackingCells => new GameObjectAttribute<Dictionary<Direction, Coordiante>>(TrafficLightAttributesTypes.TrafficLightTrackingCells);
+        public static GameObjectAttribute<Dictionary<Direction, int>> TrafficLightSidesValues => new GameObjectAttribute<Dictionary<Direction, int>>(TrafficLightAttributesTypes.TrafficLightSidesValues);
+        public static GameObjectAttribute<Dictionary<Direction, int>> TrafficLightSidesCapacity => new GameObjectAttribute<Dictionary<Direction, int>>(TrafficLightAttributesTypes.TrafficLightSidesCapacity);
     }
 }

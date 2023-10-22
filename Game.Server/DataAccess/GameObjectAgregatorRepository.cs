@@ -1,5 +1,6 @@
 ﻿using Game.Server.Models.GameObjects;
 using Game.Server.Storage;
+using Game.Server.Storage.Extentions;
 
 namespace Game.Server.DataAccess
 {
@@ -32,7 +33,19 @@ namespace Game.Server.DataAccess
 
         public void Update(GameObjectAggregator gameObjectAggregator)
         {
-            throw new NotImplementedException();
+            _storage.Update(gameObjectAggregator.GameObject);
+
+            foreach(var attribute in gameObjectAggregator.Attributes)
+                _storage.Upsert(attribute);
+
+            foreach(var area in gameObjectAggregator.Area)
+                _storage.Upsert(area);
+
+            foreach(var periodicAction in gameObjectAggregator.PeriodicActions)
+                _storage.Upsert(periodicAction);
+
+            foreach(var interaction in gameObjectAggregator.Interactions)
+                _storage.Upsert(interaction);
         }
     }
 }

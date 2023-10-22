@@ -3,6 +3,7 @@ using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
+using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.Characters.Creation

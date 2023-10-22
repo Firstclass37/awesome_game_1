@@ -148,5 +148,10 @@ namespace Game.Server.DataAccess
             _attributes.TryAdd(objectId, new ConcurrentDictionary<Guid, GameObjectToAttribute>());
             return _attributes[objectId];
         }
+
+        public bool Exists<T>(Guid id) where T: IEntityObject
+        {
+            return _storage.Exists<T>(id);
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace Game.Server.Storage
 
         T Get<T>(Guid id) where T : IEntityObject;
 
+        bool Exists<T>(Guid id) where T: IEntityObject;
+
         bool Exists<T>(Func<T, bool> predicate) where T : IEntityObject;
 
         IEnumerable<T> Find<T>(Func<T, bool> predicate) where T : IEntityObject;

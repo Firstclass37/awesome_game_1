@@ -64,5 +64,11 @@ namespace Game.Server.Storage
 
             return key;
         }
+
+        public bool Exists<T>(Guid id) where T : IEntityObject
+        {
+            var key = GetKey<T>();
+            return _dataBase[key].ContainsKey(id);
+        }
     }
 }

@@ -15,10 +15,18 @@ namespace Game.Server.Models.GamesObjectList
 
         public GameObjectAggregator GameObject { get; }
 
-        public double Speed => GameObject.GetAttributeValue<double>(CharacterAttributes.Speed);
-
         public Coordiante Position => GameObject.Area.First().Coordiante;
+    }
 
-        public Coordiante[] DamageArea => GameObject.GetAttributeValue<Coordiante[]>(CharacterAttributes.DamageArea);
+    internal static class CharacterAttributesTypes
+    {
+        public const string DamageArea = "DamageArea";
+        public const string Speed = "Speed";
+    }
+
+    internal static class CharacterAttributes
+    {
+        public static GameObjectAttribute<double> Speed => new GameObjectAttribute<double>(CharacterAttributesTypes.Speed);
+        public static GameObjectAttribute<Coordiante[]> DamageArea => new GameObjectAttribute<Coordiante[]>(CharacterAttributesTypes.DamageArea);
     }
 }

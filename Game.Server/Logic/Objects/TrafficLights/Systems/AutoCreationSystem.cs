@@ -71,9 +71,9 @@ namespace Game.Server.Logic.Objects.TrafficLights.Systems
             _eventAggregator.PublishGameEvent(new TrafficLightChangedEvent
             {
                 Id = trafficLight.Id,
-                Position = trafficLight.RootCell,
-                Capasities = trafficLight.Sizes,
-                Values = trafficLight.CurrentValues
+                Position = trafficLight.GameObject.RootCell,
+                Capasities = trafficLight.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesCapacity),
+                Values = trafficLight.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesValues)
             });
         }
     }

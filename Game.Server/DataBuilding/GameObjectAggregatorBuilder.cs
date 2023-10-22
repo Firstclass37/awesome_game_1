@@ -33,6 +33,12 @@ namespace Game.Server.DataBuilding
             return this;
         }
 
+        public GameObjectAggregatorBuilder AddAttribute<T>(GameObjectAttribute<T> gameObjectAttribute, T value)
+        {
+            AddAttribute(gameObjectAttribute.Name, value);
+            return this;
+        }
+
         public GameObjectAggregatorBuilder AddInteraction<T>() where T: ICharacterInteraction
         {
             _interactions.Add(new GameObjectInteraction(_gameObject.Id, typeof(T).FullName));

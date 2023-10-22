@@ -14,22 +14,31 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
 
         public Direction SelectDirection(TrafficLight trafficLight, Direction from)
         {
-            var directions = trafficLight.CurrentValues.Where(d => d.Key != from).Select(d => d.Key).ToArray();
+            var currentValues = trafficLight.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesValues);
+            var directions = currentValues
+                .Where(d => d.Key != from)
+                .Select(d => d.Key)
+                .ToArray();
+
             Reset(trafficLight, directions);
 
             var selectedDirection = directions
-                .OrderByDescending(d => trafficLight.CurrentValues[d])
+                .OrderByDescending(d => currentValues[d])
                 .First();
 
-            _trafficLightManager.UpdateValue(trafficLight, selectedDirection, trafficLight.CurrentValues[selectedDirection] - 1);
+            _trafficLightManager.UpdateValue(trafficLight, selectedDirection, currentValues[selectedDirection] - 1);
             return selectedDirection;
         }
 
         private void Reset(TrafficLight trafficLigh, IEnumerable<Direction> directions)
         {
-            if (directions.All(d => trafficLigh.CurrentValues[d] == 0))
+            if (trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesValues).Values.All(v => v == 0))
                 foreach (var direction in directions)
-                    _trafficLightManager.UpdateValue(trafficLigh, direction, trafficLigh.Sizes[direction]);
+                {
+                    var maxSizeValue = trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesCapacity)[direction];
+                    _trafficLightManager.UpdateValue(trafficLigh, direction, maxSizeValue);
+                }
+                    
         }
     }
 }
