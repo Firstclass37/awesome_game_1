@@ -49,6 +49,16 @@ namespace Game.Server.Logic.Maps
             return container.ToArray();
         }
 
+        public Coordiante[] GetAreaCross(Coordiante root, int size)
+        {
+            var container = new List<Coordiante> { root };
+
+            foreach (var direction in Enum.GetValues<Direction>())
+                container.AddRange(MoveTo(root, direction, size));
+
+            return container.ToArray();
+        }
+
         private IEnumerable<Coordiante> MoveTo(Coordiante coordiante, Direction direction, int count)
         {
             var current = coordiante;

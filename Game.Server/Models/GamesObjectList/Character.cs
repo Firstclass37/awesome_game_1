@@ -1,4 +1,5 @@
-﻿using Game.Server.Models.GameObjects;
+﻿using Game.Server.Models.Constants;
+using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Models.GamesObjectList
@@ -14,8 +15,10 @@ namespace Game.Server.Models.GamesObjectList
 
         public GameObjectAggregator GameObject { get; }
 
-        public double SpeedMultiplier { get; set; }
+        public double Speed => GameObject.GetAttributeValue<double>(CharacterAttributes.Speed);
 
         public Coordiante Position => GameObject.Area.First().Coordiante;
+
+        public Coordiante[] DamageArea => GameObject.GetAttributeValue<Coordiante[]>(CharacterAttributes.DamageArea);
     }
 }

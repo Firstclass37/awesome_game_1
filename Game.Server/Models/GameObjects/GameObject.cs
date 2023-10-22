@@ -4,12 +4,14 @@ namespace Game.Server.Models.GameObjects
 {
     internal class GameObject : IEntityObject
     {
-        public GameObject(string objectType, bool isVisible = true)
+        public GameObject(string objectType, bool isVisible = true, int? playerId = null , Guid? creator = null)
         {
             Id = Guid.NewGuid();
             ObjectType = objectType;
             IsVisible = isVisible;
             CreatedDate = DateTime.UtcNow;
+            PlayerId = playerId;
+            Creator = creator;
         }
 
         public Guid Id { get; set; }
@@ -17,6 +19,10 @@ namespace Game.Server.Models.GameObjects
         public string ObjectType { get; }
 
         public DateTime CreatedDate { get; }
+
+        public int? PlayerId { get; set; }
+
+        public Guid? Creator { get; set; }
 
         public bool IsVisible { get; }
     }

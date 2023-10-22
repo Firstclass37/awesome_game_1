@@ -10,6 +10,13 @@ namespace Game.Server.Logic.Objects.Characters
 {
     internal class Metadata : IGameObjectMetadata
     {
+        private readonly CharacterFactory _characterFactory;
+
+        public Metadata(CharacterFactory characterFactory)
+        {
+            _characterFactory = characterFactory;
+        }
+
         public string ObjectType => CharacterTypes.Default;
 
         public string Description => "Default character";
@@ -18,7 +25,7 @@ namespace Game.Server.Logic.Objects.Characters
 
         public ICreationRequirement CreationRequirement => new OnlyTypeRequirement(new string[] { GroundTypes.Ground, BuildingTypes.Road });
 
-        public IGameObjectFactory GameObjectFactory => new CharacterFactory();
+        public IGameObjectFactory GameObjectFactory => _characterFactory;
 
         public Price BasePrice => Price.Free;
     }
