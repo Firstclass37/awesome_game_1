@@ -3,6 +3,7 @@ using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects.Home.Action;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
+using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.Home.Creation
@@ -14,7 +15,7 @@ namespace Game.Server.Logic.Objects.Home.Creation
            var spawnCell = new Coordiante(root.X, root.Y + 3);
            return new GameObjectAggregatorBuilder(BuildingTypes.Home)
                 .AddArea(root, area)
-                .AddAttribute(AttributeType.SpawnCell, spawnCell)
+                .AddAttribute(HomeAttributes.SpawnCell, spawnCell)
                 .AddPeriodicAction<CreateCharacterPeriodicAction>(5)
                 .Build();
         }

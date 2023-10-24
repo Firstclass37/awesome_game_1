@@ -3,7 +3,7 @@ using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._PeriodicAction;
 using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
-using Game.Server.Models.Maps;
+using Game.Server.Models.GamesObjectList;
 
 namespace Game.Server.Logic.Objects.Home.Action
 {
@@ -20,10 +20,10 @@ namespace Game.Server.Logic.Objects.Home.Action
 
         public void Trigger(GameObjectAggregator gameObject)
         {
-            var spawnCell = gameObject.GetAttributeValue<Coordiante>(AttributeType.SpawnCell);
+            var spawnCell = gameObject.GetAttributeValue(HomeAttributes.SpawnCell);
             var spawnObject = _gameObjectAccessor.Find(spawnCell);
             if (spawnObject.GameObject.ObjectType == BuildingTypes.Road)
-                _gameObjectCreator.Create(new CreationParams(CharacterTypes.Default, spawnCell));
+                _gameObjectCreator.Create(new CreationParams(CharacterTypes.Default, spawnCell, gameObject.GameObject.PlayerId));
         }
     }
 }

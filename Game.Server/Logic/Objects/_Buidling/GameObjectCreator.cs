@@ -56,7 +56,10 @@ namespace Game.Server.Logic.Objects._Buidling
 
             var creationArgs = GetCreationArgs(creationParams);
             var createdObject = creationArgs.Metadata.GameObjectFactory.CreateNew(creationArgs.Root, creationArgs.Area);
+
+            createdObject.GameObject.PlayerId = creationParams.Player;
             _gameObjectAgregatorRepository.Add(createdObject);
+
             PublishEvent(createdObject, creationArgs.Metadata.ObjectType, creationArgs.Root, creationArgs.Area);
             return createdObject;
         }
