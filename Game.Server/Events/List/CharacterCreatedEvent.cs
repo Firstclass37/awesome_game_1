@@ -7,5 +7,7 @@ namespace Game.Server.Events.List
         public Guid CharacterId { get; init; }
 
         public Coordiante Position { get; init; }
+
+        public int PlayerId { get; init; }
     }
 }

@@ -22,11 +22,16 @@ namespace Game.Server.Models.GamesObjectList
     {
         public const string DamageArea = "DamageArea";
         public const string Speed = "Speed";
+        public const string LastAttackTime = nameof(LastAttackTime);
+        public const string AttackCooldown = nameof(AttackCooldown);
     }
 
     internal static class CharacterAttributes
     {
         public static GameObjectAttribute<double> Speed => new GameObjectAttribute<double>(CharacterAttributesTypes.Speed);
-        public static GameObjectAttribute<Coordiante[]> DamageArea => new GameObjectAttribute<Coordiante[]>(CharacterAttributesTypes.DamageArea);
+        public static GameObjectAttribute<int> AttackDistance => new GameObjectAttribute<int>(CharacterAttributesTypes.DamageArea);
+        public static GameObjectAttribute<double> LastAttackTime => new GameObjectAttribute<double>(CharacterAttributesTypes.LastAttackTime);
+        public static GameObjectAttribute<double> AttackSpeed => new GameObjectAttribute<double>(CharacterAttributesTypes.AttackCooldown);
+
     }
 }

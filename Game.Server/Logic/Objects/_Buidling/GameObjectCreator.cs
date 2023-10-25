@@ -69,7 +69,7 @@ namespace Game.Server.Logic.Objects._Buidling
             if (gameObject.GameObject.ObjectType == CharacterTypes.Default)
             {
                 _eventAggregator.GetEvent<GameEvent<CharacterCreatedEvent>>()
-                    .Publish(new CharacterCreatedEvent { CharacterId = gameObject.GameObject.Id, Position = point });
+                    .Publish(new CharacterCreatedEvent { CharacterId = gameObject.GameObject.Id, Position = point, PlayerId = gameObject.GameObject.PlayerId ?? 0 });
             }
             else
             {

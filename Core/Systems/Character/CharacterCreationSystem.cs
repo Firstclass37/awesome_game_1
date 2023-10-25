@@ -33,6 +33,9 @@ namespace My_awesome_character.Core.Systems.Character
             character.MapPosition = new CoordianteUI(obj.Position.X, obj.Position.Y);
             character.Position = map.GetLocalPosition(character.MapPosition);
             character.Scale = new Vector2(0.8f, 0.8f);
+            if (obj.PlayerId != 1)
+                character.Modulate = Color.Color8(255, 0, 255, 255);
+
 
             GD.Print($"character create {character.Id}");
         }
