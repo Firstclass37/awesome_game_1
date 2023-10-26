@@ -3,6 +3,7 @@ using Game.Server.DataAccess;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Systems;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GamesObjectList;
 
 namespace Game.Server.Logic.Objects.Characters.Attack
@@ -30,7 +31,7 @@ namespace Game.Server.Logic.Objects.Characters.Attack
             //    return;
 
             var canAttackCharacters = _gameObjectAccessor.FindAll(CharacterTypes.Default)
-                .Where(c => gameTimeSeconds - c.GetAttributeValue(CharacterAttributes.LastAttackTime) > c.GetAttributeValue(CharacterAttributes.AttackSpeed))
+                .Where(c => gameTimeSeconds - c.GetAttributeValue(AttackAttributes.LastAttackTime) > c.GetAttributeValue(AttackAttributes.Speed))
                 .ToArray();
             var coordinatesGroups = canAttackCharacters.GroupBy(c => c.RootCell, c => c).ToDictionary(c => c.Key, c => c);
 
@@ -40,7 +41,7 @@ namespace Game.Server.Logic.Objects.Characters.Attack
                 if (alreadDead.Contains(character.GameObject.Id))
                     continue;
 
-                var damageArea = _areaCalculator.GetAreaCross(character.RootCell, character.GetAttributeValue(CharacterAttributes.AttackDistance));
+                var damageArea = _areaCalculator.GetAreaCross(character.RootCell, character.GetAttributeValue(AttackAttributes.Distance));
                 var firstTarget = damageArea
                     .Where(a => coordinatesGroups.ContainsKey(a))
                     .SelectMany(a => coordinatesGroups[a])
@@ -50,7 +51,7 @@ namespace Game.Server.Logic.Objects.Characters.Attack
                     continue;
 
                 _characterDamageService.InstantKill(new Character(firstTarget));
-                character.SetAttributeValue(CharacterAttributes.LastAttackTime, gameTimeSeconds);
+                character.SetAttributeValue(AttackAttributes.LastAttackTime, gameTimeSeconds);
                 _gameObjectAgregatorRepository.Update(character);
 
                 alreadDead.Add(firstTarget.GameObject.Id);

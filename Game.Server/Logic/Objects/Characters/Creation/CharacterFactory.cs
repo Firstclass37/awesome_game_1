@@ -1,6 +1,7 @@
 ﻿using Game.Server.DataBuilding;
 using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
@@ -14,11 +15,12 @@ namespace Game.Server.Logic.Objects.Characters.Creation
             return new GameObjectAggregatorBuilder(CharacterTypes.Default)
                 .AddArea(root, area)
                 .AddAttribute(AttrituteTypes.Interactable)
-                .AddAttribute(CharacterAttributes.AttackDistance, 1)
-                .AddAttribute(CharacterAttributes.LastAttackTime, 0)
-                .AddAttribute(CharacterAttributes.AttackSpeed, 1.0D)
+                .AddAttribute(AttackAttributes.Distance, 1)
+                .AddAttribute(AttackAttributes.LastAttackTime, 0)
+                .AddAttribute(AttackAttributes.Speed, 1.0D)
                 .AddAttribute(CharacterAttributes.Speed, 1.0d)
                 .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)
+                .AddAttribute(HealthAttributes.Health, 100)
                 .Build();
         }
     }
