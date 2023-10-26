@@ -2,6 +2,6 @@
 {
     internal static class CharacterTypes
     {
-        public const string Default = nameof(Default);
+        public const string Default = "Character.Default";
     }
 }

@@ -4,6 +4,7 @@ using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
+using System.IO;
 
 namespace Game.Server.Logic.Objects.Characters
 {

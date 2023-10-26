@@ -1,6 +1,7 @@
 ﻿using Game.Server.DataAccess;
 using Game.Server.Events.Core;
 using Game.Server.Events.List.Character;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GamesObjectList;
 
 namespace Game.Server.Logic.Objects.Characters
@@ -28,7 +29,17 @@ namespace Game.Server.Logic.Objects.Characters
 
         public void Damage(Character character, double damage)
         {
-            throw new NotImplementedException();
+            _mover.StopMoving(character);
+            var resultHealth = character.GameObject.GetAttributeValue(HealthAttributes.Health) - damage;
+            if (resultHealth < 0)
+            {
+                InstantKill(character);
+            }
+            else
+            {
+                character.GameObject.SetAttributeValue(HealthAttributes.Health, resultHealth);
+                _gameObjectAgregatorRepository.Update(character.GameObject);
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ namespace Game.Server.Logic.Objects.Characters.Creation
                 .AddAttribute(AttrituteTypes.Interactable)
                 .AddAttribute(AttackAttributes.Distance, 1)
                 .AddAttribute(AttackAttributes.LastAttackTime, 0)
+                .AddAttribute(AttackAttributes.Damage, 40)
+                .AddAttribute(AttackAttributes.LastTarget, null)
                 .AddAttribute(AttackAttributes.Speed, 1.0D)
                 .AddAttribute(CharacterAttributes.Speed, 1.0d)
                 .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)

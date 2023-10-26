@@ -50,7 +50,14 @@ namespace Game.Server.Models.GameObjects
             Attributes.Add(existing with { Value = newValue });
         }
 
-        internal T GetAttributeValue<T>(string attributeType) => (T)(Attributes.FirstOrDefault(a => a.AttributeType == attributeType)?.Value ?? throw new ArgumentOutOfRangeException($"not fount atribute [{attributeType}] from object {GameObject.Id}({GameObject.ObjectType})"));
+        internal T GetAttributeValue<T>(string attributeType) 
+        {
+            var attribute = Attributes.FirstOrDefault(a => a.AttributeType == attributeType);
+            if (attribute == null)
+                throw new ArgumentOutOfRangeException($"not fount atribute [{attributeType}] from object {GameObject.Id} ({GameObject.ObjectType})");
+
+            return (T)attribute.Value;
+        } 
     }
 
 

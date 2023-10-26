@@ -30,13 +30,14 @@ namespace Game.Server.Logic.Maps.Generation
         {
             foreach(var player in _playerGrid.Players)
             {
-                GenerateHome(player);
+                GenerateHome(player, 3);
             }
         }
 
-        private void GenerateHome(int player)
+        private void GenerateHome(int player, int count)
         {
             var home = _gameObjectMetadataCollection.Get(BuildingTypes.Home);
+            var homesLeft = count;
             foreach(var cell in _playerGrid.GetAvailableFor(player).Mix())
             {
                 if (_areaCalculator.TryGetArea(cell, home.Size, out var area) == false)
@@ -55,7 +56,9 @@ namespace Game.Server.Logic.Maps.Generation
                 if (_gameObjectAccessor.Find(spawn)?.GameObject.ObjectType == BuildingTypes.Road)
                 {
                     _gameObjectCreator.Create(creationParams);
-                    return;
+                    homesLeft--;
+                    if (homesLeft == 0)
+                        return;
                 }
             }
         }
