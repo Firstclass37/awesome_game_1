@@ -5,7 +5,7 @@ using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Objects.Characters;
-using Game.Server.Models.Maps;
+using Game.Server.Models.GamesObjectList;
 
 namespace Game.Server.Logic.Systems
 {
@@ -34,16 +34,18 @@ namespace Game.Server.Logic.Systems
                 return;
 
             var characters = _storage.Find<GameObject>(o => o.ObjectType == CharacterTypes.Default)
-                .Where(c => _storage.Find<Movement>(m => m.GameObjectId == c.Id).All(m => m.Active == false))
+                .Select(c => _gameObjectAccessor.Get(c.Id))
+                .Where(c => c.GetAttributeValue(CharacterAttributes.CharacterState) == CharacterState.Free)
+                .Where(c => _storage.Find<Movement>(m => m.GameObjectId == c.GameObject.Id).All(m => m.Active == false))
                 .ToArray();
 
             foreach (var character in characters)
-                MoveToRandomPoint(character.Id);
+                MoveToRandomPoint(character);
 
             LastFireTime = gameTime;
         }
 
-        private void MoveToRandomPoint(Guid characterId)
+        private void MoveToRandomPoint(GameObjectAggregator character)
         {
             var randomPoint = _mapGrid.GetGrid()
                 .OrderBy(g => Guid.NewGuid())
@@ -52,8 +54,7 @@ namespace Game.Server.Logic.Systems
                 .First(p => p.Object.GameObject.ObjectType == BuildingTypes.Road || p.Object.Interactable())
                 .Coordinate;
 
-            var character = _gameObjectAccessor.Get(characterId);
-            _mover.MoveTo(new Models.GamesObjectList.Character(character), randomPoint, _autoMovementInitiator);
+            _mover.MoveTo(new Character(character), randomPoint, _autoMovementInitiator);
         }
     }
 }

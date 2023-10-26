@@ -18,6 +18,7 @@ namespace Game.Server.Logic.Objects.Characters.Creation
                 .AddAttribute(CharacterAttributes.LastAttackTime, 0)
                 .AddAttribute(CharacterAttributes.AttackSpeed, 1.0D)
                 .AddAttribute(CharacterAttributes.Speed, 1.0d)
+                .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)
                 .Build();
         }
     }

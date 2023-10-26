@@ -40,7 +40,7 @@ namespace Game.Server.Logic.Objects.Characters
 
             StopMoving(character);
 
-            var root = character.Position;
+            var root = character.GameObject.RootCell;
             var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(_onlyRoadNeighboursSelector));
             if (!path.Any())
             {
