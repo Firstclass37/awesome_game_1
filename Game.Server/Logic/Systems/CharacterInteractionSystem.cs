@@ -30,7 +30,10 @@ namespace Game.Server.Logic.Systems
 
         private void OnPositionChanged(CharacterPositionChanged changed)
         {
-            var type = _storage.Get<GameObject>(changed.CharacterId).ObjectType;
+            var type = _storage.Get<GameObject>(changed.CharacterId)?.ObjectType;
+            if (type == null)
+                return;
+
             var interactWith = _gameObjectAccessor.FindAll(changed.Position).FirstOrDefault(p => p.GameObject.ObjectType != type);
             if (interactWith == null || !interactWith.Interactions.Any())
                 return;

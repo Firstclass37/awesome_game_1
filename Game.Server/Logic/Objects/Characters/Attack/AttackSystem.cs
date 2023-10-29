@@ -2,9 +2,12 @@
 using Game.Server.DataAccess;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Systems;
+using Game.Server.Logic.Weapons;
 using Game.Server.Models.Constants;
 using Game.Server.Models.Constants.Attributes;
+using Game.Server.Models.GameObjects;
 using Game.Server.Models.GamesObjectList;
+using Game.Server.Storage;
 
 namespace Game.Server.Logic.Objects.Characters.Attack
 {
@@ -12,18 +15,15 @@ namespace Game.Server.Logic.Objects.Characters.Attack
     {
         private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
         private readonly IGameObjectAccessor _gameObjectAccessor;
-        private readonly IAreaCalculator _areaCalculator;
-        private readonly ICharacterDamageService _characterDamageService;
-        private readonly IMover _mover;
+        private readonly IStorage _storage;
+        private readonly IArsenal _arsenal;
 
-        public AttackSystem(IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor,
-            IAreaCalculator areaCalculator, ICharacterDamageService characterDamageService, IMover mover)
+        public AttackSystem(IGameObjectAgregatorRepository gameObjectAgregatorRepository, IGameObjectAccessor gameObjectAccessor, IArsenal arsenal, IStorage storage)
         {
             _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
             _gameObjectAccessor = gameObjectAccessor;
-            _areaCalculator = areaCalculator;
-            _characterDamageService = characterDamageService;
-            _mover = mover;
+            _arsenal = arsenal;
+            _storage = storage;
         }
 
         public void Process(double gameTimeSeconds)
@@ -33,26 +33,17 @@ namespace Game.Server.Logic.Objects.Characters.Attack
             //    return;
 
             var canAttackCharacters = _gameObjectAccessor.FindAll(CharacterTypes.Default);
-            var coordinatesGroups = canAttackCharacters.GroupBy(c => c.RootCell, c => c).ToDictionary(c => c.Key, c => c);
+            var targetPool = canAttackCharacters.GroupBy(c => c.RootCell, c => c).ToDictionary(c => c.Key, c => c.ToList());
 
-            var alreadDead = new HashSet<Guid>();
             foreach (var character in canAttackCharacters.Mix())
             {
-                if (alreadDead.Contains(character.GameObject.Id))
-                    continue;
+                var weaponMeta = _arsenal.Get(character.GetAttributeValue(AttackAttributes.Weapon));
 
-                var damageArea = _areaCalculator.GetAreaCross(character.RootCell, character.GetAttributeValue(AttackAttributes.Distance));
-                var lastTarget = character.GetAttributeValue(AttackAttributes.LastTarget);
-                var firstTarget = damageArea
-                    .Where(a => coordinatesGroups.ContainsKey(a))
-                    .SelectMany(a => coordinatesGroups[a])
-                    .Where(c => !alreadDead.Contains(c.GameObject.Id))
-                    .Where(c => c.GameObject.Id == lastTarget || c.GameObject.PlayerId != character.GameObject.PlayerId)
-                    .FirstOrDefault();
+                var target = weaponMeta.TargetLocator.FindTarget(character, targetPool);
 
-                if (firstTarget == null)
+                if (target == null)
                 {
-                    if (character.GetAttributeValue(CharacterAttributes.CharacterState) == CharacterState.Attack)
+                    if (character.GetAttributeValue(CharacterAttributes.CharacterState) == CharacterState.InCombat)
                     {
                         character.SetAttributeValue(CharacterAttributes.CharacterState, CharacterState.Free);
                         _gameObjectAgregatorRepository.Update(character);
@@ -61,17 +52,18 @@ namespace Game.Server.Logic.Objects.Characters.Attack
                     continue;
                 }
 
-                if (gameTimeSeconds - character.GetAttributeValue(AttackAttributes.LastAttackTime) < character.GetAttributeValue(AttackAttributes.Speed))
+                if (!weaponMeta.ActivateCondition.CanUse(character, target, gameTimeSeconds))
                     continue;
 
-                _mover.StopMoving(new Character(character));
-                _characterDamageService.Damage(new Character(firstTarget), character.GetAttributeValue(AttackAttributes.Damage));
-                character.SetAttributeValue(CharacterAttributes.CharacterState, CharacterState.Attack);
-                character.SetAttributeValue(AttackAttributes.LastAttackTime, gameTimeSeconds);
-                character.SetAttributeValue(AttackAttributes.LastTarget, firstTarget.GameObject.Id);
-                _gameObjectAgregatorRepository.Update(character);
+                var attackSuccesful = weaponMeta.Activator.Activate(character, target, gameTimeSeconds);
+                if (attackSuccesful) 
+                {
+                    character.SetAttributeValue(CharacterAttributes.CharacterState, CharacterState.InCombat);
+                    _gameObjectAgregatorRepository.Update(character);
 
-                alreadDead.Add(firstTarget.GameObject.Id);
+                    if (!_storage.Exists<GameObject>(target.GameObject.Id))
+                        targetPool[target.RootCell].Remove(target);
+                }
             }
         }
     }

@@ -21,6 +21,7 @@ namespace Game.Server.Logic.Maps
         {
             var positionInfo = _storageCacheDecorator.GetObjectsOn(position)
                 .Select(id => _storage.Get<GameObject>(id))
+                .Where(o => o != null) //todo: баг, при котором возвращаются null'ы
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefault();
             return positionInfo != null ? Get(positionInfo.Id) : null;
@@ -29,13 +30,17 @@ namespace Game.Server.Logic.Maps
         public IEnumerable<GameObjectAggregator> FindAll(Coordiante position)
         {
             return _storage.Find<GameObjectPosition>(p => p.Coordiante == position)
+                .Where(o => o != null) //todo: баг, при котором возвращаются null'ы
                 .OrderByDescending(p => p.CreatedDate)
-                .Select(o => Get(o.EntityId));
+                .Select(o => Get(o.EntityId))
+                .Where(o => o != null);
         }
 
         public GameObjectAggregator Get(Guid id)
         {
             var gameObject = _storage.Get<GameObject>(id);
+            if (gameObject == null)
+                return null;
 
             var agregator = new GameObjectAggregator();
             agregator.GameObject = gameObject;

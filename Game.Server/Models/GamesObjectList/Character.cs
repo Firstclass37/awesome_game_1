@@ -17,7 +17,7 @@ namespace Game.Server.Models.GamesObjectList
     internal enum CharacterState
     {
         Free,
-        Attack,
+        InCombat,
         Mining,
         Waiting
     }
