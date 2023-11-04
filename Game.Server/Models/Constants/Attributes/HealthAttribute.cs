@@ -4,7 +4,7 @@ namespace Game.Server.Models.Constants.Attributes
 {
     internal static class HealthAttributeTypes
     {
-        public static string Health => nameof(Health);
+        public const string Health = "HealthAttributeTypes.Health";
     }
 
     internal static class HealthAttributes

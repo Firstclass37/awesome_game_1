@@ -5,11 +5,11 @@ namespace Game.Server.Models.Constants.Attributes
 {
     internal static class MovementAttributesTypes
     {
-        public const string Speed = "Speed";
-        public const string LastMovementTime = "LastMovementTime";
-        public const string MovementPath = "MovementPath";
-        public const string MovingTo = "MovingTo";
-        public const string Iniciator = "Iniciator";
+        public const string Speed = "MovementAttributesTypes.Speed";
+        public const string LastMovementTime = "MovementAttributesTypes.LastMovementTime";
+        public const string MovementPath = "MovementAttributesTypes.MovementPath";
+        public const string MovingTo = "MovementAttributesTypes.MovingTo";
+        public const string Iniciator = "MovementAttributesTypes.Iniciator";
     }
 
     internal static class MovementAttributes
