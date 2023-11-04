@@ -12,6 +12,8 @@ namespace Game.Server.DataAccess
         IEnumerable<GameObjectPosition> GetPositionsFor(Guid objectId);
 
         IEnumerable<GameObjectToAttribute> GetAttributesFor(Guid entityId);
+
+        IEnumerable<Guid> GetObjectsWithAttributes(string attributeType);
     }
 
     internal class StorageCacheDecorator : IStorageCacheDecorator
@@ -21,6 +23,7 @@ namespace Game.Server.DataAccess
         private readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, GameObjectPosition>> _objectToPositions = new();
         private readonly ConcurrentDictionary<Coordiante, ConcurrentDictionary<Guid, bool>> _positionToObjects = new();
         private readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, GameObjectToAttribute>> _attributes = new();
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<Guid, bool>> _attributesToObjects = new();
 
         public StorageCacheDecorator(IStorage storage)
         {
@@ -33,6 +36,14 @@ namespace Game.Server.DataAccess
                 return attributes.Values;
 
             return Enumerable.Empty<GameObjectToAttribute>();
+        }
+
+        public IEnumerable<Guid> GetObjectsWithAttributes(string attributeType) 
+        {
+            if (_attributesToObjects.TryGetValue(attributeType, out var objects))
+                return objects.Keys;
+
+            return Enumerable.Empty<Guid>();
         }
 
         public IEnumerable<GameObjectPosition> GetPositionsFor(Guid objectId)
@@ -57,7 +68,11 @@ namespace Game.Server.DataAccess
             }
 
             if (obj is GameObjectToAttribute attribute)
+            {
                 GetAttributes(attribute.GameObjectId).TryAdd(attribute.Id, attribute);
+                GetAttributesToObjects(attribute.AttributeType).TryAdd(attribute.GameObjectId, true);
+            }
+                
         }
 
         public void AddRange<T>(IEnumerable<T> obj) where T : IEntityObject
@@ -92,7 +107,10 @@ namespace Game.Server.DataAccess
             }
 
             if (obj is GameObjectToAttribute attribute)
+            {
                 GetAttributes(attribute.GameObjectId).TryRemove(attribute.Id, out _);
+                GetAttributesToObjects(attribute.AttributeType).TryRemove(attribute.GameObjectId, out _);
+            }
         }
 
         public void RemoveRange<T>(IEnumerable<T> entities) where T : IEntityObject
@@ -147,6 +165,15 @@ namespace Game.Server.DataAccess
 
             _attributes.TryAdd(objectId, new ConcurrentDictionary<Guid, GameObjectToAttribute>());
             return _attributes[objectId];
+        }
+
+        private ConcurrentDictionary<Guid, bool> GetAttributesToObjects(string attributeType)
+        {
+            if (_attributesToObjects.ContainsKey(attributeType))
+                return _attributesToObjects[attributeType];
+
+            _attributesToObjects.TryAdd(attributeType, new ConcurrentDictionary<Guid, bool>());
+            return _attributesToObjects[attributeType];
         }
 
         public bool Exists<T>(Guid id) where T: IEntityObject

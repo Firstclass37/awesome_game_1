@@ -1,10 +1,10 @@
-﻿using Game.Server.Logger;
+﻿using Game.Server.DataAccess;
+using Game.Server.Logger;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
-using Game.Server.Models.GamesObjectList;
+using Game.Server.Models.Constants.Attributes;
+using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
-using Game.Server.Storage;
-using System.IO;
 
 namespace Game.Server.Logic.Objects.Characters
 {
@@ -12,55 +12,53 @@ namespace Game.Server.Logic.Objects.Characters
     {
         private readonly IPathSearcher _pathSearcher;
         private readonly IPathSearcherSettingsFactory _pathSearcherSettingsFactory;
-        private readonly IStorage _storage;
-        private readonly IOnlyRoadNeighboursSelector _onlyRoadNeighboursSelector;
+        private readonly INieighborsSearchStrategy<Coordiante> _onlyRoadNeighboursSelector;
+        private readonly INieighborsSearchStrategy<Coordiante> _allNeighboursSelector;
         private readonly ILogger _logger;
+        private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
 
-        private readonly Guid _autoMovementInitiator = Guid.Empty;
-
-        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory, IStorage storage, IOnlyRoadNeighboursSelector onlyRoadNeighboursSelector, ILogger logger)
+        public Mover(IPathSearcher pathSearcher, IPathSearcherSettingsFactory pathSearcherSettingsFactory,
+            IOnlyRoadNeighboursSelector onlyRoadNeighboursSelector, ILogger logger,
+            IGameObjectAgregatorRepository gameObjectAgregatorRepository,
+            IAllNeighboursSelector allNeighboursSelector)
         {
             _pathSearcher = pathSearcher;
             _pathSearcherSettingsFactory = pathSearcherSettingsFactory;
-            _storage = storage;
             _onlyRoadNeighboursSelector = onlyRoadNeighboursSelector;
+            _gameObjectAgregatorRepository = gameObjectAgregatorRepository;
             _logger = logger;
+            _allNeighboursSelector = allNeighboursSelector;
         }
 
-        public Models.Movement GetCurrentMovement(Character character)
-        {
-            ArgumentNullException.ThrowIfNull(character);
-
-            return _storage.Find<Models.Movement>(c => c.GameObjectId == character.Id && c.Active).FirstOrDefault();
-        }
-
-        public void MoveTo(Character character, Coordiante coordiante, Guid? initiator)
+        public void MoveTo(GameObjectAggregator gameObject, Coordiante coordiante, Guid? initiator, bool? onlyRoadPath = true)
         {
             ArgumentNullException.ThrowIfNull(coordiante);
-            ArgumentNullException.ThrowIfNull(character);
+            ArgumentNullException.ThrowIfNull(gameObject);
 
-            StopMoving(character);
+            StopMoving(gameObject);
 
-            var root = character.GameObject.RootCell;
-            var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(_onlyRoadNeighboursSelector));
+            var root = gameObject.RootCell;
+            var neighborsSelector = onlyRoadPath.HasValue && onlyRoadPath.Value ? _onlyRoadNeighboursSelector : _allNeighboursSelector;
+            var path = _pathSearcher.Search(root, coordiante, _pathSearcherSettingsFactory.Create(neighborsSelector));
             if (!path.Any())
             {
-                _logger.Info($"PATH WAS NOT FOUND FOR {character.Id} FROM {root} to {coordiante}");
+                _logger.Info($"PATH WAS NOT FOUND FOR {gameObject.GameObject.Id} FROM {root} to {coordiante}");
             }
             else
             {
-                _storage.Add(new Models.Movement(character.Id, path, initiator ?? _autoMovementInitiator));
+                gameObject.SetAttributeValue(MovementAttributes.Movementpath, path);
+                gameObject.SetAttributeValue(MovementAttributes.Iniciator, initiator);
+                gameObject.SetAttributeValue(MovementAttributes.LastMovementTime, 0);
+                gameObject.SetAttributeValue(MovementAttributes.MovingTo, null);
+                _gameObjectAgregatorRepository.Update(gameObject);
             }
         }
 
-        public void StopMoving(Character character)
+        public void StopMoving(GameObjectAggregator gameObject)
         {
-            var characterId = character.GameObject.GameObject.Id;
-            var activeMovement = _storage.Find<Models.Movement>(c => c.GameObjectId == characterId && c.Active).FirstOrDefault();
-            if (activeMovement == null)
-                return;
-
-            _storage.Remove(activeMovement);
+            gameObject.SetAttributeValue(MovementAttributes.Movementpath, null);
+            gameObject.SetAttributeValue(MovementAttributes.Iniciator, null);
+            _gameObjectAgregatorRepository.Update(gameObject);
         }
     }
 }

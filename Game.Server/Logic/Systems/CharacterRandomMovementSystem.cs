@@ -6,6 +6,7 @@ using Game.Server.Models.GameObjects;
 using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Objects.Characters;
 using Game.Server.Models.GamesObjectList;
+using Game.Server.Models.Constants.Attributes;
 
 namespace Game.Server.Logic.Systems
 {
@@ -35,8 +36,7 @@ namespace Game.Server.Logic.Systems
 
             var characters = _storage.Find<GameObject>(o => o.ObjectType == CharacterTypes.Default)
                 .Select(c => _gameObjectAccessor.Get(c.Id))
-                .Where(c => c.GetAttributeValue(CharacterAttributes.CharacterState) == CharacterState.Free)
-                .Where(c => _storage.Find<Movement>(m => m.GameObjectId == c.GameObject.Id).All(m => m.Active == false))
+                .Where(c => NeedMove(c))
                 .ToArray();
 
             foreach (var character in characters)
@@ -54,7 +54,15 @@ namespace Game.Server.Logic.Systems
                 .First(p => p.Object.GameObject.ObjectType == BuildingTypes.Road || p.Object.Interactable())
                 .Coordinate;
 
-            _mover.MoveTo(new Character(character), randomPoint, _autoMovementInitiator);
+            _mover.MoveTo(character, randomPoint, _autoMovementInitiator);
+        }
+
+        private bool NeedMove(GameObjectAggregator gameObject)
+        {
+            var noMovement = !gameObject.AttributeExists(MovementAttributesTypes.MovementPath) || gameObject.GetAttributeValue(MovementAttributes.Movementpath) == null;
+            var isFree = gameObject.GetAttributeValue(CharacterAttributes.CharacterState) == CharacterState.Free;
+
+            return isFree && noMovement;
         }
     }
 }

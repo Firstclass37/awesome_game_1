@@ -4,13 +4,14 @@ using Game.Server.Logic.Objects.Characters;
 using Game.Server.Logic.Objects.TrafficLights.InnerLogic;
 using Game.Server.Models.Buildings;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.GamesObjectList;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.TrafficLights.Interaction
 {
-    internal class TrafficLightInteraction : ICharacterInteraction
+    internal class TrafficLightInteraction : CharacterInteraction
     {
         private readonly IPointsman _pointsman;
         private readonly IMover _characterMovement;
@@ -23,20 +24,20 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
             _map = map;
         }
 
-        public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
+        protected override void OnInteract(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
             if (gameObject.GameObject.ObjectType != BuildingTypes.TrafficLigh)
                 return;
 
-            var characterMovement = _characterMovement.GetCurrentMovement(character);
-            if (characterMovement != null && characterMovement.Initiator == gameObject.GameObject.Id)
+            var movementIniciator = character.GameObject.GetAttributeValue(MovementAttributes.Iniciator);
+            if (movementIniciator.HasValue && movementIniciator == gameObject.GameObject.Id)
                 return;
 
             var trafficLight = new TrafficLight(gameObject);
             if (trafficLight.GameObject.RootCell == interactionPoint)
                 return;
 
-            _characterMovement.StopMoving(character);
+            _characterMovement.StopMoving(character.GameObject);
 
             var characterDirection = _map.GetDirectionOfNeightbor(trafficLight.GameObject.RootCell, character.GameObject.RootCell);
             var targetDirection = _pointsman.SelectDirection(trafficLight, characterDirection);
@@ -47,7 +48,7 @@ namespace Game.Server.Logic.Objects.TrafficLights.Interaction
                 .Select(d => d.Key)
                 .First();
 
-            _characterMovement.MoveTo(character, wantMoveTo, trafficLight.Id);
+            _characterMovement.MoveTo(character.GameObject, wantMoveTo, trafficLight.Id);
         }
     }
 }

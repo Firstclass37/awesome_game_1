@@ -21,7 +21,7 @@ namespace Game.Server.Logic.Objects.Characters
 
         public void InstantKill(Character character)
         {
-            _mover.StopMoving(character);
+            _mover.StopMoving(character.GameObject);
             _gameObjectAgregatorRepository.Remove(character.GameObject);
             _eventAggregator.GetEvent<GameEvent<CharacterDeathEvent>>()
                 .Publish(new CharacterDeathEvent { CharacterId = character.GameObject.GameObject.Id });
@@ -29,7 +29,7 @@ namespace Game.Server.Logic.Objects.Characters
 
         public void Damage(Character character, double damage)
         {
-            _mover.StopMoving(character);
+            _mover.StopMoving(character.GameObject);
             var resultHealth = character.GameObject.GetAttributeValue(HealthAttributes.Health) - damage;
             if (resultHealth < 0)
             {

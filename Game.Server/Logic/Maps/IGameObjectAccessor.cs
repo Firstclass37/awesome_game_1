@@ -12,5 +12,7 @@ namespace Game.Server.Logic.Maps
         GameObjectAggregator Find(Coordiante position);
 
         IReadOnlyCollection<GameObjectAggregator> FindAll(string gameObjectType);
+
+        //todo: добавить поиск по атрибутам (+ индекс по ним)
     }
 }

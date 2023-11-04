@@ -7,7 +7,7 @@ using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects._Interactions
 {
-    internal abstract class InteractableBuildingInteraction: ICharacterInteraction
+    internal abstract class InteractableBuildingInteraction: CharacterInteraction
     {
         private readonly IResourceManager _resourceManager;
         private readonly ICharacterDamageService _characterDamageService;
@@ -22,7 +22,7 @@ namespace Game.Server.Logic.Objects._Interactions
             _characterDamageService = characterDamageService;
         }
 
-        public void Interact(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
+        protected override void OnInteract(GameObjectAggregator gameObject, Character character, Coordiante interactionPoint)
         {
             _characterDamageService.InstantKill(character);
 

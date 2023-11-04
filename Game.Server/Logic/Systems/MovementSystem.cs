@@ -1,7 +1,9 @@
 ﻿using Game.Server.DataAccess;
 using Game.Server.Events.Core;
-using Game.Server.Events.List.Character;
-using Game.Server.Models;
+using Game.Server.Events.Core.Extentions;
+using Game.Server.Events.List.Movement;
+using Game.Server.Logic.Maps;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
@@ -12,67 +14,93 @@ namespace Game.Server.Logic.Systems
     {
         private readonly IStorage _storage;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IGameObjectAgregatorRepository _agregatorRepository;
         private readonly IStorageCacheDecorator _gameObjectPositionCacheDecorator;
-        private readonly float _speed = 1.5f;
+        private readonly IGameObjectAccessor _gameObjectAccessor;
 
-        public MovementSystem(IStorage storage, IEventAggregator eventAggregator, IStorageCacheDecorator gameObjectPositionCacheDecorator)
+        public MovementSystem(IStorage storage, IEventAggregator eventAggregator, IStorageCacheDecorator gameObjectPositionCacheDecorator, IGameObjectAccessor gameObjectAccessor, IGameObjectAgregatorRepository agregatorRepository)
         {
             _storage = storage;
             _eventAggregator = eventAggregator;
             _gameObjectPositionCacheDecorator = gameObjectPositionCacheDecorator;
+            _gameObjectAccessor = gameObjectAccessor;
+            _agregatorRepository = agregatorRepository;
         }
 
         public void Process(double gameTime)
         {
-            var movements = _storage.Find<Movement>(m => m.Active);
-            foreach (var movement in movements) 
+            var moveableObjects = _gameObjectPositionCacheDecorator
+                .GetObjectsWithAttributes(MovementAttributesTypes.Speed)
+                .Select(id => _gameObjectAccessor.Get(id))
+                .Where(o => o != null)
+                .Where(o => o.AttributeExists(MovementAttributesTypes.MovementPath))
+                .ToArray();
+
+            foreach(var moveableObject in moveableObjects)
             {
-                var currentPosition = _gameObjectPositionCacheDecorator.GetPositionsFor(movement.GameObjectId).ToArray();
-                if (currentPosition.Length > 1)
+                if (moveableObject.Area.Count() > 1)
                     throw new Exception($"movement system dosn't support huge object movement yet");
 
+                var currentSinglePosition = moveableObject.Area.First();
+                var lastMovementTime = moveableObject.AttributeExists(MovementAttributesTypes.LastMovementTime) 
+                    ? moveableObject.GetAttributeValue(MovementAttributes.LastMovementTime)
+                    : (double?)null;
+                var speed = moveableObject.GetAttributeValue(MovementAttributes.Speed);
+                var movingTo = moveableObject.GetAttributeValue(MovementAttributes.MovingTo);
+                var path = moveableObject.GetAttributeValue(MovementAttributes.Movementpath);
 
-                var currentSinglePosition = currentPosition.First();
-                var nextPosition = FindNext(movement, currentSinglePosition.Coordiante);
-                if (nextPosition == null)
-                {
-                    _storage.Remove(movement);
+                if (path == null || speed == 0.0)
                     continue;
-                }
 
-                if (movement.CurrentMoveToPosition != nextPosition)
+                if (movingTo == null)
                 {
-                    _eventAggregator.GetEvent<GameEvent<CharacterMoveEvent>>().Publish(new CharacterMoveEvent
+                    var nextPosition = FindNext(path, currentSinglePosition.Coordiante);
+                    if (nextPosition == null) 
                     {
-                        CharacterId = movement.GameObjectId,
-                        NewPosition = nextPosition,
-                        Speed = _speed
-                    });
-                    _storage.Update(movement with { CurrentMoveToPosition = nextPosition, LastMovementTime = gameTime }); // Костыль для LastMovementTime == 0
+                        moveableObject.SetAttributeValue(MovementAttributes.Movementpath, null);
+                        moveableObject.SetAttributeValue(MovementAttributes.Iniciator, null);
+                    }
+                    else
+                        moveableObject.SetAttributeValue(MovementAttributes.MovingTo, nextPosition);
+
+                    moveableObject.SetAttributeValue(MovementAttributes.LastMovementTime, gameTime);
+                    _agregatorRepository.Update(moveableObject);
+
+                    if (nextPosition != null)
+                        _eventAggregator.PublishGameEvent(new GameObjectPositionChangingEvent
+                        {
+                            GameObjectId = moveableObject.GameObject.Id,
+                            GameObjectType = moveableObject.GameObject.ObjectType,
+                            CurrentPosition = currentSinglePosition.Coordiante,
+                            TargetPosition = nextPosition,
+                            Speed = speed,
+                        });
                 }
-
-                var updatedMovement = _storage.Get<Movement>(movement.Id);
-                if ((gameTime - updatedMovement.LastMovementTime) > _speed)
+                else if (gameTime - lastMovementTime > speed)
                 {
-                    var active = movement.Path.Last() != nextPosition;
-                    _storage.Update(currentSinglePosition with { Coordiante = nextPosition });
-                    _storage.Update(updatedMovement with { LastMovementTime = gameTime, Active = movement.Path.Last() != nextPosition });
-                    if (active == false)
-                        _storage.Remove(updatedMovement);
+                    moveableObject.Area = new List<GameObjectPosition> { currentSinglePosition with { Coordiante = movingTo } };
+                    moveableObject.SetAttributeValue(MovementAttributes.MovingTo, null);
+                    moveableObject.SetAttributeValue(MovementAttributes.LastMovementTime, gameTime);
+                    _agregatorRepository.Update(moveableObject);
 
-                    _eventAggregator.GetEvent<GameEvent<CharacterPositionChanged>>()
-                        .Publish(new CharacterPositionChanged { CharacterId = movement.GameObjectId, Position = nextPosition });
+                    _eventAggregator.PublishGameEvent(new GameObjectPositionChangedEvent
+                    {
+                        GameObjectId = moveableObject.GameObject.Id,
+                        GameObjectType = moveableObject.GameObject.ObjectType,
+                        PreviousPostion = currentSinglePosition.Coordiante,
+                        NewPosition = movingTo
+                    });
                 }
             }
         }
 
-        private Coordiante FindNext(Movement movement, Coordiante currentPosition)
+        private Coordiante FindNext(Coordiante[] path, Coordiante currentPosition)
         {
-            var nextIndex = Array.IndexOf(movement.Path, currentPosition) + 1;
-            if (nextIndex > movement.Path.Length - 1)
+            var nextIndex = Array.IndexOf(path, currentPosition) + 1;
+            if (nextIndex > path.Length - 1)
                 return default;
 
-            return movement.Path[nextIndex];
+            return path[nextIndex];
         }
     }
 }

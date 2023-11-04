@@ -20,6 +20,7 @@ namespace Game.Server.Models.GameObjects
 
         public List<PeriodicAction> PeriodicActions { get; set; }
 
+        //todo: Dictionary<string, GameObjectInteraction> - Key - GameObjectType, 
         public List<GameObjectInteraction> Interactions { get; set; }
 
 
@@ -36,10 +37,17 @@ namespace Game.Server.Models.GameObjects
 
         public void SetAttributeValue<T>(GameObjectAttribute<T> gameObjectAttribute, T value) 
         {
-            var existing = Attributes.First(a => a.AttributeType == gameObjectAttribute.Name);
-            var newAttribute = existing with { Value = value };
-            Attributes.Remove(existing);
-            Attributes.Add(newAttribute);
+            var existing = Attributes.FirstOrDefault(a => a.AttributeType == gameObjectAttribute.Name);
+            if (existing != null)
+            {
+                var newAttribute = existing with { Value = value };
+                Attributes.Remove(existing);
+                Attributes.Add(newAttribute);
+            }
+            else
+            {
+                Attributes.Add(new GameObjectToAttribute(GameObject.Id, gameObjectAttribute.Name, value));
+            }
         }
 
         public void ModifyAttribute<T>(GameObjectAttribute<T> gameObjectAttribute, Func<T, T> modifier)

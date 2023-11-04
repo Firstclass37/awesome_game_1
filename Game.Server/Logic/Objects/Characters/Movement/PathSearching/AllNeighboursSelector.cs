@@ -1,11 +1,12 @@
 ﻿using Game.Server.Logic.Maps;
-using Game.Server.Logic.Objects.Characters;
 using Game.Server.Logic.Objects.Characters.Movement.PathSearching.AStar;
 using Game.Server.Models.Maps;
 
 namespace Game.Server.Logic.Objects.Characters.Movement.PathSearching
 {
-    internal class AllNeighboursSelector : INieighborsSearchStrategy<Coordiante>
+    internal interface IAllNeighboursSelector : INieighborsSearchStrategy<Coordiante> { }
+
+    internal class AllNeighboursSelector: IAllNeighboursSelector
     {
         private readonly IMapGrid _neighboursAccessor;
 
