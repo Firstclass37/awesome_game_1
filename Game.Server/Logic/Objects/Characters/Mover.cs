@@ -58,6 +58,7 @@ namespace Game.Server.Logic.Objects.Characters
         {
             gameObject.SetAttributeValue(MovementAttributes.Movementpath, null);
             gameObject.SetAttributeValue(MovementAttributes.Iniciator, null);
+            gameObject.SetAttributeValue(MovementAttributes.MovingTo, null);
             _gameObjectAgregatorRepository.Update(gameObject);
         }
     }

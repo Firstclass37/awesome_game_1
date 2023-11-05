@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4gdrp5ifv5wf"]
+
+[ext_resource type="Script" path="res://Entities/Weapons/Projectiles/Projectile.cs" id="1_ddvu1"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ddvu1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+expand_mode = 1

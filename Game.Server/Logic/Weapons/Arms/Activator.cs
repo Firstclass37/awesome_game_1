@@ -25,7 +25,7 @@ namespace Game.Server.Logic.Weapons.Arms
 
         public bool Activate(GameObjectAggregator who, GameObjectAggregator target, double gameTimeSeconds)
         {
-            _mover.StopMoving(new Character(who));
+            _mover.StopMoving(who);
             _characterDamageService.Damage(new Character(target), _weapon.Damage);
             who.SetAttributeValue(AttackAttributes.LastAttackTime, gameTimeSeconds);
             who.SetAttributeValue(AttackAttributes.LastTarget, target.GameObject.Id);

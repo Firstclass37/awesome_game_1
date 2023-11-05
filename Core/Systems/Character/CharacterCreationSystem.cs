@@ -36,8 +36,7 @@ namespace My_awesome_character.Core.Systems.Character
             if (obj.PlayerId != 1)
                 character.Modulate = Color.Color8(255, 0, 255, 255);
 
-
-            GD.Print($"character create {character.Id}");
+            GD.Print($"character create {character.Id} on {obj.Position}");
         }
 
         public void Process(double gameTime)

@@ -1,4 +1,8 @@
-﻿using Game.Server.Models.GameObjects;
+﻿using Game.Server.Events.Core;
+using Game.Server.Events.Core.Extentions;
+using Game.Server.Events.List;
+using Game.Server.Events.List.Homes;
+using Game.Server.Models.GameObjects;
 using Game.Server.Storage;
 using Game.Server.Storage.Extentions;
 
@@ -7,10 +11,12 @@ namespace Game.Server.DataAccess
     internal class GameObjectAgregatorRepository : IGameObjectAgregatorRepository
     {
         private readonly IStorage _storage;
+        private readonly IEventAggregator _eventAggregator;
 
-        public GameObjectAgregatorRepository(IStorage storage)
+        public GameObjectAgregatorRepository(IStorage storage, IEventAggregator eventAggregator)
         {
             _storage = storage;
+            _eventAggregator = eventAggregator;
         }
 
         public void Add(GameObjectAggregator gameObjectAggregator)
@@ -20,6 +26,14 @@ namespace Game.Server.DataAccess
             _storage.AddRange(gameObjectAggregator.Area);
             _storage.AddRange(gameObjectAggregator.PeriodicActions);
             _storage.AddRange(gameObjectAggregator.Interactions);
+
+            _eventAggregator.PublishGameEvent(new ObjectCreatedEvent
+            {
+                Id = gameObjectAggregator.GameObject.Id,
+                Area = gameObjectAggregator.Area.Select(a => a.Coordiante).ToArray(),
+                ObjectType = gameObjectAggregator.GameObject.ObjectType,
+                Root = gameObjectAggregator.RootCell
+            });
         }
 
         public void Remove(GameObjectAggregator gameObjectAggregator)
@@ -29,6 +43,12 @@ namespace Game.Server.DataAccess
             _storage.RemoveRange(gameObjectAggregator.Area);
             _storage.RemoveRange(gameObjectAggregator.PeriodicActions);
             _storage.RemoveRange(gameObjectAggregator.Interactions);
+
+            _eventAggregator.PublishGameEvent(new GameObjectDestroiedEvent 
+            { 
+                ObjectId = gameObjectAggregator.GameObject.Id, 
+                ObjectType = gameObjectAggregator.GameObject.ObjectType 
+            });
         }
 
         public void Update(GameObjectAggregator gameObjectAggregator)

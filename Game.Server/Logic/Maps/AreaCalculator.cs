@@ -54,18 +54,23 @@ namespace Game.Server.Logic.Maps
             var container = new List<Coordiante> { root };
 
             foreach (var direction in Enum.GetValues<Direction>())
-                container.AddRange(MoveTo(root, direction, size));
+                container.AddRange(MoveTo(root, direction, size, false));
 
             return container.ToArray();
         }
 
-        private IEnumerable<Coordiante> MoveTo(Coordiante coordiante, Direction direction, int count)
+        private IEnumerable<Coordiante> MoveTo(Coordiante coordiante, Direction direction, int count, bool throws = true)
         {
             var current = coordiante;
             var i = count;
             while (i-- > 0)
             {
-                current = _mapGrid.GetNeightborsOf(current).First(v => v.Value == direction).Key;
+                current = _mapGrid.GetNeightborsOf(current).FirstOrDefault(v => v.Value == direction).Key;
+                if (current == default && throws)
+                    throw new ArgumentException($"can't find neigbour of {coordiante} with direction {direction} with count {i}");
+                else if (current == default)
+                    yield break;
+
                 yield return current;
             }
         }

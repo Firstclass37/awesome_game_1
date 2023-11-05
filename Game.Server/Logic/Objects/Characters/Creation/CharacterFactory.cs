@@ -15,10 +15,10 @@ namespace Game.Server.Logic.Objects.Characters.Creation
             return new GameObjectAggregatorBuilder(CharacterTypes.Default)
                 .AddArea(root, area)
                 .AddAttribute(AttrituteTypes.Interactable)
-                .AddAttribute(AttackAttributes.Weapon, WeaponsTypes.Arms)
+                .AddAttribute(AttackAttributes.Weapon, WeaponsTypes.Stone)
                 .AddAttribute(AttackAttributes.LastAttackTime, 0)
                 .AddAttribute(AttackAttributes.LastTarget, null)
-                .AddAttribute(CharacterAttributes.Speed, 1.0d)
+                .AddAttribute(MovementAttributesTypes.Speed, 1.5d)
                 .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)
                 .AddAttribute(HealthAttributes.Health, 100)
                 .Build();

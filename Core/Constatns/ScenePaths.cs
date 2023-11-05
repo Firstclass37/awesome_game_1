@@ -26,5 +26,9 @@
         #region Game
         public const string Watch = "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Game\\Watch.tscn";
         #endregion
+
+        #region Projectile
+        public static string Projectile => "C:\\Projects\\Mine\\My_awesome_character\\Sources\\Scenes\\Weapons\\Projectiles\\Projectile.tscn";
+        #endregion
     }
 }

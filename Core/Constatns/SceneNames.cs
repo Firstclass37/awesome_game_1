@@ -33,5 +33,9 @@ namespace My_awesome_character.Core.Constatns
         #region Game
         public static string Watch => "Watch";
         #endregion
+
+        #region Projectile
+        public static string Projectile(Guid id) => $"Projectile_{id}";
+        #endregion
     }
 }
