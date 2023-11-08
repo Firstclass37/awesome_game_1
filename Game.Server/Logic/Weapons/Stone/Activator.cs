@@ -28,7 +28,7 @@ namespace Game.Server.Logic.Weapons.Stone
         {
             _mover.StopMoving(who);
 
-            var projectile = new GameObjectAggregatorBuilder(ProjectileTypes.Stone)
+            var projectile = new GameObjectAggregatorBuilder(ProjectileTypes.Stone, who.GameObject.PlayerId)
                 .AddArea(who.RootCell, new Coordiante[] { who.RootCell })
                 .AddAttribute(AttackAttributes.Damage, _weapon.Damage)
                 .AddAttribute(AttackAttributes.DamageType, _weapon.DamageType)

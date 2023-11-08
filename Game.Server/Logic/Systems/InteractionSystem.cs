@@ -2,6 +2,7 @@
 using Game.Server.Events.List.Movement;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Core;
+using Game.Server.Models.Constants;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
@@ -35,7 +36,9 @@ namespace Game.Server.Logic.Systems
             if (type == null)
                 return;
 
-            var interactWith = _gameObjectAccessor.FindAll(changed.NewPosition).FirstOrDefault(p => p.GameObject.Id != changed.GameObjectId);
+            var interactWithCollection = _gameObjectAccessor.FindAll(changed.NewPosition).Where(p => p.GameObject.Id != changed.GameObjectId).ToArray();
+            var interactWithCharacter = interactWithCollection.FirstOrDefault(o => o.GameObject.ObjectType == CharacterTypes.Default);
+            var interactWith = interactWithCharacter != null ? interactWithCharacter : interactWithCollection.First();
             if (interactWith == null) 
                 return;
 

@@ -57,8 +57,11 @@ namespace Game.Server.Logic.Objects.Characters
         public void StopMoving(GameObjectAggregator gameObject)
         {
             gameObject.SetAttributeValue(MovementAttributes.Movementpath, null);
-            gameObject.SetAttributeValue(MovementAttributes.Iniciator, null);
-            gameObject.SetAttributeValue(MovementAttributes.MovingTo, null);
+            if (!gameObject.AttributeExists(MovementAttributesTypes.MovingTo))
+                gameObject.SetAttributeValue(MovementAttributes.MovingTo, null);
+
+            //gameObject.SetAttributeValue(MovementAttributes.Iniciator, null);
+            //gameObject.SetAttributeValue(MovementAttributes.MovingTo, null);
             _gameObjectAgregatorRepository.Update(gameObject);
         }
     }

@@ -49,7 +49,7 @@ namespace Game.Server.Logic.Systems
                 var movingTo = moveableObject.GetAttributeValue(MovementAttributes.MovingTo);
                 var path = moveableObject.GetAttributeValue(MovementAttributes.Movementpath);
 
-                if (path == null || speed == 0.0)
+                if (speed == 0.0)
                     continue;
 
                 if (movingTo == null)
@@ -96,6 +96,9 @@ namespace Game.Server.Logic.Systems
 
         private Coordiante FindNext(Coordiante[] path, Coordiante currentPosition)
         {
+            if (path == null)
+                return default;
+
             var nextIndex = Array.IndexOf(path, currentPosition) + 1;
             if (nextIndex > path.Length - 1)
                 return default;

@@ -31,7 +31,7 @@ namespace Game.Server.Logic.Objects.Characters
         {
             _mover.StopMoving(character.GameObject);
             var resultHealth = character.GameObject.GetAttributeValue(HealthAttributes.Health) - damage;
-            if (resultHealth < 0)
+            if (resultHealth <= 0)
             {
                 InstantKill(character);
             }
