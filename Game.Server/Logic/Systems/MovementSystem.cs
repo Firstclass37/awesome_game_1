@@ -49,6 +49,9 @@ namespace Game.Server.Logic.Systems
                 var movingTo = moveableObject.GetAttributeValue(MovementAttributes.MovingTo);
                 var path = moveableObject.GetAttributeValue(MovementAttributes.Movementpath);
 
+                if (movingTo == null && path == null)
+                    continue;
+
                 if (speed == 0.0)
                     continue;
 

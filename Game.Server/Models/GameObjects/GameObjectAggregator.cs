@@ -10,6 +10,7 @@ namespace Game.Server.Models.GameObjects
             Area = new List<GameObjectPosition>(0);
             PeriodicActions = new List<PeriodicAction>(0);
             Interactions = new List<GameObjectInteraction>(0);
+            ChangedAttributes = new List<GameObjectToAttribute>();
         }
 
         public GameObject GameObject { get; set; }
@@ -23,6 +24,7 @@ namespace Game.Server.Models.GameObjects
         //todo: Dictionary<string, GameObjectInteraction> - Key - GameObjectType, 
         public List<GameObjectInteraction> Interactions { get; set; }
 
+        public List<GameObjectToAttribute> ChangedAttributes { get; }
 
         public Coordiante RootCell => Area.First(p => p.IsRoot).Coordiante;
 
@@ -43,10 +45,14 @@ namespace Game.Server.Models.GameObjects
                 var newAttribute = existing with { Value = value };
                 Attributes.Remove(existing);
                 Attributes.Add(newAttribute);
+
+                ChangedAttributes.Add(newAttribute);
             }
             else
             {
-                Attributes.Add(new GameObjectToAttribute(GameObject.Id, gameObjectAttribute.Name, value));
+                var newAttribute = new GameObjectToAttribute(GameObject.Id, gameObjectAttribute.Name, value);
+                Attributes.Add(newAttribute);
+                ChangedAttributes.Add(newAttribute);
             }
         }
 
@@ -54,8 +60,11 @@ namespace Game.Server.Models.GameObjects
         {
             var existing = Attributes.First(a => a.AttributeType == gameObjectAttribute.Name);
             var newValue = modifier((T)existing.Value);
+            var newAttribute = existing with { Value = newValue };
             Attributes.Remove(existing);
-            Attributes.Add(existing with { Value = newValue });
+            Attributes.Add(newAttribute);
+
+            ChangedAttributes.Add(newAttribute);
         }
 
         internal T GetAttributeValue<T>(string attributeType) 

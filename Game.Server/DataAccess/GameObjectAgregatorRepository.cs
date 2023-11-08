@@ -55,8 +55,10 @@ namespace Game.Server.DataAccess
         {
             _storage.Update(gameObjectAggregator.GameObject);
 
-            foreach(var attribute in gameObjectAggregator.Attributes)
+            foreach(var attribute in gameObjectAggregator.ChangedAttributes)
                 _storage.Upsert(attribute);
+
+            gameObjectAggregator.ChangedAttributes.Clear();
 
             foreach(var area in gameObjectAggregator.Area)
                 _storage.Upsert(area);
