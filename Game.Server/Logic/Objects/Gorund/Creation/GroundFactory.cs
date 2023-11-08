@@ -7,7 +7,7 @@ namespace Game.Server.Logic.Objects.Gorund.Creation
 {
     internal class GroundFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
             var rootCell = root;
 

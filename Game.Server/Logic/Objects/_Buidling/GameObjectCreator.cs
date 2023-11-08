@@ -14,7 +14,7 @@ namespace Game.Server.Logic.Objects._Buidling
 {
     internal class GameObjectCreator : IGameObjectCreator
     {
-        private record CreationArgs(IGameObjectMetadata Metadata, Coordiante Root, Coordiante[] Area);
+        private record CreationArgs(IGameObjectMetadata Metadata, Coordiante Root, Coordiante[] Area, int PlayerId);
 
         private readonly IGameObjectMetadata[] _metadatas;
         private readonly IGameObjectAgregatorRepository _gameObjectAgregatorRepository;
@@ -55,7 +55,7 @@ namespace Game.Server.Logic.Objects._Buidling
             ArgumentNullException.ThrowIfNull(nameof(creationParams));
 
             var creationArgs = GetCreationArgs(creationParams);
-            var createdObject = creationArgs.Metadata.GameObjectFactory.CreateNew(creationArgs.Root, creationArgs.Area);
+            var createdObject = creationArgs.Metadata.GameObjectFactory.CreateNew(creationArgs.Root, creationArgs.Area, Players.System);
 
             createdObject.GameObject.PlayerId = creationParams.Player;
             _gameObjectAgregatorRepository.Add(createdObject);
@@ -69,7 +69,7 @@ namespace Game.Server.Logic.Objects._Buidling
             if (gameObject.GameObject.ObjectType == CharacterTypes.Default)
             {
                 _eventAggregator.GetEvent<GameEvent<CharacterCreatedEvent>>()
-                    .Publish(new CharacterCreatedEvent { CharacterId = gameObject.GameObject.Id, Position = point, PlayerId = gameObject.GameObject.PlayerId ?? 0 });
+                    .Publish(new CharacterCreatedEvent { CharacterId = gameObject.GameObject.Id, Position = point, PlayerId = gameObject.GameObject.PlayerId});
             }
             else
             {
@@ -92,14 +92,14 @@ namespace Game.Server.Logic.Objects._Buidling
             if (_areaCalculator.TryGetArea(creationParams.Point, metadata.Size, out var originalArea) == false)
                 throw new ArgumentException($"can't calculate area for {creationParams.ObjectType} for point {creationParams.Point}");
 
-            if (creationParams.Player.HasValue && !_playerGrid.IsAvailableFor(originalArea, creationParams.Player.Value))
+            if (creationParams.Player != Players.System && BuildingTypes.Exists(creationParams.ObjectType) && !_playerGrid.IsAvailableFor(originalArea, creationParams.Player))
                 throw new ArgumentException($"can't build {creationParams.ObjectType} on {creationParams.Point} couse the area is not available for player {creationParams.Player}");
 
             var area = originalArea.ToDictionary(a => a, a => _gameObjectAccessor.Find(a));
             if (!metadata.CreationRequirement.Satisfy(creationParams.Point, area))
                 throw new Exception($"can't create object {creationParams.ObjectType} here [{creationParams.Point.X} {creationParams.Point.Y}]");
 
-            return new CreationArgs(metadata, creationParams.Point, area.Keys.ToArray());
+            return new CreationArgs(metadata, creationParams.Point, area.Keys.ToArray(), creationParams.Player);
         }
     }
 }

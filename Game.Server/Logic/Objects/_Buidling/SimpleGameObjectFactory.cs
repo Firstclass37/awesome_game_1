@@ -15,9 +15,9 @@ namespace Game.Server.Logic.Objects._Buidling
             _blocking = blocking;
         }
 
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(_type)
+            return new GameObjectAggregatorBuilder(_type, player)
                 .AddArea(root, area, _blocking)
                 .Build();
         }

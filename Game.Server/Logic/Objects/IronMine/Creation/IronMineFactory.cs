@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.IronMine.Creation
 {
     internal class IronMineFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.IronMine)
+            return new GameObjectAggregatorBuilder(BuildingTypes.IronMine, player)
                 .AddArea(root, area)
                 .AddInteraction<IronMineInteraction>()
                 .Build();

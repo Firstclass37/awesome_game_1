@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.IndustrialFarm.Creation
 {
     internal class IndustrialFarmFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.IndustrialFarm)
+            return new GameObjectAggregatorBuilder(BuildingTypes.IndustrialFarm, player)
                 .AddArea(root, area)
                 .AddInteraction<IndustrialFarmInteraction>()
                 .Build();

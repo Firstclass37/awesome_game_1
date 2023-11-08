@@ -7,7 +7,7 @@ namespace Game.Server.Logic.Objects.Roads.Createtion
 {
     internal class RoadFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
             var gameObject = new GameObject(BuildingTypes.Road);
             var positions = area.Select(a => new GameObjectPosition(gameObject.Id, root, a.Equals(root))).ToList();

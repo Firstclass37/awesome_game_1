@@ -10,15 +10,15 @@ namespace Game.Server.Logic.Objects.Characters.Creation
 {
     internal class CharacterFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(CharacterTypes.Default)
+            return new GameObjectAggregatorBuilder(CharacterTypes.Default, player)
                 .AddArea(root, area)
                 .AddAttribute(AttrituteTypes.Interactable)
                 .AddAttribute(AttackAttributes.Weapon, WeaponsTypes.Stone)
                 .AddAttribute(AttackAttributes.LastAttackTime, 0)
                 .AddAttribute(AttackAttributes.LastTarget, null)
-                .AddAttribute(MovementAttributesTypes.Speed, 1.5d)
+                .AddAttribute(MovementAttributesTypes.Speed, 1.0d)
                 .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)
                 .AddAttribute(HealthAttributes.Health, 100)
                 .Build();

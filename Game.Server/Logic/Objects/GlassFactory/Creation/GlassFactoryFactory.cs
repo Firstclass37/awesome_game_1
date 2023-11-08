@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.GlassFactory.Creation
 {
     internal class GlassFactoryFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.GlassFactory)
+            return new GameObjectAggregatorBuilder(BuildingTypes.GlassFactory, player)
                 .AddArea(root, area)
                 .AddInteraction<GlassFactoryInteraction>()
                 .Build();

@@ -58,7 +58,7 @@ namespace Game.Server.Logic.Maps.Generation
                 {
                     AddCoordinateInfo(coordinate);
                     
-                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Ground, coordinate));
+                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Ground, coordinate, Players.System));
 
                     var playerNumber = up.Contains(rowCenter) ? 1 : 2;
                     _storage.Add(new PlayerToPosition { Coordinate = coordinate, PlayerNumber = playerNumber });
@@ -66,7 +66,7 @@ namespace Game.Server.Logic.Maps.Generation
             }
 
             foreach (var coordinate in CreateRow(center, BaseWidht/2).Except(roadStartPoints))
-                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Block, coordinate));
+                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Block, coordinate, Players.System));
              
             var roadLenght = (int)((BaseHeight / 2) * 0.6);
             foreach(var roadStartPoint in roadStartPoints)
@@ -74,9 +74,9 @@ namespace Game.Server.Logic.Maps.Generation
                 var upRoad = MoveTo(roadStartPoint, Direction.Top, roadLenght).ToArray();
                 var downRoad = MoveTo(roadStartPoint, Direction.Bottom, roadLenght).ToArray();
 
-                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, roadStartPoint));
+                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, roadStartPoint, Players.System));
                 foreach (var coordinate in upRoad.Union(downRoad))
-                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, coordinate));
+                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, coordinate, Players.System));
             }
 
             var baseHeight = 3;
@@ -87,9 +87,9 @@ namespace Game.Server.Logic.Maps.Generation
                 var leftPart = MoveTo(point, Direction.Left, leftRoadIndex + 1);
                 var rightPart = MoveTo(point, Direction.Right, rightRoadIndex + 1);
 
-                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, point));
+                _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, point, Players.System));
                 foreach (var coordinate in leftPart.Union(rightPart))
-                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, coordinate));
+                    _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, coordinate, Players.System));
             }
 
 

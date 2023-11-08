@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.WaterPump.Creation
 {
     internal class WaterPumpFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.WaterPump)
+            return new GameObjectAggregatorBuilder(BuildingTypes.WaterPump, player)
                 .AddArea(root, area)
                 .AddInteraction<WaterPumpInteraction>()
                 .Build();

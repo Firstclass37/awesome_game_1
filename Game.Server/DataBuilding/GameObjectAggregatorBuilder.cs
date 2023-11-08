@@ -14,9 +14,10 @@ namespace Game.Server.DataBuilding
         private List<PeriodicAction> _periodicActions = new();
         private List<GameObjectPosition> _area = new();
 
-        public GameObjectAggregatorBuilder(string type)
+        public GameObjectAggregatorBuilder(string type, int playerId)
         {
             _gameObject = new GameObject(type);
+            _gameObject.PlayerId = playerId;
         }
 
         public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area, bool blocking = false)
@@ -24,8 +25,6 @@ namespace Game.Server.DataBuilding
             _area = area.Select(a => new GameObjectPosition(_gameObject.Id, a, a == root, blocking)).ToList();
             return this;
         }
-
-
 
         public GameObjectAggregatorBuilder AddAttribute(string attributeType, object value = null)
         {

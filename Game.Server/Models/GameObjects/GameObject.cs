@@ -1,10 +1,11 @@
-﻿using Game.Server.Models.Maps;
+﻿using Game.Server.Models.Constants;
+using Game.Server.Models.Maps;
 
 namespace Game.Server.Models.GameObjects
 {
     internal class GameObject : IEntityObject
     {
-        public GameObject(string objectType, bool isVisible = true, int? playerId = null , Guid? creator = null)
+        public GameObject(string objectType, bool isVisible = true, int playerId = Players.System, Guid? creator = null)
         {
             Id = Guid.NewGuid();
             ObjectType = objectType;
@@ -20,7 +21,7 @@ namespace Game.Server.Models.GameObjects
 
         public DateTime CreatedDate { get; }
 
-        public int? PlayerId { get; set; }
+        public int PlayerId { get; set; }
 
         public Guid? Creator { get; set; }
 

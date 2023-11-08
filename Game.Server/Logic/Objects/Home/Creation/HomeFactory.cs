@@ -10,10 +10,10 @@ namespace Game.Server.Logic.Objects.Home.Creation
 {
     internal class HomeFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
            var spawnCell = new Coordiante(root.X, root.Y + 3);
-           return new GameObjectAggregatorBuilder(BuildingTypes.Home)
+           return new GameObjectAggregatorBuilder(BuildingTypes.Home, player)
                 .AddArea(root, area)
                 .AddAttribute(HomeAttributes.SpawnCell, spawnCell)
                 .AddPeriodicAction<CreateCharacterPeriodicAction>(5)

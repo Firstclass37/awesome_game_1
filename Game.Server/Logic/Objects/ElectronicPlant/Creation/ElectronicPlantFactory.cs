@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.ElectronicPlant.Creation
 {
     internal class ElectronicPlantFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.ElectronicPlant)
+            return new GameObjectAggregatorBuilder(BuildingTypes.ElectronicPlant, player)
                 .AddArea(root, area)
                 .AddInteraction<ElectronicPlantInteraction>()
                 .Build();

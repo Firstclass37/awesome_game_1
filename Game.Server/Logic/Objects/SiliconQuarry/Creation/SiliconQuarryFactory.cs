@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.SiliconQuarry.Creation
 {
     internal class SiliconQuarryFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.SiliconQuarry)
+            return new GameObjectAggregatorBuilder(BuildingTypes.SiliconQuarry, player)
                 .AddArea(root, area)
                 .AddInteraction<SiliconQuarryInteraction>()
                 .Build();

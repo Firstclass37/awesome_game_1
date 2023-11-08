@@ -20,14 +20,14 @@ namespace Game.Server.Logic.Objects.TrafficLights.Creation
             _gameObjectAccessor = gameObjectAccessor;
         }
 
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
             var neighbors = _mapGrid.GetNeightborsOf(root);
             var roadNeigbors = neighbors.Where(n => _gameObjectAccessor.Find(n.Key)?.GameObject.ObjectType == BuildingTypes.Road)
                 .ToDictionary(n => n.Value, n => n.Key);
             var trafficLightArea = roadNeigbors.Select(r => r.Value).Union(new[] { root }).ToArray();
 
-            return new GameObjectAggregatorBuilder(BuildingTypes.TrafficLigh)
+            return new GameObjectAggregatorBuilder(BuildingTypes.TrafficLigh, player)
                 .AddArea(root, trafficLightArea)
                 .AddAttribute(AttrituteTypes.Interactable)
                 .AddAttribute(TrafficLightAttributes.TrafficLightTrackingCells, roadNeigbors)

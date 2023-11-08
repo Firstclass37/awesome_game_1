@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.ChemicalFactory.Creation
 {
     internal class ChemicalFactoryFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.ChemicalFactory)
+            return new GameObjectAggregatorBuilder(BuildingTypes.ChemicalFactory, player)
                 .AddArea(root, area)
                 .AddInteraction<ChemicalFactoryInteraction>()
                 .Build();

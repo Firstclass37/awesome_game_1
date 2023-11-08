@@ -7,6 +7,9 @@
             .Select(p => (string)(p.GetValue(null) ?? string.Empty))
             .ToArray();
 
+        public static bool Exists(string type) => List.Contains(type);
+
+
         public const string Road = nameof(Road);
 
         public const string Ground = nameof(Ground);

@@ -50,7 +50,7 @@ namespace Game.Server.Logic.Maps.Generation
                 if (_gameObjectCreator.CanCreate(creationParams) == false)
                     continue;
 
-                var preview = home.GameObjectFactory.CreateNew(cell, area);
+                var preview = home.GameObjectFactory.CreateNew(cell, area, Players.System);
                 var spawn = preview.GetAttributeValue(HomeAttributes.SpawnCell);
 
                 if (_gameObjectAccessor.Find(spawn)?.GameObject.ObjectType == BuildingTypes.Road)

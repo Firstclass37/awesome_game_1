@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.NuclearReactor.Creation
 {
     internal class NuclearReactorFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.NuclearReactor)
+            return new GameObjectAggregatorBuilder(BuildingTypes.NuclearReactor, player)
                 .AddArea(root, area)
                 .AddInteraction<NuclearReactorInteraction>()
                 .Build();

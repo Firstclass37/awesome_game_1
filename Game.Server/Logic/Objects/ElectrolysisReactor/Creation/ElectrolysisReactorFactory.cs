@@ -9,7 +9,8 @@ namespace Game.Server.Logic.Objects.ElectrolysisReactor.Creation
 {
     internal class ElectrolysisReactorFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area) => new GameObjectAggregatorBuilder(BuildingTypes.ElectrolysisReactor)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player) => 
+            new GameObjectAggregatorBuilder(BuildingTypes.ElectrolysisReactor, player)
                 .AddArea(root, area)
                 .AddInteraction<ElectrolysisReactorInteraction>()
                 .Build();

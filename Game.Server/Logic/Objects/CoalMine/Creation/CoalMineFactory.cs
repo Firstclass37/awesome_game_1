@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.CoalMine.Creation
 {
     internal class CoalMineFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.CoalMine)
+            return new GameObjectAggregatorBuilder(BuildingTypes.CoalMine, player)
                 .AddArea(root, area)
                 .AddInteraction<CoalMineInteraction>()
                 .Build();

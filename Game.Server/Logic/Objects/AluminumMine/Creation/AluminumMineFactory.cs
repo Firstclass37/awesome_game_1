@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.AluminumMine.Creation
 {
     internal class AluminumMineFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            var gameObject = new GameObjectAggregatorBuilder(BuildingTypes.AluminumMine)
+            var gameObject = new GameObjectAggregatorBuilder(BuildingTypes.AluminumMine, player)
                 .AddArea(root, area)
                 .AddInteraction<AluminumMineInteraction>()
                 .Build();

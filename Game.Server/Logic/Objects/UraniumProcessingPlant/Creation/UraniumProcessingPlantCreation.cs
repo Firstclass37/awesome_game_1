@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.UraniumProcessingPlant.Creation
 {
     internal class UraniumProcessingPlantCreation : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.UraniumProcessingPlant)
+            return new GameObjectAggregatorBuilder(BuildingTypes.UraniumProcessingPlant, player)
                 .AddArea(root, area)
                 .AddInteraction<UraniumProcessingPlantInteraction>()
                 .Build();

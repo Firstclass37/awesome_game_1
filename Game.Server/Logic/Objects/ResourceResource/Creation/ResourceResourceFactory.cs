@@ -14,9 +14,9 @@ namespace Game.Server.Logic.Objects.ResourceResource.Creation
             _resourceResourceType = resourceResourceType;
         }
 
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(_resourceResourceType)
+            return new GameObjectAggregatorBuilder(_resourceResourceType, player)
                 .AddArea(root, area)
                 .Build();
         }

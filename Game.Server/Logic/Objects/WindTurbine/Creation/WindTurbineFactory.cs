@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.WindTurbine.Creation
 {
     internal class WindTurbineFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.WindTurbine)
+            return new GameObjectAggregatorBuilder(BuildingTypes.WindTurbine, player)
                 .AddArea(root, area)
                 .AddInteraction<WindTurbineInteraction>()
                 .Build();

@@ -9,9 +9,9 @@ namespace Game.Server.Logic.Objects.GreenhouseFarm.Creation
 {
     internal class GreenhouseFarmFactory : IGameObjectFactory
     {
-        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area)
+        public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.GreenhouseFarm)
+            return new GameObjectAggregatorBuilder(BuildingTypes.GreenhouseFarm, player)
                 .AddArea(root, area)
                 .AddInteraction<GreenhouseFarmInteraction>()
                 .Build();
