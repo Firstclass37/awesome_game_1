@@ -50,8 +50,12 @@ public partial class Map : Node2D
 
     public TileMap TileMap => GetNode<TileMap>("TileMap");
 
+    public Node2D CharacterContainer => GetNode<Node2D>("CharacterContainer");
 
-	private Lazy<Dictionary<CoordianteUI, int>> _activeCells;
+    public Node2D ProjectileContainer => GetNode<Node2D>("ProjectileContainer");
+
+    private Lazy<Dictionary<CoordianteUI, int>> _activeCells;
+
 
     public Godot.Vector2 GetLocalPosition(CoordianteUI coordiante)
     {
@@ -64,6 +68,27 @@ public partial class Map : Node2D
     }
 
     public CoordianteUI[] GetCells() => _activeCells.Value.Keys.ToArray();
+
+
+    public void AddCharacter(character character)
+    {
+        CharacterContainer.AddChild(character, forceReadableName: true);
+    }
+
+    public void RemoveCharacter(character character)
+    {
+        CharacterContainer.RemoveChild(character);
+    }
+
+    public void AddProjectile(Projectile projectile)
+    {
+        ProjectileContainer.AddChild(projectile, forceReadableName: true);
+    }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        ProjectileContainer.RemoveChild(projectile);
+    }
 
     public void SetCell(Guid objectId, CoordianteUI cell, CoordianteUI[] size, int layer, int sourceId, int alternativeTile = 0)
     {

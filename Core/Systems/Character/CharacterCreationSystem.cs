@@ -28,7 +28,8 @@ namespace My_awesome_character.Core.Systems.Character
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
             var character = SceneFactory.Create<character>(SceneNames.Character(obj.CharacterId), ScenePaths.Character);
-            map.AddChild(character, forceReadableName: true);
+            map.AddCharacter(character);
+
             character.Id = obj.CharacterId;
             character.MapPosition = new CoordianteUI(obj.Position.X, obj.Position.Y);
             character.Position = map.GetLocalPosition(character.MapPosition);

@@ -1,11 +1,9 @@
 ﻿using Game.Server.Events.Core;
-using Game.Server.Events.List.Character;
 using Game.Server.Events.List.Movement;
 using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Ui;
 using My_awesome_character.Core.Ui.Extentions;
-using System;
 
 namespace My_awesome_character.Core.Systems.Character
 {
@@ -39,7 +37,7 @@ namespace My_awesome_character.Core.Systems.Character
 
             var target = new CoordianteUI(@event.TargetPosition.X, @event.TargetPosition.Y);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var character = map.GetNamedNode<character>(SceneNames.Character(@event.GameObjectId));
+            var character = map.CharacterContainer.GetNamedNode<character>(SceneNames.Character(@event.GameObjectId));
             character.MoveTo(target, (float)@event.Speed, p => map.GetLocalPosition(p));
         }
 
@@ -49,8 +47,7 @@ namespace My_awesome_character.Core.Systems.Character
                 return;
 
             var newPosition = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
-            var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var character = map.GetNamedNode<character>(SceneNames.Character(@event.GameObjectId));
+            var character = _sceneAccessor.FindFirst<Map>(SceneNames.Map).CharacterContainer.GetNamedNode<character>(SceneNames.Character(@event.GameObjectId));
             character.MapPosition = newPosition;
         }
     }

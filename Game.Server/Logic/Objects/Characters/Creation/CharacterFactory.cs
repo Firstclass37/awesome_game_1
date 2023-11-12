@@ -18,7 +18,7 @@ namespace Game.Server.Logic.Objects.Characters.Creation
                 .AddAttribute(AttackAttributes.Weapon, WeaponsTypes.Stone)
                 .AddAttribute(AttackAttributes.LastAttackTime, 0)
                 .AddAttribute(AttackAttributes.LastTarget, null)
-                .AddAttribute(MovementAttributesTypes.Speed, 1.0d)
+                .AddAttribute(MovementAttributesTypes.Speed, 0.2d)
                 .AddAttribute(CharacterAttributes.CharacterState, CharacterState.Free)
                 .AddAttribute(HealthAttributes.Health, 100)
                 .Build();

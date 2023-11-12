@@ -27,7 +27,7 @@ namespace My_awesome_character.Core.Systems.Character
             var character = _sceneAccessor.GetScene<character>(SceneNames.Character(obj.CharacterId));
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
 
-            map.RemoveChild(character);
+            map.RemoveCharacter(character);
         }
 
         public void Process(double gameTime)

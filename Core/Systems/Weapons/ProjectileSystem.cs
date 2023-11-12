@@ -8,6 +8,7 @@ using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Helpers;
 using My_awesome_character.Core.Ui;
+using My_awesome_character.Core.Ui.Extentions;
 
 namespace My_awesome_character.Core.Systems.Weapons
 {
@@ -44,7 +45,7 @@ namespace My_awesome_character.Core.Systems.Weapons
 
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
             var projectile = SceneFactory.Create<Projectile>(SceneNames.Projectile(@event.Id), ScenePaths.Projectile);
-            map.AddChild(projectile, forceReadableName: true);
+            map.AddProjectile(projectile);
 
             projectile.Id = @event.Id;
             projectile.MapPosition = new CoordianteUI(@event.Root.X, @event.Root.Y);
@@ -60,10 +61,10 @@ namespace My_awesome_character.Core.Systems.Weapons
             if (@event.ObjectType != ProjectileTypes.Stone)
                 return;
 
-            var projectile = _sceneAccessor.GetScene<Projectile>(SceneNames.Projectile(@event.ObjectId));
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
+            var projectile = map.ProjectileContainer.GetNamedNode<Projectile>(SceneNames.Projectile(@event.ObjectId));
 
-            map.RemoveChild(projectile);
+            map.RemoveProjectile(projectile);
         }
 
         private void OnMoveStart(GameObjectPositionChangingEvent @event)
@@ -73,7 +74,7 @@ namespace My_awesome_character.Core.Systems.Weapons
 
             var target = new CoordianteUI(@event.TargetPosition.X, @event.TargetPosition.Y);
             var map = _sceneAccessor.FindFirst<Map>(SceneNames.Map);
-            var projectile = _sceneAccessor.GetScene<Projectile>(SceneNames.Projectile(@event.GameObjectId));
+            var projectile = map.ProjectileContainer.GetNamedNode<Projectile>(SceneNames.Projectile(@event.GameObjectId));
             projectile.MoveTo(target, (float)@event.Speed, p => GetPosition(map, projectile, p));
         }
 
@@ -83,7 +84,7 @@ namespace My_awesome_character.Core.Systems.Weapons
                 return;
 
             var newPosition = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
-            var projectile = _sceneAccessor.GetScene<Projectile>(SceneNames.Projectile(@event.GameObjectId));
+            var projectile = _sceneAccessor.FindFirst<Map>(SceneNames.Map).ProjectileContainer.GetNamedNode<Projectile>(SceneNames.Projectile(@event.GameObjectId));
             if (projectile != null)
                 projectile.MapPosition = newPosition;
         }
