@@ -30,15 +30,20 @@ namespace Game.Server.Logic.Objects.TrafficLights.InnerLogic
             return selectedDirection;
         }
 
-        private void Reset(TrafficLight trafficLigh, IEnumerable<Direction> directions)
+        private void Reset(TrafficLight trafficLigh, IReadOnlyCollection<Direction> directions)
         {
-            if (trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesValues).Values.All(v => v == 0))
-                foreach (var direction in directions)
-                {
-                    var maxSizeValue = trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesCapacity)[direction];
-                    _trafficLightManager.UpdateValue(trafficLigh, direction, maxSizeValue);
-                }
-                    
+            var needReset = trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesValues)
+                .Where(s => directions.Contains(s.Key))
+                .All(s => s.Value == 0);
+
+            if (!needReset)
+                return;
+
+            foreach (var direction in directions)
+            {
+                var maxSizeValue = trafficLigh.GameObject.GetAttributeValue(TrafficLightAttributes.TrafficLightSidesCapacity)[direction];
+                _trafficLightManager.UpdateValue(trafficLigh, direction, maxSizeValue);
+            }
         }
     }
 }

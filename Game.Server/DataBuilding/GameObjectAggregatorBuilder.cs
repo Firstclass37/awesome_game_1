@@ -20,6 +20,13 @@ namespace Game.Server.DataBuilding
             _gameObject.PlayerId = playerId;
         }
 
+
+        public GameObjectAggregatorBuilder AddArea(Coordiante root, bool blocking = false)
+        {
+            _area = new List<GameObjectPosition> { new GameObjectPosition(_gameObject.Id, root, true, blocking) };
+            return this;
+        }
+
         public GameObjectAggregatorBuilder AddArea(Coordiante root, Coordiante[] area, bool blocking = false)
         {
             _area = area.Select(a => new GameObjectPosition(_gameObject.Id, a, a == root, blocking)).ToList();

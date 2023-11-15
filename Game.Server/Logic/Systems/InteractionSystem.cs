@@ -1,8 +1,10 @@
-﻿using Game.Server.Events.Core;
+﻿using Game.Server.DataAccess;
+using Game.Server.Events.Core;
 using Game.Server.Events.List.Movement;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
 using Game.Server.Storage;
@@ -13,16 +15,18 @@ namespace Game.Server.Logic.Systems
     {
         private readonly IInteractionsCollection _interactionsCollection;
         private readonly IGameObjectAccessor _gameObjectAccessor;
+        private readonly IStorageCacheDecorator _storageCacheDecorator;
         private readonly IStorage _storage;
 
         public InteractionSystem(IEventAggregator eventAggregator, IGameObjectAccessor gameObjectAccessor,
-            IStorage storage, IInteractionsCollection interactionsCollection)
+            IStorage storage, IInteractionsCollection interactionsCollection, IStorageCacheDecorator storageCacheDecorator)
         {
             _gameObjectAccessor = gameObjectAccessor;
             _storage = storage;
             _interactionsCollection = interactionsCollection;
 
             eventAggregator.GetEvent<GameEvent<GameObjectPositionChangedEvent>>().Subscribe(OnPositionChanged);
+            _storageCacheDecorator = storageCacheDecorator;
         }
 
         public void Process(double gameTime)
@@ -36,9 +40,15 @@ namespace Game.Server.Logic.Systems
             if (type == null)
                 return;
 
+            var interactionPoint = changed.NewPosition;
+
+            var newInteracrableObject = _storageCacheDecorator.GetObjectsWithAttributes(InteractionAttributesTypes.InteractionArea)
+                .Select(id => _gameObjectAccessor.Get(id))
+                .FirstOrDefault(o => o.GetAttributeValue(InteractionAttributes.InteractionArea).Contains(interactionPoint));
+
             var interactWithCollection = _gameObjectAccessor.FindAll(changed.NewPosition).Where(p => p.GameObject.Id != changed.GameObjectId).ToArray();
             var interactWithCharacter = interactWithCollection.FirstOrDefault(o => o.GameObject.ObjectType == CharacterTypes.Default);
-            var interactWith = interactWithCharacter != null ? interactWithCharacter : interactWithCollection.First();
+            var interactWith = interactWithCharacter != null ? interactWithCharacter : (newInteracrableObject ?? interactWithCollection.First());
             if (interactWith == null) 
                 return;
 
