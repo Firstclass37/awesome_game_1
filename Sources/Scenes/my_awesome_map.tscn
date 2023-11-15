@@ -285,6 +285,8 @@ layer_4/y_sort_origin = 10
 layer_4/z_index = 0
 layer_4/tile_data = PackedInt32Array()
 
+[node name="TrafficLightsContainer" type="Node2D" parent="."]
+
 [node name="CharacterContainer" type="Node2D" parent="."]
 
 [node name="ProjectileContainer" type="Node2D" parent="."]

@@ -7,6 +7,7 @@ using My_awesome_character.Core.Constatns;
 using My_awesome_character.Core.Game;
 using My_awesome_character.Core.Game.Constants;
 using My_awesome_character.Core.Ui;
+using My_awesome_character.Core.Ui.Extentions;
 using System.Linq;
 using static Godot.Node;
 
@@ -37,7 +38,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
         private void OnCreated(TrafficLightChangedEvent @event)
         {
             var map = _sceneAccessor.GetScene<Map>(SceneNames.Map);
-            var trafficLight = _sceneAccessor.FindFirst<TrafficLight>(SceneNames.TrafficLight(@event.Id));
+            var trafficLight = map.TrafficLightsContainer.GetNamedNodeOrNull<TrafficLight>(SceneNames.TrafficLight(@event.Id));
             if (trafficLight == null)
                 trafficLight = Create(@event, map);
 
@@ -47,7 +48,7 @@ namespace My_awesome_character.Core.Systems.TrafficLights
         private TrafficLight Create(TrafficLightChangedEvent @event, Map map)
         {
             var trafficLight = SceneFactory.Create<TrafficLight>(SceneNames.TrafficLight(@event.Id), ScenePaths.TrafficLight);
-            map.AddChild(trafficLight, forceReadableName: true, InternalMode.Back);
+            map.AddTrafficLight(trafficLight);
 
             trafficLight.Id = @event.Id;
             trafficLight.MapPosition = new CoordianteUI(@event.Position.X, @event.Position.Y);

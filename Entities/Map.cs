@@ -54,6 +54,9 @@ public partial class Map : Node2D
 
     public Node2D ProjectileContainer => GetNode<Node2D>("ProjectileContainer");
 
+    public Node2D TrafficLightsContainer => GetNode<Node2D>("TrafficLightsContainer");
+
+
     private Lazy<Dictionary<CoordianteUI, int>> _activeCells;
 
 
@@ -78,6 +81,11 @@ public partial class Map : Node2D
     public void RemoveCharacter(character character)
     {
         CharacterContainer.RemoveChild(character);
+    }
+
+    public void AddTrafficLight(TrafficLight trafficLight)
+    {
+        TrafficLightsContainer.AddChild(trafficLight, forceReadableName: true);
     }
 
     public void AddProjectile(Projectile projectile)

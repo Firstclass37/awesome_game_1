@@ -1,5 +1,4 @@
 ﻿using Godot;
-using System.Linq;
 
 namespace My_awesome_character.Core.Ui.Extentions
 {
@@ -8,6 +7,11 @@ namespace My_awesome_character.Core.Ui.Extentions
         public static T GetNamedNode<T>(this Node node, string name) where T : class 
         {
             return node.GetNode(name) as T;
+        }
+
+        public static T GetNamedNodeOrNull<T>(this Node node, string name) where T : class
+        {
+            return node.FindChild(name, false) as T;
         }
     }
 }
