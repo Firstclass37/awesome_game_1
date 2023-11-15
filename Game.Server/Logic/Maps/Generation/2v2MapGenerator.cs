@@ -92,7 +92,6 @@ namespace Game.Server.Logic.Maps.Generation
                     _gameObjectCreator.Create(new CreationParams(BuildingTypes.Road, coordinate, Players.System));
             }
 
-
             InitNeigbours();
         }
 
