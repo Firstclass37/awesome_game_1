@@ -84,7 +84,7 @@ namespace My_awesome_character.Core.Systems.Weapons
                 return;
 
             var newPosition = new CoordianteUI(@event.NewPosition.X, @event.NewPosition.Y);
-            var projectile = _sceneAccessor.FindFirst<Map>(SceneNames.Map).ProjectileContainer.GetNamedNode<Projectile>(SceneNames.Projectile(@event.GameObjectId));
+            var projectile = _sceneAccessor.FindFirst<Map>(SceneNames.Map).ProjectileContainer.GetNamedNodeOrNull<Projectile>(SceneNames.Projectile(@event.GameObjectId));
             if (projectile != null)
                 projectile.MapPosition = newPosition;
         }
