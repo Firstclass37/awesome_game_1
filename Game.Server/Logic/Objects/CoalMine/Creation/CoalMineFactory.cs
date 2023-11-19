@@ -1,9 +1,13 @@
 ﻿using Game.Server.DataBuilding;
+using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Objects._Buidling;
-using Game.Server.Logic.Objects.CoalMine.Interaction;
+using Game.Server.Logic.Objects._Interactions;
+using Game.Server.Logic.Objects._Produce;
 using Game.Server.Models.Constants;
+using Game.Server.Models.Constants.Attributes;
 using Game.Server.Models.GameObjects;
 using Game.Server.Models.Maps;
+using Game.Server.Models.Resources;
 
 namespace Game.Server.Logic.Objects.CoalMine.Creation
 {
@@ -13,7 +17,15 @@ namespace Game.Server.Logic.Objects.CoalMine.Creation
         {
             return new GameObjectAggregatorBuilder(BuildingTypes.CoalMine, player)
                 .AddArea(root, area)
-                .AddInteraction<CoalMineInteraction>()
+                .AsManufactoring(new ManufactoringArgs
+                {
+                    PrduceSpeedSeconds = 0,
+                    ProduceAction = TypeInfoFactory.Create<IProduceAction, SwapResourcesProduceAction>(),
+                    Requirements = new[] { TypeInfoFactory.Create<IProduceRequirement, EnoughtResourceRequirement>() },
+                    RequriedResources = new[] { ResourceChunk.Create(ResourceType.Energy, 0.1f) },
+                    ResultResources = new[] { ResourceChunk.Create(ResourceType.Coal, 1) }
+                })
+                .AsInteractable<ProduceBuildingInteraction>()
                 .Build();
         }
     }

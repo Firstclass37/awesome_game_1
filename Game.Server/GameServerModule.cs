@@ -4,6 +4,7 @@ using Game.Server.DataAccess;
 using Game.Server.Events.Core;
 using Game.Server.Logic;
 using Game.Server.Logic.Maps;
+using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Resources;
 using Game.Server.Logic.Weapons;
 using Game.Server.Storage;
@@ -33,6 +34,11 @@ namespace Game.Server
             builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
             builder.RegisterType<MatrixGrid>().As<IMatrixGrid>().SingleInstance();
             builder.RegisterType<Arsenal>().As<IArsenal>().SingleInstance();
+
+            builder
+                .RegisterGeneric(typeof(TypesCollection<>))
+                .As(typeof(ITypesCollection<>))
+                .SingleInstance();
 
             //builder.RegisterDecorator<GameObjectPositionCacheDecorator, IStorage>();
 

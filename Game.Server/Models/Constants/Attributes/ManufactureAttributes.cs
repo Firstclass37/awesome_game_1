@@ -5,38 +5,36 @@ namespace Game.Server.Models.Constants.Attributes
 {
     internal class ManufactureAttributesTypes
     {
+        public const string ProduceSpeedSeconds = "Manufacture.ProduceSpeedSeconds";
         public const string LastProduceTime = "Manufacture.LastProduceTime";
         public const string ProduceQueueSize = "Manufacture.ProduceQueueSize";
         public const string RequriedResources = "Manufacture.RequriedResources";
         public const string ResultResources = "Manufacture.ResultResources";
         public const string Requirements = "Manufacture.Requirements";
-
-
-
-        public void Test()
-        {
-            var testType = TypeType<IProduceRequirement>.Create<TestRequirement>();
-
-            var a = (TypeType<IProduceRequirement>)testType;
-        }
+        public const string ProduceAction = "Manufacture.ProduceAction";
+        public const string Working = "Manufacture.Working";
     }
 
     internal class ManufactureAttributes
     {
+        public static GameObjectAttribute<bool> Working => new GameObjectAttribute<bool>(ManufactureAttributesTypes.Working);
+        public static GameObjectAttribute<double> PrduceSpeedSeconds => new GameObjectAttribute<double>(ManufactureAttributesTypes.ProduceSpeedSeconds);
         public static GameObjectAttribute<double> LastProduceTime => new GameObjectAttribute<double>(ManufactureAttributesTypes.LastProduceTime);
         public static GameObjectAttribute<int> ProduceQueueSize => new GameObjectAttribute<int>(ManufactureAttributesTypes.ProduceQueueSize);
         public static GameObjectAttribute<ResourceChunk[]> RequriedResources = new GameObjectAttribute<ResourceChunk[]>(ManufactureAttributesTypes.RequriedResources);
         public static GameObjectAttribute<ResourceChunk[]> ResultResources = new GameObjectAttribute<ResourceChunk[]>(ManufactureAttributesTypes.ResultResources);
-        public static GameObjectAttribute<TypeType<IProduceRequirement>[]> Requirements = new GameObjectAttribute<TypeType<IProduceRequirement>[]>(ManufactureAttributesTypes.Requirements);
+        public static GameObjectAttribute<TypeInfo<IProduceAction>> ProduceAction = new GameObjectAttribute<TypeInfo<IProduceAction>>(ManufactureAttributesTypes.ProduceAction);
+        public static GameObjectAttribute<TypeInfo<IProduceRequirement>[]> Requirements = new GameObjectAttribute<TypeInfo<IProduceRequirement>[]>(ManufactureAttributesTypes.Requirements);
     }
 
-
-
-    internal class TypeType<TType>
+    internal static class TypeInfoFactory
     {
-        public static TypeType<TType> Create<TOriginalType>() where TOriginalType: TType => new TypeType<TType>(nameof(TOriginalType));
+        public static TypeInfo<TTypeInfo> Create<TTypeInfo, TOriginalType>() where TOriginalType : TTypeInfo => new TypeInfo<TTypeInfo>(typeof(TOriginalType).FullName);
+    }
 
-        private TypeType(string typeName)
+    internal class TypeInfo<TType>
+    {
+        public TypeInfo(string typeName)
         {
             TypeName = typeName;
         }
@@ -46,15 +44,11 @@ namespace Game.Server.Models.Constants.Attributes
 
     internal interface IProduceRequirement
     {
-        bool Can();
+        bool Can(GameObjectAggregator gameObjectAggregator);
     }
 
-
-    internal class TestRequirement : IProduceRequirement
+    internal interface IProduceAction
     {
-        public bool Can()
-        {
-            throw new NotImplementedException();
-        }
+        bool Produce(GameObjectAggregator gameObjectAggregator);
     }
 }

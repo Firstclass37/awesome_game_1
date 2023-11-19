@@ -27,7 +27,7 @@ namespace My_awesome_character.Core.Constatns
 
         public static string BuildingCollection => "building_collection";
 
-        public static string LoadingBar(int id) => $"loading_bar_{id}";
+        public static string LoadingBar(Guid id) => $"loading_bar_{id}";
 
 
         #region Game

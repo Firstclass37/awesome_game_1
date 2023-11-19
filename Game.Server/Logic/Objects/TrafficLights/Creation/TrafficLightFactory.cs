@@ -1,4 +1,5 @@
 ﻿using Game.Server.DataBuilding;
+using Game.Server.Logic._Extentions;
 using Game.Server.Logic.Maps;
 using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects.TrafficLights.Interaction;
@@ -31,12 +32,11 @@ namespace Game.Server.Logic.Objects.TrafficLights.Creation
 
             return new GameObjectAggregatorBuilder(BuildingTypes.TrafficLigh, player)
                 .AddArea(root)
-                .AddAttribute(AttrituteTypes.Interactable)
                 .AddAttribute(InteractionAttributes.InteractionArea, interactionArea)
                 .AddAttribute(TrafficLightAttributes.TrafficLightTrackingCells, roadNeigbors)
                 .AddAttribute(TrafficLightAttributes.TrafficLightSidesCapacity, roadNeigbors.Select(d => d.Key).ToDictionary(d => d, d => 1))
                 .AddAttribute(TrafficLightAttributes.TrafficLightSidesValues, roadNeigbors.Select(d => d.Key).ToDictionary(d => d, d => 0))
-                .AddInteraction<TrafficLightInteraction>()
+                .AsInteractable<TrafficLightInteraction>()
                 .Build();
         }
     }

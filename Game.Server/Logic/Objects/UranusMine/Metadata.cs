@@ -3,7 +3,6 @@ using Game.Server.Logic.Objects._Buidling;
 using Game.Server.Logic.Objects._Core;
 using Game.Server.Logic.Objects._Requirements;
 using Game.Server.Logic.Objects.UranusMine.Creation;
-using Game.Server.Logic.Objects.UranusMine.Requirement;
 using Game.Server.Models.Constants;
 using Game.Server.Models.Resources;
 
@@ -17,7 +16,7 @@ namespace Game.Server.Logic.Objects.UranusMine
 
         public AreaSize Size => AreaSize.Area2x2;
 
-        public ICreationRequirement CreationRequirement => new UranusMineRequirement();
+        public ICreationRequirement CreationRequirement => new OnlyTypeRequirementv2(ResourceResourceTypes.Uranium, GroundTypes.Ground);
 
         public IGameObjectFactory GameObjectFactory => new UranusMineFactory();
 

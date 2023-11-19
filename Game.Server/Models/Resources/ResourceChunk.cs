@@ -2,6 +2,8 @@
 {
     internal class ResourceChunk
     {
+        public static ResourceChunk Create(int resourceId, float amout) => new ResourceChunk(resourceId, amout);
+
         public ResourceChunk(int resourceId, float amout)
         {
             ResourceId = resourceId;
