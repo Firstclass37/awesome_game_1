@@ -10,7 +10,7 @@ namespace Game.Server.Logic.Objects.Storage
 {
     internal class Metadata : IGameObjectMetadata
     {
-        public string ObjectType => BuildingTypes.Storage;
+        public string ObjectType => BuildingTypes.WaterStorage;
 
         public string Description => "Storage";
 

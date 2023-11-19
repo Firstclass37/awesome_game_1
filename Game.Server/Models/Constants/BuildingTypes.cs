@@ -46,7 +46,7 @@
         /// <summary>
         /// Накопитель
         /// </summary>
-        public const string Storage = nameof(Storage);
+        public const string WaterStorage = nameof(WaterStorage);
 
         /// <summary>
         /// Влагоуловитель

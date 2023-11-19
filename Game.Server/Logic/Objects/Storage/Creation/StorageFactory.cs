@@ -11,7 +11,7 @@ namespace Game.Server.Logic.Objects.Storage.Creation
     {
         public GameObjectAggregator CreateNew(Coordiante root, Coordiante[] area, int player)
         {
-            return new GameObjectAggregatorBuilder(BuildingTypes.Storage, player)
+            return new GameObjectAggregatorBuilder(BuildingTypes.WaterStorage, player)
                 .AddArea(root, area)
                 .AddInteraction<StorageInteraction>()
                 .Build();
