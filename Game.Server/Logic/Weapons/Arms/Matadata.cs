@@ -26,7 +26,7 @@ namespace Game.Server.Logic.Weapons.Arms
             _gameObjectAccessor = gameObjectAccessor;
         }
 
-        public Weapon Weapon => new(Name: WeaponsTypes.Arms, Damage: 35, Distance: 1, Speed: 2, DamageType: DamageType.Phisical);
+        public Weapon Weapon => new(Name: WeaponsTypes.Arms, Damage: 35, DistanceMin: 1,  DistanceMax: 1, Speed: 2, DamageType: DamageType.Phisical);
 
         public IWeaponActivator Activator => new Activator(_mover, _characterDamageService, _gameObjectAgregatorRepository, Weapon);
 

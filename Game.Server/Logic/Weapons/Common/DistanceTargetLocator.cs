@@ -25,7 +25,11 @@ namespace Game.Server.Logic.Weapons.Common
 
         public GameObjectAggregator FindTarget(GameObjectAggregator weaponOwner, Dictionary<Coordiante, List<GameObjectAggregator>> targetPool)
         {
-            var damageArea = _areaCalculator.GetAreaCross(weaponOwner.RootCell, _weapon.Distance);
+            var damageArea = _areaCalculator
+                .GetAreaCross(weaponOwner.RootCell, _weapon.DistanceMax)
+                .Skip(_weapon.DistanceMin - 1)
+                .ToArray();
+
             var lastTargetId = weaponOwner.GetAttributeValue(AttackAttributes.LastTarget);
             if (lastTargetId != null)
             {

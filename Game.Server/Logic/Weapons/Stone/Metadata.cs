@@ -26,7 +26,7 @@ namespace Game.Server.Logic.Weapons.Stone
             _agregatorRepository = agregatorRepository;
         }
 
-        public Weapon Weapon => new(Name: WeaponsTypes.Stone, Damage: 10, Distance: 5, Speed: 3, DamageType: DamageType.Phisical);
+        public Weapon Weapon => new(Name: WeaponsTypes.Stone, Damage: 10, DistanceMin: 2, DistanceMax: 5, Speed: 3, DamageType: DamageType.Phisical);
 
         public IWeaponActivator Activator => new Activator(_agregatorRepository, _mover, Weapon);
 
