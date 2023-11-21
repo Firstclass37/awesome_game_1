@@ -3,17 +3,16 @@ using Godot;
 using My_awesome_character.Core.Ioc;
 using My_awesome_character.Core.Systems;
 using My_awesome_character.Core.Ui;
-using System.Linq;
 
 namespace My_awesome_character.Core.System
 {
     internal partial class SystemNode: Node
     {
         public static double GameTime = 0;
+        public static double GameTimePhysics = 0;
 
         private ISystem[] _systems = Application.GetAll<ISystem>();
         private IGameController _gameController = Application.Get<IGameController>();
-
 
         public override void _EnterTree()
         {
@@ -32,10 +31,13 @@ namespace My_awesome_character.Core.System
         {
             GameTime += delta;
             foreach (var system in _systems)
-            {
                 system.Process(GameTime);
-                _gameController.Tick(GameTime);
-            }
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
+            GameTimePhysics += delta;
+            _gameController.Tick(GameTimePhysics);
         }
     }
 }
