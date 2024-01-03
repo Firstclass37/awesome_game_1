@@ -38,7 +38,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
         {
             var buildings = _buildingController.GetBuildableList();
 
-            var buildingCollection = _sceneAccessor.GetNode<BuildingCollection>(SceneNames.BuildingCollection);
+            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection, isStatic: true);
             foreach (var building in buildings.OrderByDescending(b => b.Available))
             {
                 var resources = building.Prices.Select(p => Create(building.BuildingType, p.resourceType, (int)p.count)).ToArray();
@@ -85,7 +85,7 @@ namespace My_awesome_character.Core.Systems.Builidngs
 
         private void UnselectAll()
         {
-            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection);
+            var buildingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection, isStatic: true);
             foreach (var building in buildingCollection.GetList())
                 building.IsSelected = false;
         }

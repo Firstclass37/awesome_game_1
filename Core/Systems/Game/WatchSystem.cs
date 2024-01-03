@@ -24,7 +24,7 @@ namespace My_awesome_character.Core.Systems.Game
 
         private void OnTimeChanged(TimeChangedEvent @event)
         {
-            var watch = _sceneAccessor.FindFirst<Watch>(SceneNames.Watch);
+            var watch = _sceneAccessor.FindFirst<Watch>(SceneNames.Watch, isStatic: true);
             watch.Hours = @event.Hours;
         }
 

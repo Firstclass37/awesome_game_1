@@ -2,10 +2,15 @@
 
 [ext_resource type="Script" path="res://Entities/Game/Watch.cs" id="1_dn15j"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(77, 26)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
 script = ExtResource("1_dn15j")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(77, 26)
 offset_right = 77.0
 offset_bottom = 26.0
 

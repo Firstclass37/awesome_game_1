@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class Watch : Node2D
+public partial class Watch : Control
 {
 	private Label HoursLabel => GetNode<Label>("HBoxContainer/Label");
 

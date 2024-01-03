@@ -86,7 +86,7 @@ namespace My_awesome_character.Core.Systems.Homes
 
         private BuildingsPreview FindSelectedBuilding()
         {
-            var buidlingCollection = _sceneAccessor.GetNode<BuildingCollection>(SceneNames.BuildingCollection);
+            var buidlingCollection = _sceneAccessor.FindFirst<BuildingCollection>(SceneNames.BuildingCollection, isStatic: true);
             var selected = buidlingCollection.GetList().FirstOrDefault(b => b.IsSelected);
             return selected;
         }

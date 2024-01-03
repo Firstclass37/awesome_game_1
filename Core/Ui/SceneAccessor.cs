@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,8 @@ namespace My_awesome_character.Core.Ui
 {
     internal class SceneAccessor : ISceneAccessor
     {
+        private readonly ConcurrentDictionary<string, object> _nodesCache = new();
+
         public static Node Root { get; set; }
 
         public T GetNode<T>(string name) where T : class =>
@@ -19,9 +22,18 @@ namespace My_awesome_character.Core.Ui
 
             return Root.FindChild(name, true, false) as T;
         }
-            
-        public T FindFirst<T>(string name) where T : class => 
-            Find(Root, name) as T;
+
+        public T FindFirst<T>(string name, bool isStatic = false) where T : class 
+        {
+            if (_nodesCache.ContainsKey(name))
+                return _nodesCache[name] as T;
+
+            var found = Find(Root, name) as T;
+            if (isStatic)
+                _nodesCache.TryAdd(name, found);
+
+            return found;
+        }
 
         private Node Find(Node current, string name)
         {
