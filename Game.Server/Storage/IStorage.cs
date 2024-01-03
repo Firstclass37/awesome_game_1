@@ -8,6 +8,8 @@ namespace Game.Server.Storage
 
         void AddRange<T>(IEnumerable<T> obj) where T : IEntityObject;
 
+        T First<T>() where T : IEntityObject;
+
         T Get<T>(Guid id) where T : IEntityObject;
 
         bool Exists<T>(Guid id) where T: IEntityObject;

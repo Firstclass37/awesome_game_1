@@ -70,5 +70,10 @@ namespace Game.Server.Storage
             var key = GetKey<T>();
             return _dataBase[key].ContainsKey(id);
         }
+
+        public T First<T>() where T : IEntityObject
+        {
+            return Find<T>(o => true).First();
+        }
     }
 }

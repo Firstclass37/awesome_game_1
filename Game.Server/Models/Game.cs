@@ -1,6 +1,6 @@
 ﻿namespace Game.Server.Models
 {
-    internal class Game : IEntityObject
+    internal record Game : IEntityObject
     {
         public Game()
         {
@@ -10,8 +10,6 @@
         public Guid Id { get; }
 
         public double GameTimeSeconds { get; set; }
-
-        public int InnerGameHour { get; set; }
 
         public int[] Players { get; set; }
     }

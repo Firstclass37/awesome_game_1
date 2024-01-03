@@ -1,4 +1,5 @@
 ﻿using Game.Server.Logic.Maps.Generation;
+using Game.Server.Models.Weather;
 using Game.Server.Storage;
 
 namespace Game.Server.Logic._init
@@ -24,8 +25,10 @@ namespace Game.Server.Logic._init
             _resourceGenerator.Generate();
             _buildingGenerator.Generate();
 
-            var game = new Models.Game { InnerGameHour = 12, Players =  players };
+            var game = new Models.Game { Players =  players };
+            var gameTime = new GameTime { Hours = 12, TimeOfDay = Models.Constants.TimeOfDay.Day };
             _storage.Add(game);
+            _storage.Add(gameTime);
         }
     }
 }

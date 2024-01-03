@@ -180,5 +180,10 @@ namespace Game.Server.DataAccess
         {
             return _storage.Exists<T>(id);
         }
+
+        public T First<T>() where T : IEntityObject
+        {
+            return _storage.First<T>();
+        }
     }
 }

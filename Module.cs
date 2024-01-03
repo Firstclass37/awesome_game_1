@@ -33,6 +33,7 @@ namespace My_awesome_character
             builder.RegisterType<CharacterDeathSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<WindSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<WatchSystem>().As<ISystem>().SingleInstance();
+            builder.RegisterType<GameTimeSystem>().As<ISystem>().SingleInstance();
             builder.RegisterType<ProjectileSystem>().As<ISystem>().SingleInstance();
 
             builder.RegisterType<TrafficLightCreationSystem>().As<ISystem>().SingleInstance();
